@@ -7,25 +7,29 @@
     <title>Document</title>
 </head>
 <body>
+    <!-- Password box for google guidline passwords-->
     <div >
         <label for="noMSA">Password 1</label>
         <input type="text" id="noMSA" name="noMSA">
         <input type="submit" value="submit1">
     </div>
+     <!-- Password box for MSA passwords-->
     <div>
         <label for="MSA">Password 2</label>
         <input type="text" id="MSA" name="MSA">
         <input type="submit" value="submit2" onclick="MSA()">
     </div>
     <script>
+        //Algorithm for MSA
         function MSA(){
-            var password;
-            var temp;
+            //Varibales
+            var password; //Holds passwords from password 2
+            var temp; //Stores the password created while last character is deleted.
             password = document.getElementById("MSA").value;
 
             for (let i = 0; i < password.length; i++){
                 
-                temp = password.substring(0, password.length-i);
+                temp = password.substring(0, password.length-i); //deletes last character after eatch iteration
                 alert(temp);
             
             }
