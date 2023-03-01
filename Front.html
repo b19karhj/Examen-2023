@@ -20,19 +20,21 @@
         <input type="submit" value="submit2" onclick="MSA();">
     </div>
     <script>
-         var text;
-         function compareText(){
-            fetch("wordList.txt")
-                .then(function(response){
-                    return (response.text());
+         var text; //Global veriabel som håller innehåller alla ord från ordlistan.
+
+         /*compareText gör det enkelt att ändra textfil eller uppdatera den. Nackdelen är att den behöver laddas in på användarens
+         webrowser vid besök*/
+         function compareText(){  //Skriv kommentarer imorgon.
+            fetch("wordList.txt") //Hämtar textfilen.
+                .then(function(textFile){ //En promise some tar emot datan och en response.
+                    return (textFile.text()); //Splitar innehållet på "\n".
             })
-            .then(function(data){  
-                text = data.split("\n");
+            .then(function(data){  //Tar emot datan från returnen.
+                text = data.split("\n"); //Splittar textfilen och sparar i strängen.
                 
             })
         }
-
-
+        
         //Algorithm for MSA
         function MSA(){ 
             console.log(text[55]);
