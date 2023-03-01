@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
+<body onload="compareText();">
     <!-- Password box for google guidline passwords-->
-    <div >
+    <div>
         <label for="noMSA">Password 1</label>
         <input type="text" id="noMSA" name="noMSA">
         <input type="submit" value="submit1">
@@ -17,37 +17,41 @@
     <div>
         <label for="MSA">Password 2</label>
         <input type="text" id="MSA" name="MSA">
-        <input type="submit" value="submit2" onclick="MSA()">
+        <input type="submit" value="submit2" onclick="MSA();">
     </div>
     <script>
+         var text = [];
+         function compareText(){
+            fetch("wordList.txt")
+                .then(function(response){
+                    return (response.text());
+            })
+            .then(function(data){  
+                text.push(data);
+                
+            })
+        }
+        
         //Algorithm for MSA
-        function MSA(text){
+        function MSA(){
+
+            for(let i = 0; i < 1; i++){
+                console.log(text[i]);
+            }
             //Varibales
             var password; //Holds passwords from password 2
             var temp; //Stores the password created while last character is deleted.
-            var text;
+           
+
+           
             
             password = document.getElementById("MSA").value;
 
             for (let i = 0; i < password.length; i++){
-                
                 temp = password.substring(0, password.length-i); //deletes last character after eatch iteration
-                return compareText(temp); 
-               
-        };
-
-        function compareText(temp){
-            console.log(temp)
-            fetch("wordList.txt")
-            .then(function(response){
-                return (response.text());
-            })
-            .then(function(data){
-                console.log(temp)
-            })
-            }
-            
-        }
+            };
+    }
+       
     </script>
 </body>
 </html>
