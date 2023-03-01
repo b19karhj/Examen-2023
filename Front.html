@@ -20,31 +20,26 @@
         <input type="submit" value="submit2" onclick="MSA();">
     </div>
     <script>
-         var text = [];
+         var text;
          function compareText(){
             fetch("wordList.txt")
                 .then(function(response){
                     return (response.text());
             })
             .then(function(data){  
-                text.push(data);
+                text = data.split("\n");
                 
             })
         }
-        
-        //Algorithm for MSA
-        function MSA(){
 
-            for(let i = 0; i < 1; i++){
-                console.log(text[i]);
-            }
+
+        //Algorithm for MSA
+        function MSA(){ 
+            console.log(text[55]);
+           
             //Varibales
             var password; //Holds passwords from password 2
             var temp; //Stores the password created while last character is deleted.
-           
-
-           
-            
             password = document.getElementById("MSA").value;
 
             for (let i = 0; i < password.length; i++){
