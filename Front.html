@@ -21,20 +21,33 @@
     </div>
     <script>
         //Algorithm for MSA
-        function MSA(){
+        function MSA(text){
             //Varibales
             var password; //Holds passwords from password 2
             var temp; //Stores the password created while last character is deleted.
+            var text;
+            
             password = document.getElementById("MSA").value;
 
             for (let i = 0; i < password.length; i++){
                 
                 temp = password.substring(0, password.length-i); //deletes last character after eatch iteration
-                alert(temp);
-            
+                return compareText(temp); 
+               
+        };
+
+        function compareText(temp){
+            console.log(temp)
+            fetch("wordList.txt")
+            .then(function(response){
+                return (response.text());
+            })
+            .then(function(data){
+                console.log(temp)
+            })
             }
             
-        };
+        }
     </script>
 </body>
 </html>
