@@ -19,11 +19,18 @@
     </div>
     <script>
         function MSA(){
-            var password 
+            var password;
+            var temp;
+            password = document.getElementById("MSA").value;
+
+            for (let i = 0; i < password.length; i++){
+                
+                temp = password.substring(0, password.length-i);
+                alert(temp);
             
-            password = document.getElementById("MSA").value
-            alert(password)
-        }
+            }
+            
+        };
     </script>
 </body>
 </html>
