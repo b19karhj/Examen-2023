@@ -35,25 +35,33 @@
         }
 
         //Algorithm for MSA
-        function MSA(){ 
+        function MSA(){ S
             //Varibales
             var password; //Holds passwords from password 2
             var temp; //Stores the password created while last character is deleted.
             var wordDetector = 0;
+            var savedWords = [];
+            const alphabet = /^[a-zA-Z]/ //Regex if first char is lower and uppercase charecter
+           
 
             password = document.getElementById("MSA").value;
+            console.log(password[0])
+
+            if(password.match(alphabet)){
+                alert("password")
+            }
      
             for (let i = 0; i < password.length; i++){
-                temp = password.substring(0, password.length-i); //deletes last character after eatch iteration
+                temp = password.substring(0, password.length-i); //Deletes last character after each iteration
 
                 if(words.includes(temp)){
                     console.log("word found");
                     wordDetector++;
-
+                    savedWords.push(temp);
                 }
         
             };
-            console.log(wordDetector)
+            
     }
        
     </script>
