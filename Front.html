@@ -30,7 +30,7 @@
                     return (textFile.text()); //Splitar innehållet på "\n".
             })
             .then(function(data){  //Tar emot datan från returnen.
-                words = data.split("\n"); //Splittar textfilen och sparar i strängen.
+                words = data.split("\r\n"); //Splittar textfilen och sparar i strängen.
                 
             })
         }
@@ -41,7 +41,7 @@
             var password; //Holds passwords from password 2
             var temp; //Stores the password created while last character is deleted.
             var word;
-        
+            console.log(words)
             password = document.getElementById("MSA").value;
 
             for (let i = 0; i < password.length; i++){
@@ -52,6 +52,7 @@
                     if(temp == words[j]){
                         console.log("word found")
                         console.log(words[j])
+                        break;
                         
                     }else{
                         
