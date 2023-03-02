@@ -25,7 +25,7 @@
          /*compareText gör det enkelt att ändra textfil eller uppdatera den. Nackdelen är att den behöver laddas in på användarens
          webrowser vid besök*/
          function compareText(){  //Skriv kommentarer imorgon.
-            fetch("wordList.txt") //Hämtar textfilen.
+            fetch("test.txt") //Hämtar textfilen.
                 .then(function(textFile){ //En promise some tar emot datan och en response.
                     return (textFile.text()); //Splitar innehållet på "\n".
             })
@@ -41,19 +41,21 @@
             var password; //Holds passwords from password 2
             var temp; //Stores the password created while last character is deleted.
             var word;
-
+        
             password = document.getElementById("MSA").value;
 
             for (let i = 0; i < password.length; i++){
                 temp = password.substring(0, password.length-i); //deletes last character after eatch iteration
 
                 for(let j = 0; j < words.length; j++){
-                    if(temp[i] == words[j]){
+                   
+                    if(temp == words[j]){
+                        console.log("word found")
                         console.log(words[j])
-                    }
-                    else{
-                        console.log("word not found")
-                        console.log(words);
+                        
+                    }else{
+                        
+                        console.log(temp);
                     }
                 }
                
