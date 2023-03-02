@@ -42,13 +42,13 @@
             var wordDetector = 0;
             var savedWords = [];
             const alphabet = /^[a-zA-Z]/ //Regex if first char is lower and uppercase charecter
-            const number = /^[0-9]/;
-            const specialCharacter = /^\W/;
+            const number = /^[0-9]/; //Regex Numbers
+            const specialCharacter = /^\W/; //Regex special characters
 
             password = document.getElementById("MSA").value;
             console.log(password[0])
 
-            if(password.match(number) || password.match(specialCharacter)){
+            if(password.match(number) || password.match(specialCharacter)){ //Checks if first element is number or special character
                 alert("password")
             }
      
