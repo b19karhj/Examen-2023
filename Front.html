@@ -20,7 +20,7 @@
         <input type="submit" value="submit2" onclick="MSA();">
     </div>
     <script>
-         var text; //Global veriabel som håller innehåller alla ord från ordlistan.
+         var words; //Global veriabel som håller innehåller alla ord från ordlistan.
 
          /*compareText gör det enkelt att ändra textfil eller uppdatera den. Nackdelen är att den behöver laddas in på användarens
          webrowser vid besök*/
@@ -30,22 +30,33 @@
                     return (textFile.text()); //Splitar innehållet på "\n".
             })
             .then(function(data){  //Tar emot datan från returnen.
-                text = data.split("\n"); //Splittar textfilen och sparar i strängen.
+                words = data.split("\n"); //Splittar textfilen och sparar i strängen.
                 
             })
         }
-        
+
         //Algorithm for MSA
         function MSA(){ 
-            console.log(text[55]);
-           
             //Varibales
             var password; //Holds passwords from password 2
             var temp; //Stores the password created while last character is deleted.
+            var word;
+
             password = document.getElementById("MSA").value;
 
             for (let i = 0; i < password.length; i++){
                 temp = password.substring(0, password.length-i); //deletes last character after eatch iteration
+
+                for(let j = 0; j < words.length; j++){
+                    if(temp[i] == words[j]){
+                        console.log(words[j])
+                    }
+                    else{
+                        console.log("word not found")
+                        console.log(words);
+                    }
+                }
+               
             };
     }
        
