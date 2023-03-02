@@ -35,19 +35,20 @@
         }
 
         //Algorithm for MSA
-        function MSA(){ S
+        function MSA(){
             //Varibales
             var password; //Holds passwords from password 2
             var temp; //Stores the password created while last character is deleted.
             var wordDetector = 0;
             var savedWords = [];
             const alphabet = /^[a-zA-Z]/ //Regex if first char is lower and uppercase charecter
-           
+            const number = /^[0-9]/;
+            const specialCharacter = /^\W/;
 
             password = document.getElementById("MSA").value;
             console.log(password[0])
 
-            if(password.match(alphabet)){
+            if(password.match(number) || password.match(specialCharacter)){
                 alert("password")
             }
      
