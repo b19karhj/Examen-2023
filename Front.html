@@ -120,7 +120,7 @@
     
                         alert("pause")
                         
-                        if(segments[i-1].match(numbers) && segments[i].match(numbers) || segments[i-1].match(specialCharacter) && segments[i].match(specialCharacter) || segments[i-1].match(alphabet) && segments[i-1].length <= 1 && segments[i].match(alphabet) && segments[i].length <= 1){ //Checks if password starts with number, if so then put the number into array
+                        if(segments[i-1].match(numbers) && segments[i].match(numbers) || segments[i-1].match(specialCharacter) && segments[i].match(specialCharacter) || segments[i-1].match(alphabet) && segments[i-1].length <= 1 && segments[i].match(alphabet) && segments[i].length <= 1){ //Checks if the first 2 elements are both numbers, characters or special characters
                             
                             if(segmentedPassword == null){
                                 alert("inne!");
