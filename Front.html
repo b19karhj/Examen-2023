@@ -43,6 +43,7 @@
             var savedWords = [];
             var segmentationTracker = []; //Keeps track of all segmentations
             var MSACheck = true;
+            var segmentedPassword = [];
             
             password = document.getElementById("MSA").value;
 
@@ -51,6 +52,7 @@
 
             const alphabet = /^[a-zA-Z]/ //Regex if first char is lower and uppercase charecter
             const number = /^[0-9]/; //Regex Numbers
+            const numbers = /[0-9]/;
             const specialCharacter = /^\W/; //Regex special characters
                 /*if(password.match(number) || password.match(specialCharacter)){ //Checks if first element is number or special character
                     alert("password")
@@ -105,13 +107,34 @@
                 //console.log(password ,"empty");
                 console.log(segmentationTracker)
                 console.log(password.length)
-            if(password.length == 0){
-                alert("hej");
-                MSACheck = false;
-                console.log(MSACheck)
                 
+                if(password.length == 0){
+                    //alert("hej");
+                    MSACheck = false;
+                    console.log(MSACheck)
+                    var test;
+                    test = segmentationTracker;
+                    console.log(test);
+                    segmentationTracker = [];
+                    console.log(segmentationTracker)
+                   
+                    for(let i = 0; i < test.length; i++){
+                        console.log(test[0]);
+                        console.log(test[1]);
+                        
+                        if(test[i] == numbers){ //Checks if password starts with number, if so then put the number into array
+                            alert("inne!");
+                            segmentedPassword = segmentationTracke.join(0,1)
+                            //segmentationTracker = password.substring(1);
+                            console.log(segmentationTracker);
+                            console.log(segmentedPassword);
+                            alert("pause");
+                        }
+                    
+                    }
+                    
 
-            }
+                }
 
         }  
         console.log("password is no more", password)
