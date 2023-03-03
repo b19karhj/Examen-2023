@@ -124,13 +124,11 @@
                         
                         if(segments[0].match(numbers) && segments[2].match(numbers)){ //Checks if password starts with number, if so then put the number into array
                             alert("inne!");
-                            segmentedPassword = segments[0], 
-                            segmentedPassword += segments[2];
-                            console.log(segmentationTracker);
+                            segmentedPassword = segments[0].concat(segments[2]);
                             console.log(segmentationTracker.slice(2));
                             console.log(segmentationTracker);
-                            //alert("pause");
-                            //console.log(segmentedPassword);
+                            alert("pause");
+                            console.log(segmentedPassword);
                             alert("pause");
                         };
                     
