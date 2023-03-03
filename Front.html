@@ -113,13 +113,14 @@
                     var segments;
                     segments = segmentationTracker.toString().split(/,/g);
                    
-                    //console.log(hej.length)
+                    console.log(segments.length);
+                    alert("Size");
                    
                     for(let i = 1; i < segmentationTracker.length; i++){
     
                         alert("pause")
                         
-                        if(segments[i-1].match(numbers) && segments[i].match(numbers) || segments[i-1].match(specialCharacter) && segments[i].match(specialCharacter)){ //Checks if password starts with number, if so then put the number into array
+                        if(segments[i-1].match(numbers) && segments[i].match(numbers) || segments[i-1].match(specialCharacter) && segments[i].match(specialCharacter) || segments[i-1].match(alphabet) && segments[i-1].length <= 1 && segments[i].match(alphabet) && segments[i].length <= 1){ //Checks if password starts with number, if so then put the number into array
                             
                             if(segmentedPassword == null){
                                 alert("inne!");
