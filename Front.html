@@ -41,55 +41,68 @@
             var temp; //Stores the password created while last character is deleted.
             var wordDetector = 0;
             var savedWords = [];
+            var segmentationTracker = []; //Keeps track of all segmentations
+            password = document.getElementById("MSA").value;
+           
+            while(password.length != 0){
+
             const alphabet = /^[a-zA-Z]/ //Regex if first char is lower and uppercase charecter
             const number = /^[0-9]/; //Regex Numbers
             const specialCharacter = /^\W/; //Regex special characters
-            var segmentationTracker = []; //Keeps track of all segmentations
-            password = document.getElementById("MSA").value;
-            while(password.length != 0){
+                /*if(password.match(number) || password.match(specialCharacter)){ //Checks if first element is number or special character
+                    alert("password")
+                }*/
 
-            /*if(password.match(number) || password.match(specialCharacter)){ //Checks if first element is number or special character
-                alert("password")
-            }*/
-
-
-            while(password.match(number)){ //Checks if password starts with number, if so then put the number into array
-                segmentationTracker.push(password.match(number))
-                password = password.substring(1);
-                
-            }
-            while(password.match(specialCharacter)){ //Checks if password starts with special character, if so then put the character into into array
-                segmentationTracker.push(password.match(specialCharacter))
-                password = password.substring(1);
-                //console.log(password)
-            }
-            
-            //}
-            
-            /*TODO: Börja segmentera beronde på lösenordets uppbyggnad. Klara av att dela upp ett lösenord i de tre klasserna utan problem.
-            Efter det, skapa en alternativ substräng där special karaktärer vandlas om till bokstäver. Om träff spara undan dom som orginal strängen.
-            Efter det fråga mot databasen.
-            Efter det formulera tydliga riktlinjer
-            Efter det skapa formulär
-            Samla in data*/
-
-            
-            for (let i = 0; i < password.length; i++){
-                temp = password.substring(0, password.length - i); //Deletes last character after each iteration
-
-                if(words.includes(temp)){
-
-                    //console.log("word found");
-                    //console.log(temp);
-                    wordDetector++;
-                    segmentationTracker.push(temp); //Adds the word to segmentation tracker
-                    password = password.replace(`${temp}`, ""); //Replaces the word in password string with nothing.
-
+                while(password.match(number)){ //Checks if password starts with number, if so then put the number into array
+                    segmentationTracker.push(password.match(number))
+                    password = password.substring(1);
+                    
+                }
+                while(password.match(specialCharacter)){ //Checks if password starts with special character, if so then put the character into into array
+                    segmentationTracker.push(password.match(specialCharacter))
+                    password = password.substring(1);
+                    //console.log(password)
                 }
                 
-            };
-            //console.log(password ,"empty");
-            console.log(segmentationTracker)
+                //}
+                
+                /*TODO:
+                Klara av att dela upp ett lösenord i de tre klasserna utan problem.
+                Efter det, skapa en alternativ substräng där special karaktärer vandlas om till bokstäver. Om träff spara undan dom som orginal strängen.
+                Efter det fråga mot databasen.
+                Efter det formulera tydliga riktlinjer
+                Efter det skapa formulär
+                Samla in data*/
+
+                for (let i = 0; i < password.length; i++){
+                    temp = password.substring(0, password.length - i); //Deletes last character after each iteration
+                    console.log(password.substring(0))
+                    if(words.includes(temp)){
+
+                        //console.log("word found");
+                        //console.log(temp);
+                        wordDetector++;
+                        segmentationTracker.push(temp); //Adds the word to segmentation tracker
+                        password = password.replace(`${temp}`, ""); //Replaces the word in password string with nothing.
+
+                    }
+                    else if(temp.length <= 1){ //If temp.length is less then 1 in length, enter here to remove characters.
+                        alert("hej");
+                        //console.log(temp, "inne");
+                        segmentationTracker.push(temp[0])
+                        //console.log(segmentationTracker)
+                        password = password.substring(1);
+                        //console.log(password)
+                        i == 0; //Resets "i" to loop over the new password.
+                        
+                    }
+                   // console.log(temp[0])
+                };
+                //console.log(temp.length)
+                    //console.log(temp)
+                //console.log(password ,"empty");
+                console.log(segmentationTracker)
+               
 
         }  
         console.log("password is no more", password)
