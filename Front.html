@@ -43,7 +43,7 @@
             var savedWords = [];
             var segmentationTracker = []; //Keeps track of all segmentations
             var MSACheck = true;
-            var segmentedPassword = [];
+            var segmentedPassword;
             
             password = document.getElementById("MSA").value;
             console.log(password)
@@ -112,22 +112,26 @@
                     
                     var segments;
                     segments = segmentationTracker.toString();
-                    console.log(segmentationTracker.length);
+                 
                 
-                    
+                   
                     //console.log(hej.length)
                    
                     for(let i = 0; i < segmentationTracker.length; i++){
-                        //console.log(hej);
+                        //console.log(segments[0]);
+                        //console.log(segments[2]);
+                        alert("pause")
                         
-                        
-                        if(segments[0].match(numbers)){ //Checks if password starts with number, if so then put the number into array
+                        if(segments[0].match(numbers) && segments[2].match(numbers)){ //Checks if password starts with number, if so then put the number into array
                             alert("inne!");
-                            //segmentedPassword = segmentationTracke.join(0,1)
-                            //segmentationTracker = password.substring(1);
-                            //console.log(segmentationTracker);
-                            //console.log(segmentedPassword);
+                            segmentedPassword = segments[0], 
+                            segmentedPassword += segments[2];
+                            console.log(segmentationTracker);
+                            console.log(segmentationTracker.slice(2));
+                            console.log(segmentationTracker);
                             //alert("pause");
+                            //console.log(segmentedPassword);
+                            alert("pause");
                         };
                     
                     };
