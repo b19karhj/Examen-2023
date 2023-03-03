@@ -112,25 +112,31 @@
                     
                     var segments;
                     segments = segmentationTracker.toString().split(/,/g);
-                    
-                    
-                    
                    
                     //console.log(hej.length)
                    
-                    for(let i = 0; i < segmentationTracker.length; i++){
-                        console.log(segments[0]);
-                        console.log(segments[1]);
+                    for(let i = 1; i < segmentationTracker.length; i++){
+    
                         alert("pause")
                         
-                        if(segments[i].match(numbers) && segments[i+2].match(numbers)){ //Checks if password starts with number, if so then put the number into array
-                            alert("inne!");
-                            segmentedPassword = segments[i].concat(segments[i+2]);
-                            console.log(segmentationTracker.slice(1,2));
-                            console.log(segmentationTracker);
-                            console.log(segmentedPassword);
-                            alert("pause");
+                        if(segments[i-1].match(numbers) && segments[i].match(numbers) || segments[i-1].match(specialCharacter) && segments[i].match(specialCharacter)){ //Checks if password starts with number, if so then put the number into array
+                            
+                            if(segmentedPassword == null){
+                                alert("inne!");
+                                segmentedPassword = segments[i-1].concat(segments[i]);
+                                console.log(segmentedPassword);
+                                segmentationTracker.slice(1,2);
+                            }
+                            else{
+                                segmentedPassword += segments[i-1].concat(segments[i]);
+                                segmentationTracker.slice(1,2);
+                                console.log(segmentationTracker);
+                                console.log(segmentedPassword);
+                                alert("pause");
+                            }
+                            
                         };
+                        
                     
                     };
                     
