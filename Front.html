@@ -46,6 +46,7 @@
             var segmentedPassword = [];
             password = document.getElementById("MSA").value;
             //console.log(password)
+        
            
             while(MSACheck == true){
 
@@ -126,7 +127,9 @@
                             
                             if(segmentedPassword == 0){
                                 alert("Två element i början är lika");
-                                segmentedPassword = segments[i-1].concat(segments[i]);
+                                var tempholder;
+                                tempholder = segments[i-1].concat(segments[i]);
+                                segmentedPassword.push(tempholder);
                                 segments[i-1].concat(segments[i]);
                                 segmentationTracker = segmentationTracker.slice(2);
                                 //console.log(segmentationTracker);
@@ -137,7 +140,9 @@
                             }
                             else{
                                 alert("Två element senare var lika");
-                                segmentedPassword += segments[i-1].concat(segments[i]);
+                                var tempholder;
+                                tempholder += segments[i-1].concat(segments[i]);
+                                segmentedPassword.push(tempholder);
                                 segments[i-1].concat(segments[i]);
                                 segmentationTracker.slice(1,2);
                                 segments.slice(i-1)
@@ -147,14 +152,16 @@
                             };
                             
                         }
-                        /*else if(segments[i-1].match(numbers) && segments[i].match(notNumber)){
+                        else if(segments[i-1].match(numbers) && segments[i].match(notNumber)){
+                            var tempholder;
                             alert("Sista elementet var inte en match")
-                            //console.log(segments[i]);
-                            segmentedPassword.push(segments[i]);
+                            tempholder = segments[i-1];
+                            console.log(segmentedPassword);
+                            segmentedPassword.push(tempholder);
                             console.log(segmentedPassword);
                             alert("pause")
                             i == 0;
-                        }*/
+                        }
                     };
                     
                     
