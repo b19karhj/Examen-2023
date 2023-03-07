@@ -129,32 +129,35 @@
                                 alert("Två element i början är lika");
                                 tempholder = segments[i-1].concat(segments[i]);
                                 segmentedPassword.push(tempholder);
-                                segments = segments[i-1].concat(segments[i]);
+                                segments = segments.slice(2);
                                 segmentationTracker = segmentationTracker.slice(2);
-                                //console.log(segmentationTracker);
+                                console.log(segments, "segments");
                                 //console.log(segmentedPassword);
                                 tempholder = "";
-                                console.log(segments)
                                 i == 0;
                                 alert("pause")
                             }
                             else{
+                                console.log(segmentationTracker)
                                 alert("Två element senare var lika");
                                 tempholder += segments[i-1].concat(segments[i]);
-                                alert(tempholder)
                                 segmentedPassword.push(tempholder);
-                                segments[i-1].concat(segments[i]);
-                                segmentationTracker.slice(1,2);
-                                segments.slice(i-1)
-                                console.log(segmentationTracker);
-                                console.log(segmentedPassword);
+                                segments = segments.slice(2);
+                                segmentationTracker = segmentationTracker.slice(2);
+                                console.log(segments, "segments");
+                                console.log(segmentationTracker)
                                 tempholder = "";
                                 i == 0;
                                 alert("pause")
+                                if(segments.length == 0){
+                                    alert("zero");
+                                    MSACheck = false;
+                                }
                             };
                             
                         }
                         else if(segments[i-1].match(numbers) && segments[i].match(notNumber)){
+    
                             alert("Sista elementet var inte en match")
                             console.log(segments)
                             tempholder = segments[i-1];
@@ -162,7 +165,6 @@
                             console.log(segmentedPassword);
                             segmentedPassword.push(tempholder);
                             console.log(segmentedPassword);
-                            tempholder = "";
                             alert("pause")
                             i == 0;
                         }
