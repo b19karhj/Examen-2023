@@ -43,23 +43,23 @@
             var savedWords = [];
             var segmentationTracker = []; //Keeps track of all segmentations
             var MSACheck = true;
-            var segmentedPassword;
-            
+            var segmentedPassword = [];
             password = document.getElementById("MSA").value;
-            console.log(password)
+            //console.log(password)
            
             while(MSACheck == true){
 
             const alphabet = /^[a-zA-Z]/ //Regex if first char is lower and uppercase charecter
             const number = /^[0-9]/; //Regex Numbers
             const numbers = (/[0-9]/);
+            const notNumber = /^\D/;
             const specialCharacter = /^\W/; //Regex special characters
                 /*if(password.match(number) || password.match(specialCharacter)){ //Checks if first element is number or special character
                     alert("password")
                 }*/
 
                 while(password.match(number)){ //Checks if password starts with number, if so then put the number into array
-                    segmentationTracker.push(password.match(number))
+                    segmentationTracker.push(password.match(number));
                     password = password.substring(1);
                     
                 }
@@ -83,7 +83,7 @@
                     console.log(password.substring(0));
                     if(words.includes(temp)){
 
-                        //console.log("word found");
+                        console.log("word found");
                         //console.log(temp);
                         wordDetector++;
                         segmentationTracker.push(temp); //Adds the word to segmentation tracker
@@ -96,10 +96,13 @@
                         segmentationTracker.push(temp[0]);
                         //console.log(segmentationTracker)
                         password = password.substring(1);
-                        //console.log(password)
-                        i == 0; //Resets "i" to loop over the new password.
+                        //alert(password.length)
                         
-                    };
+                        i == 0; //Resets "i" to loop over the new password.
+                       
+                        
+                    }
+                    
                    // console.log(temp[0])
                 };
                 //console.log(temp.length)
@@ -112,43 +115,56 @@
                     
                     var segments;
                     segments = segmentationTracker.toString().split(/,/g);
-                   
-                    console.log(segments.length);
-                    alert("Size");
+                  
+                    //console.log(segments);
+                //alert("Size");
                    
                     for(let i = 1; i < segmentationTracker.length; i++){
     
-                        alert("pause")
-                        
+                     
                         if(segments[i-1].match(numbers) && segments[i].match(numbers) || segments[i-1].match(specialCharacter) && segments[i].match(specialCharacter) || segments[i-1].match(alphabet) && segments[i-1].length <= 1 && segments[i].match(alphabet) && segments[i].length <= 1){ //Checks if the first 2 elements are both numbers, characters or special characters
                             
-                            if(segmentedPassword == null){
-                                alert("inne!");
+                            if(segmentedPassword == 0){
+                                alert("Två element i början är lika");
                                 segmentedPassword = segments[i-1].concat(segments[i]);
-                                console.log(segmentedPassword);
-                                segmentationTracker.slice(1,2);
+                                segments[i-1].concat(segments[i]);
+                                segmentationTracker = segmentationTracker.slice(2);
+                                //console.log(segmentationTracker);
+                                //console.log(segmentedPassword);
+                                console.log(segmentationTracker)
+                                i == 0;
+                                alert("pause")
                             }
                             else{
+                                alert("Två element senare var lika");
                                 segmentedPassword += segments[i-1].concat(segments[i]);
+                                segments[i-1].concat(segments[i]);
                                 segmentationTracker.slice(1,2);
+                                segments.slice(i-1)
                                 console.log(segmentationTracker);
                                 console.log(segmentedPassword);
-                                alert("pause");
-                            }
+                                alert("pause")
+                            };
                             
-                        };
-                        
-                    
+                        }
+                        /*else if(segments[i-1].match(numbers) && segments[i].match(notNumber)){
+                            alert("Sista elementet var inte en match")
+                            //console.log(segments[i]);
+                            segmentedPassword.push(segments[i]);
+                            console.log(segmentedPassword);
+                            alert("pause")
+                            i == 0;
+                        }*/
                     };
                     
-                    break;
+                    
                 }
-
+              
         }  
+      
         console.log("password is no more", password)
+        
     }
-    
-   
     </script>
 </body>
 </html>
