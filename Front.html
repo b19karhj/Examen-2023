@@ -112,7 +112,7 @@
                     var tempholder =[] ;
                     var segments;
                     var passhold;
-                    segments = segmentationTracker.toString().split(/,/g);
+                    segments = segmentationTracker.toString().split(/,/g);//Converts to string and split and save it to varibal segments
 
                     if(segmentedPassword.length == 0){
                         segmentedPassword = segmentedPassword.concat(segments[0]);
@@ -120,7 +120,6 @@
                     }
 
                     for(let i = 0; segments.length > 0; i++){
-                        console.log(segmentedPassword[i], "is")
                         if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
                             i++;
                         }
@@ -133,18 +132,17 @@
                             segments = segments.slice(1); //Revmoves first element
                          
                         }
+                        
                         if(segments.length == 0){ // Exit loop.
                             MSACheck = false;
-                        }
-                            
+                        }     
                        
-                    };
-                    
+                    };  
                     
                 }
               
         }
-        segmentedPassword = segmentedPassword.join("").split(/,/g); //Joins the array
+        segmentedPassword = segmentedPassword.join("").split(/,/g); //Joins the array to a string and splits at ","
         console.log("The segmentedPassword is: ", segmentedPassword)
         console.log("password is no more", password)
     }
