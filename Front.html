@@ -54,6 +54,7 @@
             const number = /^[0-9]/; //Regex Numbers
             const numbers = (/[0-9]/);
             const notNumber = /^\D/;
+            const lastChar = (/[a-z|A-Z|0-9]$/);
             const specialCharacter = /^\W/; //Regex special characters
                 /*if(password.match(number) || password.match(specialCharacter)){ //Checks if first element is number or special character
                     alert("password")
@@ -115,15 +116,16 @@
                 if(password.length == 0){
                     var tempholder;
                     var segments;
+                    var passhold;
                     segments = segmentationTracker.toString().split(/,/g);
-                  
-                    //console.log(segments);
+              
+
                 //alert("Size");
                    
                     for(let i = 1; i < segmentationTracker.length; i++){
     
                      
-                        if(segments[i-1].match(numbers) && segments[i].match(numbers) || segments[i-1].match(specialCharacter) && segments[i].match(specialCharacter) || segments[i-1].match(alphabet) && segments[i-1].length <= 1 && segments[i].match(alphabet) && segments[i].length <= 1){ //Checks if the first 2 elements are both numbers, characters or special characters
+                        if(segments[i-1].match(numbers) && segments[i].match(numbers) && segmentedPassword == 0 || segments[i-1].match(specialCharacter) && segments[i].match(specialCharacter) && segmentedPassword == 0 || segments[i-1].match(alphabet) && segments[i-1].length <= 1 && segments[i].match(alphabet) && segments[i].length <= 1 && segmentedPassword == 0){   //Checks if the first 2 elements are both numbers, characters or special characters
                             
                             if(segmentedPassword == 0){
                                 alert("Två element i början är lika");
@@ -131,42 +133,63 @@
                                 segmentedPassword.push(tempholder);
                                 segments = segments.slice(2);
                                 segmentationTracker = segmentationTracker.slice(2);
-                                console.log(segments, "segments");
-                                //console.log(segmentedPassword);
+                              
+                                console.log(segments, "saved");
+
                                 tempholder = "";
-                                i == 0;
-                                alert("pause")
-                            }
-                            else{
-                                console.log(segmentationTracker)
-                                alert("Två element senare var lika");
-                                tempholder += segments[i-1].concat(segments[i]);
-                                segmentedPassword.push(tempholder);
-                                segments = segments.slice(2);
-                                segmentationTracker = segmentationTracker.slice(2);
-                                console.log(segments, "segments");
-                                console.log(segmentationTracker)
-                                tempholder = "";
-                                i == 0;
+                                i = 0;
+                                console.log(segmentedPassword[i], "is");
+                              
                                 alert("pause")
                                 if(segments.length == 0){
                                     alert("zero");
                                     MSACheck = false;
                                 }
-                            };
+                            
+                              
+                            }
+                            /*else{
+                                console.log(segmentationTracker)
+                                alert("Två element senare var lika");
+                                console.log(i, "i value")
+                                tempholder += segments[i-1].concat(segments[i]);
+                                console.log(tempholder, "tempholder")
+                                segmentedPassword.push(tempholder);
+                                segments = segments.slice(2);
+                                segmentationTracker = segmentationTracker.slice(2);
+                                console.log(segmentedPassword, "saved")
+                                console.log(segments, "segments");
+                                console.log(segmentationTracker, "left in loop")
+                                tempholder = "";
+                                i = 0;
+                                alert("pause")
+                                if(segments.length == 0){
+                                    alert("zero");
+                                    console.log(segmentedPassword, "finished")
+                                    MSACheck = false;
+                                }
+                            };*/
                             
                         }
-                        else if(segments[i-1].match(numbers) && segments[i].match(notNumber)){
-    
-                            alert("Sista elementet var inte en match")
-                            console.log(segments)
-                            tempholder = segments[i-1];
-                            alert(tempholder)
-                            console.log(segmentedPassword);
-                            segmentedPassword.push(tempholder);
-                            console.log(segmentedPassword);
-                            alert("pause")
-                            i == 0;
+                        if(segmentedPassword[i].match(lastChar) && segments[0].match(numbers)){
+                            alert("Sista elementet var inte en match");
+                            console.log(segments[i], "Segments");
+                            tempholder = segmentedPassword.concat(segments[i]);
+                            tempholder = tempholder.join("");
+                            console.log(tempholder, "temp")
+                            
+                            segmentedPassword = tempholder;
+                            
+                            //segmentedPassword.join("")
+                            console.log(segmentedPassword, "Joined");
+                            alert("itteration klar")
+                            i = 0;
+                            break;
+                            if(segments.length == 0){
+                                alert("zero");
+                                console.log(segmentedPassword)
+                                MSACheck = false;
+                            }
                         }
                     };
                     
