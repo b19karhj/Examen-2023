@@ -130,9 +130,13 @@
                     
                  
                    
-                    for(let i = 0; i < segmentationTracker.length; i++){
+                    for(let i = 0; segments.length > 0; i++){
                         console.log(segmentedPassword[i], "is")
+                        if(segmentedPassword[i] == ","){
+                            i++;
+                        }
                         console.log(segments[0], "seg")
+                        console.log(segments[0].length)
 
                         /*if(segments[i-1].match(numbers) && segments[i].match(numbers) && segmentedPassword == 0 || segments[i-1].match(specialCharacter) && segments[i].match(specialCharacter) && segmentedPassword == 0 || segments[i-1].match(alphabet) && segments[i-1].length <= 1 && segments[i].match(alphabet) && segments[i].length <= 1 && segmentedPassword == 0){   //Checks if the first 2 elements are both numbers, characters or special characters
                             
@@ -180,11 +184,11 @@
                             };
                             
                         }*/
-                        if(segmentedPassword[i].match(numbers) && segments[0].match(numbers) || segmentedPassword[i].match(specialCharacter) && segments[0].match(specialCharacter) || segmentedPassword[i].match(alphabet) && segments[0].length <= 1 && segmentedPassword[i].match(alphabet) && segments[0].length <= 1){
+                        if(segmentedPassword[i].match(numbers) && segments[0].match(numbers) || segmentedPassword[i].match(specialCharacter) && segments[0].match(specialCharacter) || segmentedPassword[i].match(alphabet) && segments[0].match(alphabet2) && segments[0].length <= 1){
                             alert("Number")
                             tempholder = segmentedPassword.concat(segments[0]);
-                            console.log(tempholder , "hold");
-                            console.log(tempholder.length);
+                           // console.log(tempholder , "hold");
+                            //console.log(tempholder.length);
                             if(tempholder.length <= 2){
                                 alert("inne igen")
                                 tempholder = tempholder.join("");
@@ -194,31 +198,33 @@
                             console.log(segmentedPassword , "segholder");
                             segments = segments.slice(1);
                             console.log(segments, "after slice");
-                            tempholder = "";
+                            console.log(segments.length, "seg length");
+                          
                             alert("itteration klar");
-                            i = 0;
                             
                             
-                            
-                            if(segments.length == 0){
-                                alert("zero");
-                                console.log(segmentedPassword)
-                                MSACheck = false;
-                            }
                         }else{
-
+                            segmentedPassword = segmentedPassword.concat(","+segments[0]);
+                            segments = segments.slice(1);
+                            console.log(segments, "after slice");
+                            console.log(segmentedPassword , "segholder");
+                            console.log(segments.length, "seg length");
                             
-                        
-                        
                         }
-                        MSACheck = false;
+                        
+                        if(segments.length == 0){
+                            alert("slut")
+                            MSACheck = false;
+                        }
+                            
+                       
                     };
                     
                     
                 }
               
         }  
-      
+        console.log("The segmentedPassword is: ", segmentedPassword)
         console.log("password is no more", password)
         
     }
