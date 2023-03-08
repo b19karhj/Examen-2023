@@ -132,64 +132,18 @@
                    
                     for(let i = 0; segments.length > 0; i++){
                         console.log(segmentedPassword[i], "is")
-                        if(segmentedPassword[i] == ","){
+                        if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
                             i++;
                         }
                         console.log(segments[0], "seg")
                         console.log(segments[0].length)
 
-                        /*if(segments[i-1].match(numbers) && segments[i].match(numbers) && segmentedPassword == 0 || segments[i-1].match(specialCharacter) && segments[i].match(specialCharacter) && segmentedPassword == 0 || segments[i-1].match(alphabet) && segments[i-1].length <= 1 && segments[i].match(alphabet) && segments[i].length <= 1 && segmentedPassword == 0){   //Checks if the first 2 elements are both numbers, characters or special characters
-                            
-                            if(segmentedPassword == 0){
-                                alert("Två element i början är lika");
-                                tempholder = segments[i-1].concat(segments[i]);
-                                segmentedPassword.push(tempholder);
-                                segments = segments.slice(2);
-                                segmentationTracker = segmentationTracker.slice(2);
-                              
-                                console.log(segments, "saved");
-
-                                tempholder = "";
-                                i = 0;
-                                console.log(segmentedPassword[i], "is");
-                              
-                                alert("pause")
-                                if(segments.length == 0){
-                                    alert("zero");
-                                    MSACheck = false;
-                                }
-                            
-                              
-                            }
-                            /*else{
-                                console.log(segmentationTracker)
-                                alert("Två element senare var lika");
-                                console.log(i, "i value")
-                                tempholder += segments[i-1].concat(segments[i]);
-                                console.log(tempholder, "tempholder")
-                                segmentedPassword.push(tempholder);
-                                segments = segments.slice(2);
-                                segmentationTracker = segmentationTracker.slice(2);
-                                console.log(segmentedPassword, "saved")
-                                console.log(segments, "segments");
-                                console.log(segmentationTracker, "left in loop")
-                                tempholder = "";
-                                i = 0;
-                                alert("pause")
-                                if(segments.length == 0){
-                                    alert("zero");
-                                    console.log(segmentedPassword, "finished")
-                                    MSACheck = false;
-                                }
-                            };
-                            
-                        }*/
                         if(segmentedPassword[i].match(numbers) && segments[0].match(numbers) || segmentedPassword[i].match(specialCharacter) && segments[0].match(specialCharacter) || segmentedPassword[i].match(alphabet) && segments[0].match(alphabet2) && segments[0].length <= 1){
                             alert("Number")
                             tempholder = segmentedPassword.concat(segments[0]);
                            // console.log(tempholder , "hold");
                             //console.log(tempholder.length);
-                            if(tempholder.length <= 2){
+                            if(tempholder.length <= 2){ //If tempelholder is less then 2, join.
                                 alert("inne igen")
                                 tempholder = tempholder.join("");
                             }
@@ -203,9 +157,9 @@
                             alert("itteration klar");
                             
                             
-                        }else{
-                            segmentedPassword = segmentedPassword.concat(","+segments[0]);
-                            segments = segments.slice(1);
+                        }else{ //if element [i] does not match the char in segments[0]
+                            segmentedPassword = segmentedPassword.concat(","+segments[0]); //Cocats , and element to string.
+                            segments = segments.slice(1); //Revmoves first element
                             console.log(segments, "after slice");
                             console.log(segmentedPassword , "segholder");
                             console.log(segments.length, "seg length");
@@ -213,7 +167,6 @@
                         }
                         
                         if(segments.length == 0){
-                            alert("slut")
                             MSACheck = false;
                         }
                             
