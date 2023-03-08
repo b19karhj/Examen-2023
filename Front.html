@@ -122,7 +122,6 @@
                     segments = segmentationTracker.toString().split(/,/g);
 
                     if(segmentedPassword.length == 0){
-                        alert("prepare")
                         segmentedPassword = segmentedPassword.concat(segments[0]);
                         console.log(segmentedPassword, "saved");
                         segments = segments.slice(1);
@@ -181,18 +180,23 @@
                             };
                             
                         }*/
-                        if(segmentedPassword[i] == "z"){
+                        if(segmentedPassword[i].match(numbers) && segments[0].match(numbers)){
                             alert("Number")
-                            //alert("Sista elementet var inte en match");
-                            //console.log(segments[i], "Segments");
-                            //tempholder = segmentedPassword.concat(segments[i]);
-                            //tempholder = tempholder.join("");
-                            //console.log(tempholder, "temp")
-                            //segmentedPassword = tempholder;
-                            //segmentedPassword.join("")
-                            //console.log(segmentedPassword, "Joined");
-                            //alert("itteration klar")
-                            //console.log(segmentedPassword[i])
+                            tempholder = segmentedPassword.concat(segments[i]);
+                            console.log(tempholder , "hold");
+                            console.log(tempholder.length);
+                            if(tempholder.length <= 2){
+                                alert("inne igen")
+                                tempholder = tempholder.join("");
+                            }
+                            console.log(tempholder , "hold");
+                            segmentedPassword = tempholder;
+                            console.log(segmentedPassword , "segholder");
+                            segments = segments.slice(1);
+                            console.log(segments, "after slice");
+                            tempholder = "";
+                            alert("itteration klar");
+                            
                             
                             break;
                             if(segments.length == 0){
@@ -201,7 +205,7 @@
                                 MSACheck = false;
                             }
                         }
-                        if(segmentedPassword[i] == segments[0].match(alphabet2)){
+                        if(segmentedPassword[i].match(alphabet2) && segments[0].match(alphabet2)){
                             alert("letter")
                             //console.log(segmentedPassword[i], "sp")
                              //alert("Sista elementet var inte en match");
