@@ -180,9 +180,9 @@
                             };
                             
                         }*/
-                        if(segmentedPassword[i].match(numbers) && segments[0].match(numbers)){
+                        if(segmentedPassword[i].match(numbers) && segments[0].match(numbers) || segmentedPassword[i].match(specialCharacter) && segments[0].match(specialCharacter) || segmentedPassword[i].match(alphabet) && segments[0].length <= 1 && segmentedPassword[i].match(alphabet) && segments[0].length <= 1){
                             alert("Number")
-                            tempholder = segmentedPassword.concat(segments[i]);
+                            tempholder = segmentedPassword.concat(segments[0]);
                             console.log(tempholder , "hold");
                             console.log(tempholder.length);
                             if(tempholder.length <= 2){
@@ -196,34 +196,20 @@
                             console.log(segments, "after slice");
                             tempholder = "";
                             alert("itteration klar");
+                            i = 0;
                             
                             
-                            break;
+                            
                             if(segments.length == 0){
                                 alert("zero");
                                 console.log(segmentedPassword)
                                 MSACheck = false;
                             }
-                        }
-                        if(segmentedPassword[i].match(alphabet2) && segments[0].match(alphabet2)){
-                            alert("letter")
-                            //console.log(segmentedPassword[i], "sp")
-                             //alert("Sista elementet var inte en match");
-                            //console.log(segments[i], "Segments");
-                           // tempholder = segmentedPassword.concat(segments[i]);
-                            //tempholder = tempholder.join("");
-                            //console.log(tempholder, "temp")
-                            //segmentedPassword = tempholder;
-                            //segmentedPassword.join("")
-                            //console.log(segmentedPassword, "Joined");
-                            //alert("itteration klar Bokstav")
-                           
-                            break;
-                            if(segments.length == 0){
-                                alert("zero");
-                                console.log(segmentedPassword)
-                                MSACheck = false;
-                            }
+                        }else{
+
+                            
+                        
+                        
                         }
                         MSACheck = false;
                     };
