@@ -51,10 +51,12 @@
             while(MSACheck == true){
 
             const alphabet = /^[a-zA-Z]/ //Regex if first char is lower and uppercase charecter
+            const alphabet2 = (/[a-z]/);
             const number = /^[0-9]/; //Regex Numbers
             const numbers = (/[0-9]/);
             const notNumber = /^\D/;
-            const lastChar = (/[a-z|A-Z|0-9]$/);
+            const lastCharNr = (/|0-9]$/);
+            const lastCharAP = (/[a-zA-Z]$/);
             const specialCharacter = /^\W/; //Regex special characters
                 /*if(password.match(number) || password.match(specialCharacter)){ //Checks if first element is number or special character
                     alert("password")
@@ -118,14 +120,22 @@
                     var segments;
                     var passhold;
                     segments = segmentationTracker.toString().split(/,/g);
-              
 
-                //alert("Size");
+                    if(segmentedPassword.length == 0){
+                        alert("prepare")
+                        segmentedPassword = segmentedPassword.concat(segments[0]);
+                        console.log(segmentedPassword, "saved");
+                        segments = segments.slice(1);
+                        console.log(segments, "segments")
+                    }
+                    
+                 
                    
-                    for(let i = 1; i < segmentationTracker.length; i++){
-    
-                     
-                        if(segments[i-1].match(numbers) && segments[i].match(numbers) && segmentedPassword == 0 || segments[i-1].match(specialCharacter) && segments[i].match(specialCharacter) && segmentedPassword == 0 || segments[i-1].match(alphabet) && segments[i-1].length <= 1 && segments[i].match(alphabet) && segments[i].length <= 1 && segmentedPassword == 0){   //Checks if the first 2 elements are both numbers, characters or special characters
+                    for(let i = 0; i < segmentationTracker.length; i++){
+                        console.log(segmentedPassword[i], "is")
+                        console.log(segments[0], "seg")
+
+                        /*if(segments[i-1].match(numbers) && segments[i].match(numbers) && segmentedPassword == 0 || segments[i-1].match(specialCharacter) && segments[i].match(specialCharacter) && segmentedPassword == 0 || segments[i-1].match(alphabet) && segments[i-1].length <= 1 && segments[i].match(alphabet) && segments[i].length <= 1 && segmentedPassword == 0){   //Checks if the first 2 elements are both numbers, characters or special characters
                             
                             if(segmentedPassword == 0){
                                 alert("Två element i början är lika");
@@ -168,22 +178,22 @@
                                     console.log(segmentedPassword, "finished")
                                     MSACheck = false;
                                 }
-                            };*/
+                            };
                             
-                        }
-                        if(segmentedPassword[i].match(lastChar) && segments[0].match(numbers)){
-                            alert("Sista elementet var inte en match");
-                            console.log(segments[i], "Segments");
-                            tempholder = segmentedPassword.concat(segments[i]);
-                            tempholder = tempholder.join("");
-                            console.log(tempholder, "temp")
-                            
-                            segmentedPassword = tempholder;
-                            
+                        }*/
+                        if(segmentedPassword[i] == "z"){
+                            alert("Number")
+                            //alert("Sista elementet var inte en match");
+                            //console.log(segments[i], "Segments");
+                            //tempholder = segmentedPassword.concat(segments[i]);
+                            //tempholder = tempholder.join("");
+                            //console.log(tempholder, "temp")
+                            //segmentedPassword = tempholder;
                             //segmentedPassword.join("")
-                            console.log(segmentedPassword, "Joined");
-                            alert("itteration klar")
-                            i = 0;
+                            //console.log(segmentedPassword, "Joined");
+                            //alert("itteration klar")
+                            //console.log(segmentedPassword[i])
+                            
                             break;
                             if(segments.length == 0){
                                 alert("zero");
@@ -191,6 +201,27 @@
                                 MSACheck = false;
                             }
                         }
+                        if(segmentedPassword[i] == segments[0].match(alphabet2)){
+                            alert("letter")
+                            //console.log(segmentedPassword[i], "sp")
+                             //alert("Sista elementet var inte en match");
+                            //console.log(segments[i], "Segments");
+                           // tempholder = segmentedPassword.concat(segments[i]);
+                            //tempholder = tempholder.join("");
+                            //console.log(tempholder, "temp")
+                            //segmentedPassword = tempholder;
+                            //segmentedPassword.join("")
+                            //console.log(segmentedPassword, "Joined");
+                            //alert("itteration klar Bokstav")
+                           
+                            break;
+                            if(segments.length == 0){
+                                alert("zero");
+                                console.log(segmentedPassword)
+                                MSACheck = false;
+                            }
+                        }
+                        MSACheck = false;
                     };
                     
                     
