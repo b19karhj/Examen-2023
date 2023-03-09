@@ -33,11 +33,13 @@
                 words = data.split("\r\n"); //Splittar textfilen och sparar i strängen.
             })
         }*/ 
-           
+           var test = 0;
         function wordChecker(word){
                 let checkWord = word;    
                 console.log(checkWord, "before Promise")
                 return new Promise ((resolve,reject) => {
+                    test++;
+                    console.log(test);
                     console.log(checkWord, "After promise")
                     const options = {
                         method: 'GET',
@@ -52,15 +54,19 @@
                         .then(response => {
                             console.log(checkWord, "After fetch")
                             console.log(response)
-                            if(response.word){
+                            if(response.hasOwnProperty("word")){ //Checks if response object has a property word.
                                 console.log(checkWord, "After if")
                                 resolve(true);
+                                
                             }else{
-                                reject(false);
+                                resolve(false)
                             }
+                            
                         })
-                        .catch(err => console.error(err));
+                      
+                
                 })
+                
                 
             }   
            
@@ -123,13 +129,14 @@
                 Samla in data*/
 
                 for (let i = 0; i < password.length; i++){
+                    let test;
                     searchingWord = password.substring(0, password.length - i); //Deletes last character after each iteration
                    
                     console.log(searchingWord, "word created");
-                    await wordChecker(searchingWord);
-                  
-                    console.log(await wordChecker(searchingWord) == true)
-                    if(await wordChecker(searchingWord) == true){
+                    
+                    test = await wordChecker(searchingWord);
+                   
+                    if(test){
                         
                         console.log("word found");
                         console.log(searchingWord)
