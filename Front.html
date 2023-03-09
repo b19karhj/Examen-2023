@@ -33,46 +33,33 @@
                 words = data.split("\r\n"); //Splittar textfilen och sparar i strängen.
             })
         }*/ 
-           var test = 0;
         function wordChecker(word){
-                let checkWord = word;    
-                console.log(checkWord, "before Promise")
-                return new Promise ((resolve,reject) => {
-                    test++;
-                    console.log(test);
-                    console.log(checkWord, "After promise")
-                    const options = {
-                        method: 'GET',
-                        headers: {
-                            'X-RapidAPI-Key': 'd0893958f8mshab5136ec40d6715p1b853ejsn10dd8c67dc00',
-                            'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com'
-                        }
-                    };
-
-                    fetch('https://wordsapiv1.p.rapidapi.com/words/'+checkWord+'/pertainsTo', options)
-                        .then(response => response.json())
-                        .then(response => {
-                            console.log(checkWord, "After fetch")
-                            console.log(response)
-                            if(response.hasOwnProperty("word")){ //Checks if response object has a property word.
-                                console.log(checkWord, "After if")
-                                resolve(true);
-                                
-                            }else{
-                                resolve(false)
-                            }
+            return new Promise ((resolve,reject) => {
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'X-RapidAPI-Key': 'd0893958f8mshab5136ec40d6715p1b853ejsn10dd8c67dc00',
+                        'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com'
+                    }
+                };
+                fetch('https://wordsapiv1.p.rapidapi.com/words/'+word+'/pertainsTo', options)
+                    .then(response => response.json())
+                    .then(response => {
+                
+                        console.log(response)
+                        if(response.hasOwnProperty("word")){ //Checks if response object has a property word.
+                    
+                            resolve(true);
                             
-                        })
-                      
+                        }else{
+                            resolve(false)
+                        }
+                        
+                    }) 
                 
                 })
                 
-                
             }   
-           
-           
-          
-          
 
         //Algorithm for MSA
        async function MSA(){
@@ -129,15 +116,12 @@
                 Samla in data*/
 
                 for (let i = 0; i < password.length; i++){
-                    let test;
-                    searchingWord = password.substring(0, password.length - i); //Deletes last character after each iteration
-                   
-                    console.log(searchingWord, "word created");
+                    let fetchWord;
                     
-                    test = await wordChecker(searchingWord);
+                    searchingWord = password.substring(0, password.length - i); //Deletes last character after each iteration
+                    fetchWord = await wordChecker(searchingWord);
                    
-                    if(test){
-                        
+                    if(fetchWord){
                         console.log("word found");
                         console.log(searchingWord)
                         //console.log(temp);
@@ -147,15 +131,9 @@
                         MSACheck = false;
                     }
                     else if(searchingWord.length <= 1){ //If temp.length is less then 1 in length, enter here to remove characters.
-                        //alert("hej");
-                        //console.log(temp, "inne");
                         segmentationTracker.push(searchingWord[0]);
-                        //console.log(segmentationTracker)
                         password = password.substring(1);
-                        //alert(password.length)
-                        
                         i == 0; //Resets "i" to loop over the new password.
-                       
                     }
                 };
 
@@ -164,8 +142,6 @@
                     var segments;
                     var segmentsExpected;
                     
-                    
-                   
                     segments = segmentationTracker.toString().split(/,/g);//Converts to string and split and save it to varibal segments
                     segmentsExpected = segmentationTracker.toString().split(/,/g); 
                     if(segmentedPassword.length == 0){
