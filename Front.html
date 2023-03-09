@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body onload="compareText();">
+<body onload="wordChecker();">
     <!-- Password box for google guidline passwords-->
     <div>
         <label for="noMSA">Password 1</label>
@@ -22,9 +22,9 @@
     <script>
          var words; //Global veriabel som håller innehåller alla ord från ordlistan.
 
-         /*compareText gör det enkelt att ändra textfil eller uppdatera den. Nackdelen är att den behöver laddas in på användarens
-         webrowser vid besök*/
-         function compareText(){  //Skriv kommentarer imorgon.
+       
+        //Function for local files.
+         /*function compareText(){  //Skriv kommentarer imorgon.
             fetch("wordList.txt") //Hämtar textfilen.
                 .then(function(textFile){ //En promise some tar emot datan och en response.
                     return (textFile.text()); //Splitar innehållet på "\n".
@@ -32,7 +32,28 @@
             .then(function(data){  //Tar emot datan från returnen.
                 words = data.split("\r\n"); //Splittar textfilen och sparar i strängen.
             })
-        }
+        }*/ 
+            function wordChecker(){
+                const options = {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Key': 'd0893958f8mshab5136ec40d6715p1b853ejsn10dd8c67dc00',
+                    'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com'
+                }
+    };
+
+                fetch('https://wordsapiv1.p.rapidapi.com/words/testing/pertainsTo', options)
+                    .then(response => response.json())
+                    .then(response => {
+                        if(response.word){
+                            console.log(true);
+                        }
+                        else{
+                            console.log(false)
+                        }
+                    })
+                    .catch(err => console.error(err));
+            }
 
         //Algorithm for MSA
         function MSA(){
@@ -44,7 +65,13 @@
             var segmentationTracker = []; //Keeps track of all segmentations
             var MSACheck = true;
             var segmentedPassword = [];
+            var segmentbolean = true;
+            var segmentExpectbolean = true;
+            var passwordCharChange;
+            var expectedPassword = [];
+            var expectedPasswordArray = [];
             password = document.getElementById("MSA").value;
+            
             //console.log(password)
         
            
@@ -109,42 +136,87 @@
 
                 
                 if(password.length == 0){
-                    var tempholder =[] ;
                     var segments;
-                    var passhold;
+                    var segmentsExpected;
+                    
+                    
+                   
                     segments = segmentationTracker.toString().split(/,/g);//Converts to string and split and save it to varibal segments
-
+                    segmentsExpected = segmentationTracker.toString().split(/,/g); 
                     if(segmentedPassword.length == 0){
                         segmentedPassword = segmentedPassword.concat(segments[0]);
+                        expectedPassword = segmentedPassword.concat(segments[0]);
                         segments = segments.slice(1);
+                        segmentsExpected = segmentsExpected.slice(1);                        
                     }
+                    /*while(segmentbolean == true){
+                        for(let i = 0; segments.length > 0; i++){
+                            Array.isArray(segmentedPassword)
+                            if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
+                                i++;
+                            }
 
-                    for(let i = 0; segments.length > 0; i++){
-                        if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
-                            i++;
-                        }
+                            if(segmentedPassword[i].match(numbers) && segments[0].match(numbers) ||
+                                    segmentedPassword[i].match(specialCharacter) && segments[0].match(specialCharacter) ||
+                                    segmentedPassword[i].match(alphabet) && segmentedPassword[i].length == 1 && segmentedPassword[i-2].length != "," && segments[0].match(alphabet) && segments[0].length == 1
+                                ){//If i and segment0 is the same char 
+                                segmentedPassword = segmentedPassword.concat(segments[0]);
+                                console.log(segmentedPassword, "segP");
+                    
+                                segments = segments.slice(1);
+                            }else{ //if element [i] does not match the char in segments[0]
+                                segmentedPassword = segmentedPassword.concat(",",segments[0]); //Cocats , and element to string.
+                                console.log(segmentedPassword, "segP");
+                                segments = segments.slice(1); //Revmoves first element
+                            
+                            }
 
-                        if(segmentedPassword[i].match(numbers) && segments[0].match(numbers) || segmentedPassword[i].match(specialCharacter) && segments[0].match(specialCharacter) || segmentedPassword[i].match(alphabet) && segmentedPassword[i].length == 1 && segmentedPassword[i-2].length != "," && segments[0].match(alphabet) && segments[0].length == 1 ){//If i and segment0 is the same char 
-                            segmentedPassword = segmentedPassword.concat(segments[0]);
-                            segments = segments.slice(1);
-                        }else{ //if element [i] does not match the char in segments[0]
-                            segmentedPassword = segmentedPassword.concat(",",segments[0]); //Cocats , and element to string.
-                            segments = segments.slice(1); //Revmoves first element
-                         
-                        }
+                            if(segments.length == 0){ // Exit loop.
+                                segmentbolean = false;
+                            }     
                         
-                        if(segments.length == 0){ // Exit loop.
-                            MSACheck = false;
-                        }     
-                       
-                    };  
+                        };
+                    }*/ //TODO Works but goes on forever.
+                    while(segmentExpectbolean == true){
+                        for(let i = 0; segmentsExpected.length > 0; i++){
+                            console.log(expectedPassword[i])
+                            console.log(segmentsExpected[0])
+                            console.log(segmentsExpected.length)
+                            alert("pause");
+                            if(expectedPassword[i] == ","){ //If , == i, then add 1 to i
+                                i++;
+                            }
+
+                            if(expectedPassword[i].match(numbers) && segmentsExpected[0].match(numbers) ||
+                                    expectedPassword[i].match(specialCharacter) && segmentsExpected[0].match(specialCharacter) ||
+                                    expectedPassword[i].match(alphabet) && segmentsExpected[0].match(alphabet) && segmentsExpected[0].length == 1 
+                                ){//If i and segment0 is the same char 
+                                expectedPassword = expectedPassword.concat(segmentsExpected[0]);
+                                console.log(segmentsExpected, "Before slice")
+                                segmentsExpected = segmentsExpected.slice(1);
+                                console.log(segmentsExpected, "After Slice");
+                            }else{ //if element [i] does not match the char in segments[0]
+                                expectedPassword = expectedPassword.concat(",",segmentsExpected[0]);//Cocats , and element to string.
+                                segmentsExpected = segmentsExpected.slice(1); //Revmoves first element
+                            
+                            }   
+                        
+                        }; 
+                        if(segmentsExpected.legnth == 0){ // Exit loop.
+                            segmentExpectbolean == false;
+                        } 
+                    }
+                    if(segmentExpectbolean == false && segmentbolean == false){
+                        MSACheck = false;
+                    }   
                     
                 }
               
         }
-        segmentedPassword = segmentedPassword.join("").split(/,/g); //Joins the array to a string and splits at ","
-        console.log("The segmentedPassword is: ", segmentedPassword)
-        console.log("password is no more", password)
+        segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
+        expectedPassword = expectedPassword.join("");
+        console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
+        console.log("password is no more", password);
     }
     </script>
 </body>
