@@ -17,7 +17,7 @@
     <div>
         <label for="MSA">Password 2</label>
         <input type="text" id="MSA" name="MSA">
-        <input type="submit" value="submit2" onclick="MSA();wordChecker();">
+        <input type="submit" value="submit2" onclick="MSA();">
     </div>
     <script>
          var words; //Global veriabel som håller innehåller alla ord från ordlistan.
@@ -33,37 +33,38 @@
                 words = data.split("\r\n"); //Splittar textfilen och sparar i strängen.
             })
         }*/ 
-            function wordChecker(word){
-               let checkWord = word;    
-                console.log(checkWord, "test")
-              return new Promise ((resolve,reject) => {
-                alert(resivedWord, "promise")
-                const options = {
-                    method: 'GET',
-                    headers: {
-                        'X-RapidAPI-Key': 'd0893958f8mshab5136ec40d6715p1b853ejsn10dd8c67dc00',
-                        'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com'
-                    }
-                };
-
-                fetch('https://wordsapiv1.p.rapidapi.com/words/'+checkWord+'/pertainsTo', options)
-                    .then(response => response.json())
-                    .then(response => {
-                        console.log(checkWord)
-                        if(response.word){
-                            console.log(checkWord)
-                            resolve(true);
-                        }else{
-                            reject(false);
+           
+        function wordChecker(word){
+                let checkWord = word;    
+                console.log(checkWord, "before Promise")
+                return new Promise ((resolve,reject) => {
+                    console.log(checkWord, "After promise")
+                    const options = {
+                        method: 'GET',
+                        headers: {
+                            'X-RapidAPI-Key': 'd0893958f8mshab5136ec40d6715p1b853ejsn10dd8c67dc00',
+                            'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com'
                         }
-                    })
-                    .catch(err => console.error(err));
-              })
-                
-            }
-           
-           
+                    };
 
+                    fetch('https://wordsapiv1.p.rapidapi.com/words/'+checkWord+'/pertainsTo', options)
+                        .then(response => response.json())
+                        .then(response => {
+                            console.log(checkWord, "After fetch")
+                            console.log(response)
+                            if(response.word){
+                                console.log(checkWord, "After if")
+                                resolve(true);
+                            }else{
+                                reject(false);
+                            }
+                        })
+                        .catch(err => console.error(err));
+                })
+                
+            }   
+           
+           
           
           
 
@@ -123,9 +124,12 @@
 
                 for (let i = 0; i < password.length; i++){
                     searchingWord = password.substring(0, password.length - i); //Deletes last character after each iteration
-                    wordChecker(searchingWord);
-                    console.log(searchingWord)
-                    if(await wordChecker()){
+                   
+                    console.log(searchingWord, "word created");
+                    await wordChecker(searchingWord);
+                  
+                    console.log(await wordChecker(searchingWord) == true)
+                    if(await wordChecker(searchingWord) == true){
                         
                         console.log("word found");
                         console.log(searchingWord)
@@ -133,9 +137,9 @@
                         wordDetector++;
                         segmentationTracker.push(searchingWord); //Adds the word to segmentation tracker
                         password = password.replace(`${searchingWord}`, ""); //Replaces the word in password string with nothing.
-
+                        MSACheck = false;
                     }
-                    else{ //If temp.length is less then 1 in length, enter here to remove characters.
+                    else if(searchingWord.length <= 1){ //If temp.length is less then 1 in length, enter here to remove characters.
                         //alert("hej");
                         //console.log(temp, "inne");
                         segmentationTracker.push(searchingWord[0]);
@@ -149,7 +153,7 @@
                 };
 
                 
-                if(password.length == 0){
+                /*if(password.length == 0){
                     var segments;
                     var segmentsExpected;
                     
@@ -163,7 +167,7 @@
                         segments = segments.slice(1);
                         segmentsExpected = segmentsExpected.slice(1);                        
                     }
-                    /*while(segmentbolean == true){
+                    while(segmentbolean == true){
                         for(let i = 0; segments.length > 0; i++){
                             Array.isArray(segmentedPassword)
                             if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
@@ -186,12 +190,12 @@
                             }
 
                             if(segments.length == 0){ // Exit loop.
-                                segmentbolean = false;
+                                MSACheck = false;
                             }     
                         
                         };
                     } //TODO Works but goes on forever.
-                    while(segmentExpectbolean == true){
+                    /*while(segmentExpectbolean == true){
                         for(let i = 0; segmentsExpected.length > 0; i++){
                             console.log(expectedPassword[i])
                             console.log(segmentsExpected[0])
@@ -224,15 +228,18 @@
                         MSACheck = false;
                     }   
                     
-                }*/
+                }
               
         }}
+
+        
 
         segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
         expectedPassword = expectedPassword.join("");
         console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
-        console.log("password is no more", password);
-    }
+        console.log("password is no more", password);*/
+    }}
+   
     </script>
 </body>
 </html>
