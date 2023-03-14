@@ -126,7 +126,7 @@
                     let fetchWord;
 
                     searchingWord = password.substring(0, password.length - i); //Deletes last character after each iteration
-                    fetchWord = await wordChecker(searchingWord);
+                    fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
                    
                     if(fetchWord){
                         console.log("word found");
@@ -172,19 +172,22 @@
                             if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
                                 i++;
                             }
-
+                          
                             if(segmentedPassword[i].match(numbers) && segments[0].match(numbers) ||
                                     segmentedPassword[i].match(specialCharacter) && segments[0].match(specialCharacter) ||
+                                    segmentedPassword[i].match(alphabet) && segments[0].match(alphabet) ||
                                     segmentedPassword[i].match(alphabet) && segmentedPassword[i].length == 1 && segmentedPassword[i-2].length != "," && segments[0].match(alphabet) && segments[0].length == 1
                                 ){//If i and segment0 is the same char 
 
                                     segmentedPassword = segmentedPassword.concat(segments[0]);
                                     segments = segments.slice(1);
-
+                                    console.log(segmentedPassword, "if two chars are the same");
+                                    alert("same")
                             }else{ //if element [i] does not match the char in segments[0]
 
                                 segmentedPassword = segmentedPassword.concat(",",segments[0]); //Cocats , and element to string.
-                                //console.log(segmentedPassword, "segP");
+                                console.log(segmentedPassword, "if two chars are NOT the same");
+                                alert("not same")
                                 segments = segments.slice(1); //Revmoves first element
                             
                             }
