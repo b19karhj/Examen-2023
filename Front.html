@@ -75,25 +75,42 @@
             var expectedPassword = [];
             var expectedPasswordArray = [];
             const containSpeicalCharacter = (/\W/);
-            var replaceSpecialChars = { //Created objects
+            const replaceSpecialChars = { //Created objects
                 "@":"a",
                 "0":"o"
                
             }
+            var placementholder = [];
             
             password = document.getElementById("MSA").value;
+
             
+           /* for(const [key, value] of Object.entries(replaceSpecialChars)){
+                alert(`${key}: ${value}`);
+            }*/
+
             alert(password, "active password")
 
             if(password.match(containSpeicalCharacter)){
                     alert("SpecialCharacter detected")
                     let noSpecialCharPassword = password.replace(/@|0/g, function(matched){ //Replaces all specialChars with mapped letters
+                        let i = 0;
+                        //alert(matched, "Matched");
+                        //alert("test")
+                        placementholder.push(matched, i);
+                        i++;
                         return replaceSpecialChars[matched];
+                        //i++;
+                        //alert(i)
                     
                     
                     });
                     alert(noSpecialCharPassword)
                     alert("transform over");
+                      
+                    for(const [key, value] of Object.entries(placementholder)){
+                        alert(`${key}: ${value}`);
+                    }
             };
             
             //console.log(password)
