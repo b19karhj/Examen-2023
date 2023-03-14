@@ -74,7 +74,15 @@
             var passwordCharChange;
             var expectedPassword = [];
             var expectedPasswordArray = [];
+            const containSpeicalCharacter = (/\W/);
+            
             password = document.getElementById("MSA").value;
+            
+            alert(password, "active password")
+
+            if(password.match(containSpeicalCharacter)){
+                    alert("SpecialCharacter detected")
+            }
             
             //console.log(password)
         
@@ -89,10 +97,11 @@
             const lastCharNr = (/|0-9]$/);
             const lastCharAP = (/[a-zA-Z]$/);
             const specialCharacter = /^\W/; //Regex special characters
+            
                 /*if(password.match(number) || password.match(specialCharacter)){ //Checks if first element is number or special character
                     alert("password")
                 }*/
-
+               
                 while(password.match(number)){ //Checks if password starts with number, if so then put the number into array
                     segmentationTracker.push(password.match(number));
                     password = password.substring(1);
@@ -173,7 +182,7 @@
                                     segments = segments.slice(1);
 
                             }else{ //if element [i] does not match the char in segments[0]
-                                
+
                                 segmentedPassword = segmentedPassword.concat(",",segments[0]); //Cocats , and element to string.
                                 //console.log(segmentedPassword, "segP");
                                 segments = segments.slice(1); //Revmoves first element
