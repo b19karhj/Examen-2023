@@ -89,8 +89,6 @@
             const lastCharNr = (/|0-9]$/);
             const lastCharAP = (/[a-zA-Z]$/);
             const specialCharacter = /^\W/; //Regex special characters
-            var segmentloop;
-            var expectedloop;
                 /*if(password.match(number) || password.match(specialCharacter)){ //Checks if first element is number or special character
                     alert("password")
                 }*/
@@ -135,6 +133,7 @@
                         password = password.substring(1);
                         i == 0; //Resets "i" to loop over the new password.
                     }
+                    
                 };
 
                 
@@ -144,18 +143,22 @@
                     
                     segments = segmentationTracker.toString().split(/,/g);//Converts to string and split and save it to varibal segments
                     segmentsExpected = segmentationTracker.toString().split(/,/g); 
-
                     if(segmentedPassword.length == 0){
-
                         segmentedPassword = segmentedPassword.concat(segments[0]);
-                        expectedPassword = segmentedPassword.concat(segments[0]);
+                        expectedPassword = segmentsExpected.concat(segmentsExpected[0]);
                         segments = segments.slice(1);
-                        segmentsExpected = segmentsExpected.slice(1);                        
+                        segmentsExpected = segmentsExpected.slice(1);   
+                        
+                        console.log(segments) 
+                        console.log(segmentsExpected) 
+                        console.log(segmentedPassword);
+                        console.log(expectedPassword);    
+                        alert("at start")               
                     }
-                   
-                    segmentloop = new Promise ((resolve, reject) => {
                         for(let i = 0; segments.length > 0; i++){
-                            
+                            console.log(segmentedPassword);
+                            console.log(expectedPassword);
+                            alert("segment pause")
                             if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
                                 i++;
                             }
@@ -176,75 +179,56 @@
                             }
 
                             if(segments.length == 0){ // Exit loop.
-                                console.log("Segment exit")
-                                resolve(MSACheck = false); 
-                            }
+                                console.log(segmentsExpected);
+                               
+                                
+                                for(let j = 0; segmentsExpected.length > 0; j++){
+                                    //console.log(expectedPassword[j])
+                                    console.log(segmentsExpected[0])
+                                    console.log(segmentsExpected.length)
+                                    console.log(segmentsExpected);
+                                    console.log(expectedPassword);
+                                    alert("pause")
+                                    
+                                    if(expectedPassword[j] == ","){ //If , == i, then add 1 to i
+                                        i++;
+                                    }
 
-                        }
-                    }); 
+                                    if(expectedPassword[j].match(numbers) && segmentsExpected[0].match(numbers) ||
+                                            expectedPassword[j].match(specialCharacter) && segmentsExpected[0].match(specialCharacter) ||
+                                            expectedPassword[j].match(alphabet) && segmentsExpected[0].match(alphabet) && segmentsExpected[0].length == 1 
+                                        ){//If j and segment0 is the same char 
+                                        segmentsExpected = segmentsExpected.slice(1);
+                                        console.log(segmentsExpected, "After Slice");
+                                    }else{ //if element [j] does not match the char in segments[0]
+                                        expectedPassword = expectedPassword.concat(",",segmentsExpected[0]);//Cocats , and element to string.
+                                        segmentsExpected = segmentsExpected.slice(1); //Revmoves first element
+                                    
+                                    } 
+                                    
+                                    if(segmentsExpected.length == 0){ // Exit loop.
+                                        alert("Almost end")
+                                        segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
+                                        expectedPassword = expectedPassword.join("");
+                                        console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
+                                        console.log("password is no more", password);
+                                        alert("Hejda")
+
+                                        MSACheck = false;
+                                    }       
+                                }
+                                
+                            }      
                         
-                
+                    };
                     //TODO Works but goes on forever.
                     
-                    expectedloop = new Promise ((resolve,reject) => {
-
-                        for(let i = 0; segmentsExpected.length > 0; i++){
-                            console.log(expectedPassword[i])
-                            console.log(segmentsExpected[0])
-                            console.log(segmentsExpected.length)
-                        
-                            if(expectedPassword[i] == ","){ //If , == i, then add 1 to i
-                                i++;
-                            }
-
-                            if(expectedPassword[i].match(numbers) && segmentsExpected[0].match(numbers) ||
-                                    expectedPassword[i].match(specialCharacter) && segmentsExpected[0].match(specialCharacter) ||
-                                    expectedPassword[i].match(alphabet) && segmentsExpected[0].match(alphabet) && segmentsExpected[0].length == 1 
-                                ){//If i and segment0 is the same char 
-                                expectedPassword = expectedPassword.concat(segmentsExpected[0]);
-                                console.log(segmentsExpected, "Before slice")
-                                segmentsExpected = segmentsExpected.slice(1);
-                                console.log(segmentsExpected, "After Slice");
-                            }else{ //if element [i] does not match the char in segments[0]
-                                expectedPassword = expectedPassword.concat(",",segmentsExpected[0]);//Cocats , and element to string.
-                                segmentsExpected = segmentsExpected.slice(1); //Revmoves first element
-                            
-                            }   
-                        
-                         
-                            if(segmentsExpected.legnth == 0){ // Exit loop.
-                                console.log("expected exit")
-                                resolve(MSACheck = false);
-                            } 
-                        };
-
-                    });
-                }; 
-
-                Promise.all({
-                    segmentloop,
-                    expectedloop
-                }).then((message) => {
-                   console.log(message)
-                })
+                    
+                }
             }
-            segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
-                    expectedPassword = expectedPassword.join("");
-                    console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
-                    console.log("password is no more", password);
-
-                    
-                    
-        }
-                
-      
+            
               
-    
-
-        
-
-    
-    
+        }
    
     </script>
 </body>
