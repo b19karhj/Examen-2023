@@ -75,6 +75,11 @@
             var expectedPassword = [];
             var expectedPasswordArray = [];
             const containSpeicalCharacter = (/\W/);
+            var replaceSpecialChars = {
+                "@":"a",
+                "0":"o"
+               
+            }
             
             password = document.getElementById("MSA").value;
             
@@ -82,13 +87,19 @@
 
             if(password.match(containSpeicalCharacter)){
                     alert("SpecialCharacter detected")
-            }
+                    let noSpecialCharPassword = password.replace(/@|0/g, function(matched){
+                        return replaceSpecialChars[matched]
+                    
+                    
+                    });
+                    alert(noSpecialCharPassword)
+                    alert("transform over");
+            };
             
             //console.log(password)
         
            
             while(MSACheck == true){
-
             const alphabet = /^[a-zA-Z]/ //Regex if first char is lower and uppercase charecter
             const alphabet2 = (/[a-z]/);
             const number = /^[0-9]/; //Regex Numbers
