@@ -45,9 +45,7 @@
                 fetch('https://wordsapiv1.p.rapidapi.com/words/'+word+'/pertainsTo', options)
                     .then(response => response.json())
                     .then(response => {
-                
-                        console.log(response)
-                        if(response.hasOwnProperty("word")){ //Checks if response object has a property word.
+                        if(response.hasOwnProperty("word")){ //Checks if response object has property word.
                     
                             resolve(true);
                             
@@ -91,6 +89,8 @@
             const lastCharNr = (/|0-9]$/);
             const lastCharAP = (/[a-zA-Z]$/);
             const specialCharacter = /^\W/; //Regex special characters
+            var segmentloop;
+            var expectedloop;
                 /*if(password.match(number) || password.match(specialCharacter)){ //Checks if first element is number or special character
                     alert("password")
                 }*/
@@ -117,7 +117,7 @@
 
                 for (let i = 0; i < password.length; i++){
                     let fetchWord;
-                    
+
                     searchingWord = password.substring(0, password.length - i); //Deletes last character after each iteration
                     fetchWord = await wordChecker(searchingWord);
                    
@@ -128,7 +128,7 @@
                         wordDetector++;
                         segmentationTracker.push(searchingWord); //Adds the word to segmentation tracker
                         password = password.replace(`${searchingWord}`, ""); //Replaces the word in password string with nothing.
-                        MSACheck = false;
+                        
                     }
                     else if(searchingWord.length <= 1){ //If temp.length is less then 1 in length, enter here to remove characters.
                         segmentationTracker.push(searchingWord[0]);
@@ -138,21 +138,24 @@
                 };
 
                 
-                /*if(password.length == 0){
+                if(password.length == 0){
                     var segments;
                     var segmentsExpected;
                     
                     segments = segmentationTracker.toString().split(/,/g);//Converts to string and split and save it to varibal segments
                     segmentsExpected = segmentationTracker.toString().split(/,/g); 
+
                     if(segmentedPassword.length == 0){
+
                         segmentedPassword = segmentedPassword.concat(segments[0]);
                         expectedPassword = segmentedPassword.concat(segments[0]);
                         segments = segments.slice(1);
                         segmentsExpected = segmentsExpected.slice(1);                        
                     }
-                    while(segmentbolean == true){
+                   
+                    segmentloop = new Promise ((resolve, reject) => {
                         for(let i = 0; segments.length > 0; i++){
-                            Array.isArray(segmentedPassword)
+                            
                             if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
                                 i++;
                             }
@@ -173,17 +176,23 @@
                             }
 
                             if(segments.length == 0){ // Exit loop.
-                                MSACheck = false;
-                            }     
+                                console.log("Segment exit")
+                                resolve(MSACheck = false); 
+                            }
+
+                        }
+                    }); 
                         
-                        };
-                    } //TODO Works but goes on forever.
-                    /*while(segmentExpectbolean == true){
+                
+                    //TODO Works but goes on forever.
+                    
+                    expectedloop = new Promise ((resolve,reject) => {
+
                         for(let i = 0; segmentsExpected.length > 0; i++){
                             console.log(expectedPassword[i])
                             console.log(segmentsExpected[0])
                             console.log(segmentsExpected.length)
-                            alert("pause");
+                        
                             if(expectedPassword[i] == ","){ //If , == i, then add 1 to i
                                 i++;
                             }
@@ -202,26 +211,40 @@
                             
                             }   
                         
-                        }; 
-                        if(segmentsExpected.legnth == 0){ // Exit loop.
-                            segmentExpectbolean == false;
-                        } 
-                    }
-                    if(segmentExpectbolean == false && segmentbolean == false){
-                        MSACheck = false;
-                    }   
+                         
+                            if(segmentsExpected.legnth == 0){ // Exit loop.
+                                console.log("expected exit")
+                                resolve(MSACheck = false);
+                            } 
+                        };
+
+                    });
+                }; 
+
+                Promise.all({
+                    segmentloop,
+                    expectedloop
+                }).then((message) => {
+                   console.log(message)
+                })
+            }
+            segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
+                    expectedPassword = expectedPassword.join("");
+                    console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
+                    console.log("password is no more", password);
+
                     
-                }
+                    
+        }
+                
+      
               
-        }}
+    
 
         
 
-        segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
-        expectedPassword = expectedPassword.join("");
-        console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
-        console.log("password is no more", password);*/
-    }}
+    
+    
    
     </script>
 </body>
