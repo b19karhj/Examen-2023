@@ -168,7 +168,7 @@
                             console.log(segmentedPassword, "segment password")
                             console.log(segments, "Segment");
                             console.log(i, "i is");
-                            alert("i pause")
+
                             if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
                                 i++;
                             }
@@ -181,13 +181,11 @@
 
                                     segmentedPassword = segmentedPassword.concat(segments[0]);
                                     segments = segments.slice(1);
-                                    console.log(segmentedPassword, "if two chars are the same");
-                                    alert("same")
+
                             }else{ //if element [i] does not match the char in segments[0]
 
                                 segmentedPassword = segmentedPassword.concat(",",segments[0]); //Cocats , and element to string.
                                 console.log(segmentedPassword, "if two chars are NOT the same");
-                                alert("not same")
                                 segments = segments.slice(1); //Revmoves first element
                             
                             }
