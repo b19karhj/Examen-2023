@@ -143,12 +143,12 @@
                     
                     segments = segmentationTracker.toString().split(/,/g);//Converts to string and split and save it to varibal segments
                     segmentsExpected = segmentationTracker.toString().split(/,/g); 
+
                     if(segmentedPassword.length == 0){
                         segmentedPassword = segmentedPassword.concat(segments[0]);
-                        expectedPassword = segmentsExpected.concat(segmentsExpected[0]);
+                        expectedPassword = expectedPassword.concat(segmentsExpected[0]);
                         segments = segments.slice(1);
-                        segmentsExpected = segmentsExpected.slice(1);   
-                        
+                        segmentsExpected = segmentsExpected.slice(1);                           
                         console.log(segments) 
                         console.log(segmentsExpected) 
                         console.log(segmentedPassword);
@@ -158,7 +158,6 @@
                         for(let i = 0; segments.length > 0; i++){
                             console.log(segmentedPassword);
                             console.log(expectedPassword);
-                            alert("segment pause")
                             if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
                                 i++;
                             }
