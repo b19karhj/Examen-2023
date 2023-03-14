@@ -153,11 +153,13 @@
                         console.log(segmentsExpected) 
                         console.log(segmentedPassword);
                         console.log(expectedPassword);    
-                        alert("at start")               
+                                   
                     }
                         for(let i = 0; segments.length > 0; i++){
-                            console.log(segmentedPassword);
-                            console.log(expectedPassword);
+                            console.log(segmentedPassword, "segment password")
+                            console.log(segments, "Segment");
+                            console.log(i, "i is");
+                            alert("i pause")
                             if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
                                 i++;
                             }
@@ -167,12 +169,11 @@
                                     segmentedPassword[i].match(alphabet) && segmentedPassword[i].length == 1 && segmentedPassword[i-2].length != "," && segments[0].match(alphabet) && segments[0].length == 1
                                 ){//If i and segment0 is the same char 
                                 segmentedPassword = segmentedPassword.concat(segments[0]);
-                                console.log(segmentedPassword, "segP");
-                    
                                 segments = segments.slice(1);
+                                console.log(segmentedPassword, "after slice");
                             }else{ //if element [i] does not match the char in segments[0]
                                 segmentedPassword = segmentedPassword.concat(",",segments[0]); //Cocats , and element to string.
-                                console.log(segmentedPassword, "segP");
+                                //console.log(segmentedPassword, "segP");
                                 segments = segments.slice(1); //Revmoves first element
                             
                             }
@@ -184,19 +185,21 @@
                                 for(let j = 0; segmentsExpected.length > 0; j++){
                                     //console.log(expectedPassword[j])
                                     console.log(segmentsExpected[0])
-                                    console.log(segmentsExpected.length)
-                                    console.log(segmentsExpected);
-                                    console.log(expectedPassword);
-                                    alert("pause")
+                                    console.log(expectedPassword, "expected password")
+                                    console.log(segmentsExpected, "expected Segment");
+                                    console.log(j, "j is");
+                                    alert("J pause")
+                                 
                                     
-                                    if(expectedPassword[j] == ","){ //If , == i, then add 1 to i
-                                        i++;
+                                    if(expectedPassword[j] == ","){ //If , == j, then add 1 to j
+                                        j++;
                                     }
 
                                     if(expectedPassword[j].match(numbers) && segmentsExpected[0].match(numbers) ||
                                             expectedPassword[j].match(specialCharacter) && segmentsExpected[0].match(specialCharacter) ||
                                             expectedPassword[j].match(alphabet) && segmentsExpected[0].match(alphabet) && segmentsExpected[0].length == 1 
                                         ){//If j and segment0 is the same char 
+                                            expectedPassword = expectedPassword.concat(segmentsExpected[0]);
                                         segmentsExpected = segmentsExpected.slice(1);
                                         console.log(segmentsExpected, "After Slice");
                                     }else{ //if element [j] does not match the char in segments[0]
