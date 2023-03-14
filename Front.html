@@ -75,7 +75,7 @@
             var expectedPassword = [];
             var expectedPasswordArray = [];
             const containSpeicalCharacter = (/\W/);
-            var replaceSpecialChars = {
+            var replaceSpecialChars = { //Created objects
                 "@":"a",
                 "0":"o"
                
@@ -87,8 +87,8 @@
 
             if(password.match(containSpeicalCharacter)){
                     alert("SpecialCharacter detected")
-                    let noSpecialCharPassword = password.replace(/@|0/g, function(matched){
-                        return replaceSpecialChars[matched]
+                    let noSpecialCharPassword = password.replace(/@|0/g, function(matched){ //Replaces all specialChars with mapped letters
+                        return replaceSpecialChars[matched];
                     
                     
                     });
@@ -179,22 +179,21 @@
                             console.log(segmentedPassword, "segment password")
                             console.log(segments, "Segment");
                             console.log(i, "i is");
+        
 
                             if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
                                 i++;
                             }
-                          
                             if(segmentedPassword[i].match(numbers) && segments[0].match(numbers) ||
                                     segmentedPassword[i].match(specialCharacter) && segments[0].match(specialCharacter) ||
-                                    segmentedPassword[i].match(alphabet) && segments[0].match(alphabet) ||
-                                    segmentedPassword[i].match(alphabet) && segmentedPassword[i].length == 1 && segmentedPassword[i-2].length != "," && segments[0].match(alphabet) && segments[0].length == 1
+                                    segmentedPassword[i].match(alphabet) && segments[0].match(alphabet) 
                                 ){//If i and segment0 is the same char 
 
                                     segmentedPassword = segmentedPassword.concat(segments[0]);
                                     segments = segments.slice(1);
 
                             }else{ //if element [i] does not match the char in segments[0]
-
+                                alert("Not the same")
                                 segmentedPassword = segmentedPassword.concat(",",segments[0]); //Cocats , and element to string.
                                 console.log(segmentedPassword, "if two chars are NOT the same");
                                 segments = segments.slice(1); //Revmoves first element
