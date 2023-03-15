@@ -114,7 +114,9 @@
                     //for(const [key, value] of Object.entries(placementholder)){
                       //  alert(`${key}: ${value}`);
                     //}
-            };
+            }else{
+                noSpecialCharPassword = "";
+            }
             
             //console.log(password)
         
@@ -183,28 +185,28 @@
                   
                     
                 };
-                if(password == 0){
+                /*if(password == 0){
                     alert("no more char")
                     for (let i = 0; i < noSpecialCharPassword.length; i++){
-                            let fetchLeetWord;
-                            leetSearchingWord = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - i);
-                            fetchLeetWord = await wordChecker(leetSearchingWord);
-                            if(fetchLeetWord){
-                                leetSegmentationTracker.push(leetSearchingWord); //Adds the word to segmentation tracker
-                                noSpecialCharPassword = noSpecialCharPassword.replace(`${leetSearchingWord}`, ""); //Replaces the word in password string with nothing.
-                            }else if(leetSearchingWord.length <= 1){
-                                leetSegmentationTracker.push(leetSearchingWord[0]);
-                                noSpecialCharPassword = noSpecialCharPassword.substring(1);
-                            }
+                        let fetchLeetWord;
+                        leetSearchingWord = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - i);
+                        fetchLeetWord = await wordChecker(leetSearchingWord);
+                        if(fetchLeetWord){
+                            leetSegmentationTracker.push(leetSearchingWord); //Adds the word to segmentation tracker
+                            noSpecialCharPassword = noSpecialCharPassword.replace(`${leetSearchingWord}`, ""); //Replaces the word in password string with nothing.
+                        }else if(leetSearchingWord.length <= 1){
+                            leetSegmentationTracker.push(leetSearchingWord[0]);
+                            noSpecialCharPassword = noSpecialCharPassword.substring(1);
                         }
                     }
+                }*/
                 
 
 
                 
-                if(noSpecialCharPassword == 0){
+                if(password == 0){
                     console.log(segmentationTracker)
-                    console.log(leetSegmentationTracker)
+                    //console.log(leetSegmentationTracker)
                     alert("pause")
                     var segments;
                     var segmentsExpected;
