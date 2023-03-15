@@ -67,7 +67,7 @@
             var searchingWord;
             var leetSearchingWord; //Stores the password created while last character is deleted.
             var wordDetector = 0;
-            var savedWords = [];
+         
             var segmentationTracker = []; //Keeps track of all segmentations
             var leetSegmentationTracker = [];
             var MSACheck = true;
@@ -88,6 +88,7 @@
             //password = document.getElementById("MSA").value;
             password = "p@ssw0rd123w0rd";
             cleanPassword = password;
+            
 
             
 
@@ -118,7 +119,7 @@
                     //}
             }
             
-            //console.log(password)
+            alert(noSpecialCharPassword)
         
            
             while(MSACheck == true){
@@ -202,40 +203,46 @@
                     }
                 }*/
                 leetSegmentationTracker = ["password","1","2","3","word"];
-
-                if(noSpecialCharPassword == 0){
-                    //console.log(leetSegmentationTracker) //correct
-                  
+                noSpecialCharPassword = 0;
+                if(noSpecialCharPassword == 0 && cleanPassword != ""){
+                    alert(test1)
                     for(let i = 0; i < leetSegmentationTracker.length; i++){
+                        
                         if(leetSegmentationTracker[i].length > 1){
-                            alert(leetSegmentationTracker[i].length, "length of element")
-                            for(let j = 0; j < leetSegmentationTracker[i].length; j++){
-                                
-                                console.log(cleanPassword[j])
-                                savedWords.push(cleanPassword[j])
-                                cleanPassword.slice(1);
-                                console.log(cleanPassword, "this is left");
+                            if (savedWords.length != 0){
+                                savedWords.push("-");
                             }
+                            for(let j = 0; j < leetSegmentationTracker[i].length; j++){
+                               // console.log(leetSegmentationTracker[i], "this is i value")
+                                //console.log("value of j: ",j)
+                                ///console.log(cleanPassword[j] , "before slice")
+                                savedWords.push(cleanPassword[j])
+                                //console.log(savedWords, "saved  so far")
+                                //console.log(cleanPassword, "this is left");
+                                //console.log(cleanPassword[0], "this is first char")
+                               
+                            }
+                            //savedWords = savedWords.join('');
                             
-                            savedWords = savedWords.join('');
-                            alert(savedWords, "saved  so far")
-                            
+                        }else{
+                            cleanPassword = cleanPassword.substring(0);
                         }
+                        cleanPassword = cleanPassword.substring(leetSegmentationTracker[i].length)
                     }
-                    //console.log(leetSegmentationTracker) // correct
-                    console.log(savedWords, "joined")
-                    alert(savedWords)
-                    
+                    savedWords = savedWords.join('').split(/-/g);
                     test1 = true;
-                }
+                    alert(test1); 
+                };
                 
                 if(test1 == true){
+                    console.log(savedWords, "savedwords")
+                    alert("Should be working by now")
                     console.log(segmentationTracker)
                     //console.log(leetSegmentationTracker)
                   
                     var segments;
                     var segmentsExpected;
-                    
+                    alert("STOP")
                     segments = segmentationTracker.toString().split(/,/g);//Converts to string and split and save it to varibal segments
                     segmentsExpected = leetSegmentationTracker.toString().split(/,/g); 
                     console.log(segments, "segments");
@@ -247,10 +254,10 @@
                         expectedPassword = expectedPassword.concat(segmentsExpected[0]);
                         segments = segments.slice(1);
                         segmentsExpected = segmentsExpected.slice(1);                           
-                        console.log(segments) 
+                        /*console.log(segments) 
                         console.log(segmentsExpected) 
                         console.log(segmentedPassword);
-                        console.log(expectedPassword);    
+                        console.log(expectedPassword);*/    
                                    
                     }
                         for(let i = 0; segments.length > 0; i++){
