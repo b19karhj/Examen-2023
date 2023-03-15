@@ -33,7 +33,7 @@
                 words = data.split("\r\n"); //Splittar textfilen och sparar i strängen.
             })
         }*/ 
-        function wordChecker(word){
+       /* function wordChecker(word){
             return new Promise ((resolve,reject) => {
                 const options = {
                     method: 'GET',
@@ -57,7 +57,7 @@
                 
                 })
                 
-            }   
+            }  */ 
 
         //Algorithm for MSA
        async function MSA(){
@@ -82,11 +82,14 @@
             const replaceSpecialChars = { //Created objects
                 "@":"a",
                 "0":"o"
-               
-            }
-           
             
-            password = document.getElementById("MSA").value;
+            }
+            var cleanPassword;
+            //password = document.getElementById("MSA").value;
+            password = "p@ssw0rd123w0rd";
+            cleanPassword = password;
+
+            
 
             
            /* for(const [key, value] of Object.entries(replaceSpecialChars)){
@@ -131,7 +134,7 @@
             
                 /*if(password.match(number) || password.match(specialCharacter)){ //Checks if first element is number or special character
                     alert("password")
-                }*/
+                }
              
                 while(password.match(number)){ //Checks if password starts with number, if so then put the number into array
                     segmentationTracker.push(password.match(number));
@@ -150,7 +153,7 @@
                 while(noSpecialCharPassword.match(specialCharacter)){
                     leetSegmentationTracker.push(noSpecialCharPassword.match(specialCharacter));
                     noSpecialCharPassword = noSpecialCharPassword.substring(1);
-                }
+                }*/
                 
                 //}
                 
@@ -161,7 +164,7 @@
                 Efter det skapa formulär
                 Samla in data*/
 
-                for (let i = 0; i < password.length; i++){
+                /*for (let i = 0; i < password.length; i++){
                     let fetchWord;
                     searchingWord = password.substring(0, password.length - i); //Deletes last character after each iteration
                     fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
@@ -178,7 +181,7 @@
                     else if(searchingWord.length <= 1){ //If temp.length is less then 1 in length, enter here to remove characters.
                         segmentationTracker.push(searchingWord[0]);
                         password = password.substring(1);
-                        i == 0;
+                       
                     }
                   
                     
@@ -197,24 +200,32 @@
                             noSpecialCharPassword = noSpecialCharPassword.substring(1);
                         }
                     }
-                }
-             
+                }*/
+                leetSegmentationTracker = ["password","1","2","3","word"];
 
                 if(noSpecialCharPassword == 0){
                     //console.log(leetSegmentationTracker) //correct
                   
                     for(let i = 0; i < leetSegmentationTracker.length; i++){
                         if(leetSegmentationTracker[i].length > 1){
-                            savedWords.push(leetSegmentationTracker[i])
-                            leetSegmentationTracker[i] = " ";
-                            //console.log(segmentationTracker)
-                            //alert("replaced word")
+                            alert(leetSegmentationTracker[i].length, "length of element")
+                            for(let j = 0; j < leetSegmentationTracker[i].length; j++){
+                                
+                                console.log(cleanPassword[j])
+                                savedWords.push(cleanPassword[j])
+                                cleanPassword.slice(1);
+                                console.log(cleanPassword, "this is left");
+                            }
+                            
+                            savedWords = savedWords.join('');
+                            alert(savedWords, "saved  so far")
+                            
                         }
-                        
-                        
                     }
                     //console.log(leetSegmentationTracker) // correct
-                   
+                    console.log(savedWords, "joined")
+                    alert(savedWords)
+                    
                     test1 = true;
                 }
                 
@@ -294,8 +305,9 @@
                                     if(segmentsExpected.length == 0){ // Exit loop.
                                 
                                         for (let i = 0; i < expectedPassword.length; i++){
-                                            if(expectedPassword[i] == 0){
+                                            if(expectedPassword[i] == " "){
                                                 expectedPassword[i] = savedWords[0];
+                                                alert(savedWords[0])
                                                 savedWords = savedWords.slice(1);
                                             }
                                         }
