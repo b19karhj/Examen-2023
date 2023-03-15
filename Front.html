@@ -294,21 +294,18 @@
                                     if(segmentsExpected.length == 0){ // Exit loop.
                                 
                                         for (let i = 0; i < expectedPassword.length; i++){
-                                            if(segmentedPassword[i] == 0){
-                                                segmentedPassword[i] = savedWords[0];
+                                            if(expectedPassword[i] == 0){
+                                                expectedPassword[i] = savedWords[0];
                                                 savedWords = savedWords.slice(1);
                                             }
                                         }
-
+                                      
                                         MSACheck = false;
                                     }       
                                 }
-                                
+                                    
                             }
-                            segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
-                            expectedPassword = expectedPassword.join("");
-                            console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
-                            console.log("password is no more", password);          
+                            
                         
                     };
                     //TODO Works but goes on forever.
@@ -316,7 +313,10 @@
                     
                 }
             }
-            
+            segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
+            expectedPassword = expectedPassword.join("");
+            console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
+            console.log("password is no more", password);       
               
         }
    
