@@ -161,17 +161,12 @@
                 Efter det skapa formulär
                 Samla in data*/
 
-                for (let i = 0; i < password.length; i++){
-                    alert(noSpecialCharPassword);
+                for (let i = 0; i < noSpecialCharPassword.length; i++){
                     let fetchWord;
-                    let fetchLeetWord;
-
-                    //searchingWord = password.substring(0, password.length - i); //Deletes last character after each iteration
-                    leetSearchingWord = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - i);
-                    //fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
-                    fetchLeetWord = await wordChecker(leetSearchingWord);
-                    
-                    /*if(fetchWord){
+                    searchingWord = password.substring(0, password.length - i); //Deletes last character after each iteration
+                    fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
+                   
+                    if(fetchWord){
                         console.log("word found");
                         console.log(searchingWord)
                         //console.log(temp);
@@ -183,18 +178,25 @@
                     else if(searchingWord.length <= 1){ //If temp.length is less then 1 in length, enter here to remove characters.
                         segmentationTracker.push(searchingWord[0]);
                         password = password.substring(1);
-                        i == 0; //Resets "i" to loop over the new password.
-                    }*/
-                    if(fetchLeetWord){
-                        leetSegmentationTracker.push(leetSearchingWord); //Adds the word to segmentation tracker
-                        noSpecialCharPassword = noSpecialCharPassword.replace(`${leetSearchingWord}`, ""); //Replaces the word in password string with nothing.
-                    }else if(leetSearchingWord.length <= 1){
-                        leetSegmentationTracker.push(leetSearchingWord[0]);
-                        noSpecialCharPassword = noSpecialCharPassword.substring(1);
-                        i == 0;
+                       
+                    }
+                    if(password == 0){
+                        for (let j = 0; j < noSpecialCharPassword.length; j++){
+                            let fetchLeetWord;
+                            leetSearchingWord = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - i);
+                            fetchLeetWord = await wordChecker(leetSearchingWord);
+                        if(fetchLeetWord){
+                            leetSegmentationTracker.push(leetSearchingWord); //Adds the word to segmentation tracker
+                            noSpecialCharPassword = noSpecialCharPassword.replace(`${leetSearchingWord}`, ""); //Replaces the word in password string with nothing.
+                        }else if(leetSearchingWord.length <= 1){
+                            leetSegmentationTracker.push(leetSearchingWord[0]);
+                            noSpecialCharPassword = noSpecialCharPassword.substring(1);
+                        }
+                }
                     }
                     
                 };
+
 
                 
                 if(noSpecialCharPassword == 0){
