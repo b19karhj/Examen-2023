@@ -77,6 +77,7 @@
             var passwordCharChange;
             var expectedPassword = [];
             var expectedPasswordArray = [];
+            var savedWords = [];
             const containSpeicalCharacter = (/\W/);
             const replaceSpecialChars = { //Created objects
                 "@":"a",
@@ -130,6 +131,7 @@
             const lastCharNr = (/|0-9]$/);
             const lastCharAP = (/[a-zA-Z]$/);
             const specialCharacter = /^\W/; //Regex special characters
+            var test1 = false;
             
                 /*if(password.match(number) || password.match(specialCharacter)){ //Checks if first element is number or special character
                     alert("password")
@@ -205,22 +207,28 @@
                 if(password == 0){
                     for(let i = 0; i < segmentationTracker.length; i++){
                         if(segmentationTracker[i].length > 1){
-                            alert(segmentationTracker[i]);
+                            savedWords.push(segmentationTracker[i])
+                            segmentationTracker[i] = " ";
+                            console.log(segmentationTracker)
+                            //alert("replaced word")
                         }
                         
                         
                     }
+                    test1 = true;
                 }
                 
-                if(MSACheck == false){
+                if(test1 == true){
                     console.log(segmentationTracker)
                     //console.log(leetSegmentationTracker)
-                    alert("pause")
+                  
                     var segments;
                     var segmentsExpected;
                     
                     segments = segmentationTracker.toString().split(/,/g);//Converts to string and split and save it to varibal segments
                     segmentsExpected = segmentationTracker.toString().split(/,/g); 
+                    console.log(segments, "segments");
+                    alert("pause")
 
                     if(segmentedPassword.length == 0){
                         segmentedPassword = segmentedPassword.concat(segments[0]);
