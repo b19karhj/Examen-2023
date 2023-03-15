@@ -278,7 +278,7 @@
 
                                     if(expectedPassword[j].match(numbers) && segmentsExpected[0].match(numbers) ||
                                             expectedPassword[j].match(specialCharacter) && segmentsExpected[0].match(specialCharacter) ||
-                                            expectedPassword[j].match(alphabet) && segmentsExpected[0].match(alphabet) && segmentsExpected[0].length == 1 
+                                            expectedPassword[j].match(alphabet) && segmentsExpected[0].match(alphabet)
                                         ){//If j and segment0 is the same char 
 
                                         expectedPassword = expectedPassword.concat(segmentsExpected[0]);
@@ -292,16 +292,22 @@
                                     
                                     if(segmentsExpected.length == 0){ // Exit loop.
                                 
-                                        segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
-                                        expectedPassword = expectedPassword.join("");
-                                        console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
-                                        console.log("password is no more", password);
+                                        for (let i = 0; i < expectedPassword.length; i++){
+                                            if(segmentedPassword[i] == 0){
+                                                segmentedPassword[i] = savedWords[0];
+                                                savedWords = savedWords.slice(1);
+                                            }
+                                        }
 
                                         MSACheck = false;
                                     }       
                                 }
                                 
-                            }      
+                            }
+                            segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
+                            expectedPassword = expectedPassword.join("");
+                            console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
+                            console.log("password is no more", password);          
                         
                     };
                     //TODO Works but goes on forever.
