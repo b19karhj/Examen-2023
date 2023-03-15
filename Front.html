@@ -187,7 +187,7 @@
                   
                     
                 };
-                /*if(password == 0){
+                if(password == 0){
                     alert("no more char")
                     for (let i = 0; i < noSpecialCharPassword.length; i++){
                         let fetchLeetWord;
@@ -201,15 +201,15 @@
                             noSpecialCharPassword = noSpecialCharPassword.substring(1);
                         }
                     }
-                }*/
+                }
              
 
-                if(password == 0){
-                    for(let i = 0; i < segmentationTracker.length; i++){
-                        if(segmentationTracker[i].length > 1){
-                            savedWords.push(segmentationTracker[i])
-                            segmentationTracker[i] = " ";
-                            console.log(segmentationTracker)
+                if(noSpecialCharPassword == 0){
+                    for(let i = 0; i < leetSegmentationTracker.length; i++){
+                        if(leetSegmentationTracker[i].length > 1){
+                            savedWords.push(leetSegmentationTracker[i])
+                            leetSegmentationTracker[i] = " ";
+                            //console.log(segmentationTracker)
                             //alert("replaced word")
                         }
                         
