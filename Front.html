@@ -78,6 +78,7 @@
             var expectedPassword = [];
             var expectedPasswordArray = [];
             var savedWords = [];
+            var storeSpecialWords = [];
             const containSpeicalCharacter = (/\W/);
             const replaceSpecialChars = { //Created objects
                 "@":"a",
@@ -147,25 +148,21 @@
                     password = password.substring(1);
                     //console.log(password)
                 }
-                while(noSpecialCharPassword.match(number)){
-                    leetSegmentationTracker.push(noSpecialCharPassword.match(number));
-                    noSpecialCharPassword = noSpecialCharPassword.substring(1);
-                }
-                while(noSpecialCharPassword.match(specialCharacter)){
-                    leetSegmentationTracker.push(noSpecialCharPassword.match(specialCharacter));
-                    noSpecialCharPassword = noSpecialCharPassword.substring(1);
-                }
+           
+
+              
                 
                 //}
                 
                 /*TODO:
-                Skapa en alternativ substräng där special karaktärer vandlas om till bokstäver. Om träff spara undan dom som orginal strängen.
+                Rad 198 försök komma på orginal iden.
                 Efter det fråga mot databasen.
                 Efter det formulera tydliga riktlinjer
                 Efter det skapa formulär
                 Samla in data*/
 
                 for (let i = 0; i < password.length; i++){
+                  
                     let fetchWord;
                     searchingWord = password.substring(0, password.length - i); //Deletes last character after each iteration
                     fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
@@ -188,22 +185,41 @@
                     
                 };
                 if(password == 0){
-                   
+                    
                     for (let i = 0; i < noSpecialCharPassword.length; i++){
-                        let fetchLeetWord;
-                        leetSearchingWord = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - i);
-                        fetchLeetWord = await wordChecker(leetSearchingWord);
+                        if(noSpecialCharPassword.match(number) || noSpecialCharPassword.match(specialCharacter)){
+                            leetSegmentationTracker.push(noSpecialCharPassword[0])
+                         
+                            noSpecialCharPassword = noSpecialCharPassword.substring(1);
+                         
+                            console.log(noSpecialCharPassword, "after cut")
+                        
+                            i = 0;
+                        }else{
+                            let fetchLeetWord;
+                            leetSearchingWord = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - i);
+                            fetchLeetWord = await wordChecker(leetSearchingWord);
                         if(fetchLeetWord){
                             leetSegmentationTracker.push(leetSearchingWord); //Adds the word to segmentation tracker
-                            noSpecialCharPassword = noSpecialCharPassword.replace(`${leetSearchingWord}`, ""); //Replaces the word in password string with nothing.
-                        }else if(leetSearchingWord.length <= 1){
+                            storeSpecialWords.push(" ");
+                            console.log(leetSegmentationTracker)
+                            console.log(storeSpecialWords)
+                            alert("pause")
+                            noSpecialCharPassword = noSpecialCharPassword.replace(`${leetSearchingWord}`,""); //Replaces the word in password string with nothing.
+                        }
+                        else if(leetSearchingWord.length <= 1){
                             leetSegmentationTracker.push(leetSearchingWord[0]);
+                            storeSpecialWords.push(leetSearchingWord[0]);
                             noSpecialCharPassword = noSpecialCharPassword.substring(1);
                         }
+                        }
+    
                     }
                 }
-              
+                
                 if(noSpecialCharPassword == 0 && cleanPassword != ""){
+                    console.log(storeSpecialWords, "This is correct?");
+                    alert("test");
                    
                     for(let i = 0; i < leetSegmentationTracker.length; i++){
                         
@@ -243,7 +259,7 @@
                     var segmentsExpected;
                  
                     segments = segmentationTracker.toString().split(/,/g);//Converts to string and split and save it to varibal segments
-                    segmentsExpected = leetSegmentationTracker.toString().split(/,/g); 
+                    segmentsExpected = storeSpecialWords.toString().split(/,/g); 
                     console.log(segments, "segments");
                     console.log(segmentsExpected, " expected segments") //correct
                     
@@ -309,12 +325,9 @@
                                     } 
                                     
                                     if(segmentsExpected.length < 1){ // Exit loop.
+                                        console.log(expectedPassword, "words")
                                         alert("inne")
                                         for (let i = 0; i < expectedPassword.length; i++){
-                                            console.log(expectedPassword[i])
-                                            console.log(expectedPassword, "whole password")
-                                            alert("inne 2");
-                                            
                                             if(expectedPassword[i] == " "){
                                                 expectedPassword[i] = savedWords[1];
                                                 alert(savedWords[1])
