@@ -42,6 +42,7 @@
                             resolve(false);
                             
                         }else{
+                            alert(response[0].word)
                             resolve(true)
                         }
                         
@@ -131,7 +132,16 @@
                 }*/
              
              
-           
+                while(password.match(number)){ //Checks if password starts with number, if so then put the number into array
+                    segmentationTracker.push(password.match(number));
+                    password = password.substring(1);
+                    
+                }
+                while(password.match(specialCharacter)){ //Checks if password starts with special character, if so then put the character into into array
+                    segmentationTracker.push(password.match(specialCharacter))
+                    password = password.substring(1);
+                    //console.log(password)
+                }
 
               
                 
@@ -145,38 +155,25 @@
                 Samla in data*/
 
                 for (let i = 0; i < password.length; i++){
-                    if(password.match(number) || password.match(specialCharacter)){
-                        alert("inside")
-                        segmentationTracker.push(password[0])
-                        password = password.substring(1);
-                        console.log(password, "after cut")
-                        
-                    }else{
-                        let fetchWord;
-                        searchingWord = password;
-                        
-                        fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
-                        console.log(searchingWord, "this is search")
-                        console.log(fetchWord, "this is fetch")
-                       
-                        if(fetchWord){
-                            console.log("word found");
-                            console.log(searchingWord)
-                            //console.log(temp);
-                            //wordDetector++;
-                            segmentationTracker.push(searchingWord); //Adds the word to segmentation tracker
-                            password = password.replace(`${searchingWord}`, ""); //Replaces the word in password string with nothing.
-                            
-                        }
-                        else if(searchingWord.length <= 1){ //If temp.length is less then 1 in length, enter here to remove characters.
-                            alert("Should not be inside")
-                            segmentationTracker.push(searchingWord[0]);
-                            password = password.substring(1);
-                        
-                        }
+                    let fetchWord;
+                    searchingWord = password.substring(0, password.length - i); //Deletes last character after each iteration
+                    fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
+                   
+                    if(fetchWord){
+                        console.log("word found");
+                        console.log(searchingWord)
+                        //console.log(temp);
+                        //wordDetector++;
+                        segmentationTracker.push(searchingWord); //Adds the word to segmentation tracker
+                        password = password.replace(`${searchingWord}`, ""); //Replaces the word in password string with nothing.
                         
                     }
-                    password = password.substring(0, password.length - i); //Deletes last character after each iteration
+                    else if(searchingWord.length <= 1){ //If temp.length is less then 1 in length, enter here to remove characters.
+                        segmentationTracker.push(searchingWord[0]);
+                        password = password.substring(1);
+                       
+                    }
+                  
                     
                 };
                 
