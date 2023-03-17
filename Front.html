@@ -79,44 +79,21 @@
             }
             var cleanPassword;
             password = document.getElementById("MSA").value;
-            //password = "p@ssw0rd123w0rd";
             cleanPassword = password;
-            
-
-            
-
-            
-           /* for(const [key, value] of Object.entries(replaceSpecialChars)){
-                alert(`${key}: ${value}`);
-            }*/
-
-            //alert(password, "active password")
 
             if(password.match(containSpeicalCharacter)){
-                    //alert("SpecialCharacter detected")
-                    noSpecialCharPassword = password.replace(/@|0/g, function(matched){ //Replaces all specialChars with mapped letters
-                      
-                        //alert(matched, "Matched");
-                        //alert("test")
-                        return replaceSpecialChars[matched];
-                        //i++;
-                        //alert(i)
+        
+                noSpecialCharPassword = password.replace(/@|0/g, function(matched){ //Replaces all specialChars with mapped letters
                     
-                    
-                    });
-                    //alert(noSpecialCharPassword)
-                    //alert("transform over");
-                      
-                    //for(const [key, value] of Object.entries(placementholder)){
-                      //  alert(`${key}: ${value}`);
-                    //}
+                    return replaceSpecialChars[matched];
+
+                });
+
             }else{
                 noSpecialCharPassword = null;
             }
             
-            
-        
-           
+
             while(MSACheck == true){
             const alphabet = /^[a-zA-Z]/ //Regex if first char is lower and uppercase charecter
             const alphabet2 = (/[a-z]/);
@@ -127,20 +104,9 @@
             const lastCharAP = (/[a-zA-Z]$/);
             const specialCharacter = /^\W/; //Regex special characters
             var wordProcess = false;
-            
-                /*if(password.match(number) || password.match(specialCharacter)){ //Checks if first element is number or special character
-                    alert("password")
-                }*/
-             
-             
-           
 
-              
-                
-                //}
                 
                 /*TODO:
-                Rad 198 försök komma på orginal iden.
                 Efter det fråga mot databasen.
                 Efter det formulera tydliga riktlinjer
                 Efter det skapa formulär
@@ -226,17 +192,9 @@
                                 savedWords.push("-");
                             }
                             for(let j = 0; j < leetSegmentationTracker[i].length; j++){
-                               // console.log(leetSegmentationTracker[i], "this is i value")
-                                //console.log("value of j: ",j)
-                                ///console.log(cleanPassword[j] , "before slice")
                                 savedWords.push(cleanPassword[j])
-                                //console.log(savedWords, "saved  so far")
-                                //console.log(cleanPassword, "this is left");
-                                //console.log(cleanPassword[0], "this is first char")
-                               
                             }
-                            //savedWords = savedWords.join('');
-                            
+
                         }else{
                             cleanPassword = cleanPassword.substring(0);
                         }
@@ -248,27 +206,20 @@
                 };
                 
                 if(wordProcess == true){
-                    //console.log(leetSegmentationTracker)
-                  
+
                     var segments;
                     var segmentsExpected;
                  
                     segments = segmentationTracker.toString().split(/,/g);//Converts to string and split and save it to varibal segments
                     segmentsExpected = storeSpecialWords.toString().split(/,/g); 
-                    console.log(segments, "segments");
-                    console.log(segmentsExpected, " expected segments") //correct
-                    
+
 
                     if(segmentedPassword.length == 0){
                         segmentedPassword = segmentedPassword.concat(segments[0]);
                         expectedPassword = expectedPassword.concat(segmentsExpected[0]);
                         segments = segments.slice(1);
                         segmentsExpected = segmentsExpected.slice(1);                           
-                        /*console.log(segments) 
-                        console.log(segmentsExpected) 
-                        console.log(segmentedPassword);
-                        console.log(expectedPassword);*/    
-                                   
+
                     }
                         for(let i = 0; segments.length > 0; i++){
                             console.log(segmentedPassword, "segment password")
@@ -298,8 +249,6 @@
                                 MSACheck = false;
                             }
                             if(segments.length == 0 && segmentsExpected != ""){ // Exit loop.
-                                console.log(segmentsExpected);
-                               
                                 
                                 for(let j = 0; segmentsExpected.length > 0; j++){
                                     
@@ -320,7 +269,6 @@
                                         segmentsExpected = segmentsExpected.slice(1); //Revmoves first element
                                     
                                     } 
-                                    
                                     if(segmentsExpected.length < 1){ // Exit loop.
                                         console.log(expectedPassword, "words")
                                         console.log(savedWords[0], "next in line")
@@ -340,19 +288,14 @@
                             
                         
                     };
-                    //TODO Works but goes on forever.
-                    
-                    
+  
                 }
             }
-            alert("slut")
             segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
             expectedPassword = expectedPassword.join("");
             console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
-            console.log("password is no more", password);       
-              
+            console.log("password is no more", password);
         }
-   
     </script>
 </body>
 </html>
