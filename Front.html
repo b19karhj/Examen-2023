@@ -110,6 +110,8 @@
                     //for(const [key, value] of Object.entries(placementholder)){
                       //  alert(`${key}: ${value}`);
                     //}
+            }else{
+                noSpecialCharPassword = null;
             }
             
             
@@ -172,11 +174,14 @@
                         }
                         
                     }
-                  
-                    
+             
+                    if(password.length == 0 && noSpecialCharPassword == null){
+                        wordProcess = true;
+                    }
                 };
                 
-                if(password == 0 && noSpecialCharPassword.length != 0 ){
+                
+                if(password.length == 0 && noSpecialCharPassword != null){
                     console.log("Inne")
                     for (let i = 0; i < noSpecialCharPassword.length; i++){
                         if(noSpecialCharPassword.match(number)){
@@ -195,8 +200,6 @@
                             let fetchLeetWord;
                             leetSearchingWord = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - i);
                             fetchLeetWord = await wordChecker(leetSearchingWord);
-                            console.log(leetSearchingWord, "left")
-                            alert("Stop and check whats left")
                             if(fetchLeetWord){
 
                                 leetSegmentationTracker.push(leetSearchingWord); //Adds the word to segmentation tracker
@@ -212,8 +215,10 @@
                         }
                         
                     }
+                   
                 }
-               
+
+                if(noSpecialCharPassword == 0 && cleanPassword != "" && noSpecialCharPassword != null){
                     for(let i = 0; i < leetSegmentationTracker.length; i++){
                         
                         if(leetSegmentationTracker[i].length > 1){
@@ -243,11 +248,6 @@
                 };
                 
                 if(wordProcess == true){
-                    cosnole.log(segmentationTracker)
-                    alert("is this correct?")
-                    console.log(savedWords, "savedwords")
-                    alert("Should be working by now")
-                    console.log(segmentationTracker)
                     //console.log(leetSegmentationTracker)
                   
                     var segments;
@@ -294,8 +294,10 @@
                                 segments = segments.slice(1); //Revmoves first element
                             
                             }
-
-                            if(segments.length == 0){ // Exit loop.
+                            if(segments.length == 0 && segmentsExpected == ""){
+                                MSACheck = false;
+                            }
+                            if(segments.length == 0 && segmentsExpected != ""){ // Exit loop.
                                 console.log(segmentsExpected);
                                
                                 
@@ -321,11 +323,11 @@
                                     
                                     if(segmentsExpected.length < 1){ // Exit loop.
                                         console.log(expectedPassword, "words")
+                                        console.log(savedWords[0], "next in line")
                                         alert("inne")
                                         for (let i = 0; i < expectedPassword.length; i++){
                                             if(expectedPassword[i] == " "){
-                                                expectedPassword[i] = savedWords[1];
-                                                alert(savedWords[1])
+                                                expectedPassword[i] = savedWords[0];
                                                 savedWords = savedWords.slice(1);
                                             }
                                         }
@@ -343,6 +345,7 @@
                     
                 }
             }
+            alert("slut")
             segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
             expectedPassword = expectedPassword.join("");
             console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
