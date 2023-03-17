@@ -163,6 +163,7 @@
                         if(fetchWord){
                             segmentationTracker.push(searchingWord); //Adds the word to segmentation tracker
                             password = password.replace(`${searchingWord}`, ""); //Replaces the word in password string with nothing.
+                            i = 0; //Behövs eftersom en stor del text har försvunnit och annars enbart visar första bokstaven i vad som är kvar
                             
                         }else if(searchingWord.length <= 1){ //If temp.length is less then 1 in length, enter here to remove characters.
                             segmentationTracker.push(searchingWord[0]);
@@ -175,7 +176,7 @@
                     
                 };
                 
-                if(password == 0 && noSpecialCharPassword != undefined){
+                if(password == 0 && noSpecialCharPassword.length != 0 ){
                     console.log("Inne")
                     for (let i = 0; i < noSpecialCharPassword.length; i++){
                         if(noSpecialCharPassword.match(number)){
@@ -212,15 +213,7 @@
                         
                     }
                 }
-                
-                if(noSpecialCharPassword == 0 && cleanPassword != ""){
-
-                    alert("start")
-                    console.log(segmentationTracker, "segemnt")
-                    console.log(storeSpecialWords, "This is correct?");
-                    console.log(leetSegmentationTracker)
-                    alert("Check if correct!");
-                   
+               
                     for(let i = 0; i < leetSegmentationTracker.length; i++){
                         
                         if(leetSegmentationTracker[i].length > 1){
@@ -250,6 +243,8 @@
                 };
                 
                 if(wordProcess == true){
+                    cosnole.log(segmentationTracker)
+                    alert("is this correct?")
                     console.log(savedWords, "savedwords")
                     alert("Should be working by now")
                     console.log(segmentationTracker)
