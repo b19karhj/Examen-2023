@@ -158,7 +158,7 @@
                         fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
                         console.log(searchingWord, "this is search")
                         console.log(fetchWord, "this is fetch")
-                        alert("stop")
+                       
                         if(fetchWord){
                             console.log("word found");
                             console.log(searchingWord)
@@ -177,30 +177,36 @@
                         
                     }
                     password = password.substring(0, password.length - i); //Deletes last character after each iteration
-                    alert(segmentationTracker)
+                    
                 };
-                alert("Stop before crash")
-                /*if(password == 0){
-                    console.log(segmentationTracker)
-                    alert("check console")
+                
+                if(password == 0){
+                    console.log(segmentationTracker, "should show array")
+                    console.log(password)
+                    console.log(noSpecialCharPassword)
+                    console.log(noSpecialCharPassword.length)
+                    alert("inne!")
                     for (let i = 0; i < noSpecialCharPassword.length; i++){
                         if(noSpecialCharPassword.match(number) || noSpecialCharPassword.match(specialCharacter)){
                             leetSegmentationTracker.push(noSpecialCharPassword[0])
-                            noSpecialCharPassword = noSpecialCharPassword.substring(1);
+                           
                             console.log(noSpecialCharPassword, "after cut")
                             i = 0;
                         }else{
-                            console.log(noSpecialCharPassword, "pass")
+                            console.log(noSpecialCharPassword, "Check password")
                             console.log(leetSegmentationTracker, "tracker")
-                            alert("Hello")
+                            //alert("Hello")
                             let fetchLeetWord;
                             leetSearchingWord = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - i);
+                            console.log(leetSearchingWord)
+                            alert("ord")
                             fetchLeetWord = await wordChecker(leetSearchingWord);
                             if(fetchLeetWord){
+                                alert("Word Found second!")
                                 console.log(fetchLeetWord)
                                 leetSegmentationTracker.push(leetSearchingWord); //Adds the word to segmentation tracker
                                 storeSpecialWords.push(" ");
-                                alert("pause")
+                                //alert("pause")
                                 noSpecialCharPassword = noSpecialCharPassword.replace(`${leetSearchingWord}`,""); //Replaces the word in password string with nothing.
                                 fetchLeetWord = false;
                             }
@@ -210,13 +216,14 @@
                                 noSpecialCharPassword = noSpecialCharPassword.substring(1);
                             }
                         }
-    
+                        noSpecialCharPassword = noSpecialCharPassword.substring(noSpecialCharPassword.length - i);
                     }
-                }*/
+                }
                 
                 if(noSpecialCharPassword == 0 && cleanPassword != ""){
                     console.log(storeSpecialWords, "This is correct?");
-                    alert("test");
+                    console.log(leetSegmentationTracker)
+                    alert("Check if correct!");
                    
                     for(let i = 0; i < leetSegmentationTracker.length; i++){
                         
