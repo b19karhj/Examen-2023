@@ -117,8 +117,7 @@
                      
                         segmentationTracker.push(password.match(number))
                         password = password.substring(1);
-                     
-                        
+
                     }else if(password.match(specialCharacter)){
                         segmentationTracker.push(password.match(specialCharacter))
                         password = password.substring(1);
@@ -127,7 +126,6 @@
                         searchingWord = password.substring(0, password.length - i)
                         fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
 
-                       
                         if(fetchWord){
                             segmentationTracker.push(searchingWord); //Adds the word to segmentation tracker
                             password = password.replace(`${searchingWord}`, ""); //Replaces the word in password string with nothing.
@@ -140,7 +138,6 @@
                         }
                         
                     }
-             
                     if(password.length == 0 && noSpecialCharPassword == null){
                         wordProcess = true;
                     }
@@ -148,7 +145,7 @@
                 
                 
                 if(password.length == 0 && noSpecialCharPassword != null){
-                    console.log("Inne")
+
                     for (let i = 0; i < noSpecialCharPassword.length; i++){
                         if(noSpecialCharPassword.match(number)){
 
@@ -166,6 +163,7 @@
                             let fetchLeetWord;
                             leetSearchingWord = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - i);
                             fetchLeetWord = await wordChecker(leetSearchingWord);
+
                             if(fetchLeetWord){
 
                                 leetSegmentationTracker.push(leetSearchingWord); //Adds the word to segmentation tracker
@@ -222,10 +220,6 @@
 
                     }
                         for(let i = 0; segments.length > 0; i++){
-                            console.log(segmentedPassword, "segment password")
-                            console.log(segments, "Segment");
-                            console.log(i, "i is");
-        
 
                             if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
                                 i++;
@@ -241,7 +235,6 @@
                             }else{ //if element [i] does not match the char in segments[0]
                               
                                 segmentedPassword = segmentedPassword.concat(",",segments[0]); //Cocats , and element to string.
-                                console.log(segmentedPassword, "if two chars are NOT the same");
                                 segments = segments.slice(1); //Revmoves first element
                             
                             }
@@ -270,9 +263,6 @@
                                     
                                     } 
                                     if(segmentsExpected.length < 1){ // Exit loop.
-                                        console.log(expectedPassword, "words")
-                                        console.log(savedWords[0], "next in line")
-                                        alert("inne")
                                         for (let i = 0; i < expectedPassword.length; i++){
                                             if(expectedPassword[i] == " "){
                                                 expectedPassword[i] = savedWords[0];
