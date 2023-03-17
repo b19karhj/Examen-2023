@@ -132,16 +132,7 @@
                 }*/
              
              
-                while(password.match(number)){ //Checks if password starts with number, if so then put the number into array
-                    segmentationTracker.push(password.match(number));
-                    password = password.substring(1);
-                    
-                }
-                while(password.match(specialCharacter)){ //Checks if password starts with special character, if so then put the character into into array
-                    segmentationTracker.push(password.match(specialCharacter))
-                    password = password.substring(1);
-                    //console.log(password)
-                }
+           
 
               
                 
@@ -155,23 +146,36 @@
                 Samla in data*/
 
                 for (let i = 0; i < password.length; i++){
-                    let fetchWord;
-                    searchingWord = password.substring(0, password.length - i); //Deletes last character after each iteration
-                    fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
-                   
-                    if(fetchWord){
-                        console.log("word found");
-                        console.log(searchingWord)
-                        //console.log(temp);
-                        //wordDetector++;
-                        segmentationTracker.push(searchingWord); //Adds the word to segmentation tracker
-                        password = password.replace(`${searchingWord}`, ""); //Replaces the word in password string with nothing.
-                        
-                    }
-                    else if(searchingWord.length <= 1){ //If temp.length is less then 1 in length, enter here to remove characters.
-                        segmentationTracker.push(searchingWord[0]);
+                    if(password.match(number)){
+                     
+                        segmentationTracker.push(password.match(number))
                         password = password.substring(1);
+                     
+                        
+                    }else if(password.match(specialCharacter)){
+                        segmentationTracker.push(password.match(specialCharacter))
+                        password = password.substring(1);
+                    }else{
+                        let fetchWord;
+                        searchingWord = password.substring(0, password.length - i)
+                        fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
                        
+                        if(fetchWord){
+                            "test"
+                            console.log("word found");
+                            console.log(searchingWord)
+                            //console.log(temp);
+                            //wordDetector++;
+                            segmentationTracker.push(searchingWord); //Adds the word to segmentation tracker
+                            password = password.replace(`${searchingWord}`, ""); //Replaces the word in password string with nothing.
+                            
+                        }else if(searchingWord.length <= 1){ //If temp.length is less then 1 in length, enter here to remove characters.
+                            alert("Should not be inside")
+                            segmentationTracker.push(searchingWord[0]);
+                            password = password.substring(1);
+                        
+                        }
+                        
                     }
                   
                     
