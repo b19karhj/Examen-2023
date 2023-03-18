@@ -259,9 +259,7 @@
                                     
                                     } 
                                     if(segmentsExpected.length < 1){ // Exit loop.
-                                        console.log(segmentsExpected)
-                                        console.log(savedWords)
-                                        alert("segment")
+                       
                                         for (let i = 0; i < expectedPassword.length; i++){
                                             if(expectedPassword[i] == " "){
                                                 if(expectedPassword[i+1] == " "){
@@ -269,8 +267,6 @@
                                                     savedWords = savedWords.slice(1);
                                                 }else{
                                                     expectedPassword[i] = savedWords[0];
-                                                    console.log(savedWords[0])
-                                                    alert("test")
                                                     savedWords = savedWords.slice(1);
                                                 }
                                                
