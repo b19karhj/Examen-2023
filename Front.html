@@ -180,9 +180,10 @@
                 }
 
                 if(noSpecialCharPassword == 0 && cleanPassword != ""){
+                    let temptext;
                     for(let i = 0; i < leetSegmentationTracker.length; i++){
-                        
-                        if(leetSegmentationTracker[i].length > 1){
+                        temptext = leetSegmentationTracker[i].toString(); 
+                        if(leetSegmentationTracker[i].length >= 1 && temptext.match(alphabet)){
                             if (savedWords.length != 0){
                                 savedWords.push("-");
                             }
@@ -258,10 +259,21 @@
                                     
                                     } 
                                     if(segmentsExpected.length < 1){ // Exit loop.
+                                        console.log(segmentsExpected)
+                                        console.log(savedWords)
+                                        alert("segment")
                                         for (let i = 0; i < expectedPassword.length; i++){
                                             if(expectedPassword[i] == " "){
-                                                expectedPassword[i] = savedWords[0];
-                                                savedWords = savedWords.slice(1);
+                                                if(expectedPassword[i+1] == " "){
+                                                    expectedPassword[i] = savedWords[0]+",";
+                                                    savedWords = savedWords.slice(1);
+                                                }else{
+                                                    expectedPassword[i] = savedWords[0];
+                                                    console.log(savedWords[0])
+                                                    alert("test")
+                                                    savedWords = savedWords.slice(1);
+                                                }
+                                               
                                             }
                                         }
                                       
