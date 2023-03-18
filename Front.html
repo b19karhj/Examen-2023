@@ -35,7 +35,7 @@
         }*/ 
        function wordChecker(word){
             return new Promise ((resolve,reject) => {
-                fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+word+'')
+                fetch('https://api.dictionaryapi.dev/api/v1/entries/en/'+word+'')
                     .then(response => response.json())
                     .then(response => {
                         if(response.hasOwnProperty("title")){ //Checks if response object has property word.
@@ -162,7 +162,7 @@
                             fetchLeetWord = await wordChecker(leetSearchingWord);
 
                             if(fetchLeetWord){
-
+                                console.log("Word found :",leetSearchingWord)
                                 leetSegmentationTracker.push(leetSearchingWord); //Adds the word to segmentation tracker
                                 storeSpecialWords.push(" ");
                                 noSpecialCharPassword = noSpecialCharPassword.replace(`${leetSearchingWord}`, ""); //Replaces the word in password string with nothing.
@@ -178,7 +178,7 @@
                     }
                    
                 }
-
+                //Problem solved with single letters.
                 if(noSpecialCharPassword == 0 && cleanPassword != ""){
                     let temptext;
                     for(let i = 0; i < leetSegmentationTracker.length; i++){
@@ -186,6 +186,7 @@
                         if(leetSegmentationTracker[i].length >= 1 && temptext.match(alphabet)){
                             if (savedWords.length != 0){
                                 savedWords.push("-");
+
                             }
                             for(let j = 0; j < leetSegmentationTracker[i].length; j++){
                                 savedWords.push(cleanPassword[j])
@@ -261,16 +262,24 @@
                                     if(segmentsExpected.length < 1){ // Exit loop.
                        
                                         for (let i = 0; i < expectedPassword.length; i++){
+          
                                             if(expectedPassword[i] == " "){
                                                 if(expectedPassword[i+1] == " "){
                                                     expectedPassword[i] = savedWords[0]+",";
                                                     savedWords = savedWords.slice(1);
                                                 }else{
+                                                    console.log(expectedPassword[i], "current i")
+                                                    alert("else start")
                                                     expectedPassword[i] = savedWords[0];
+                                                    console.log(savedWords[0], "first word")
                                                     savedWords = savedWords.slice(1);
                                                 }
                                                
+                                            }else if(expectedPassword[i].length == 1 && expectedPassword[i] == savedWords[0]){ // its a single letter and its counted in savewords this will just replace the single letter to avoid out of bound error
+                                                expectedPassword[i] = savedWords[0];
+                                                savedWords = savedWords.slice(1);
                                             }
+                                        
                                         }
                                       
                                         MSACheck = false;
