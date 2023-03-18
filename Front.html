@@ -75,7 +75,6 @@
             const replaceSpecialChars = { //Created objects
                 "@":"a",
                 "0":"o"
-            
             }
             var cleanPassword;
             password = document.getElementById("MSA").value;
@@ -90,20 +89,21 @@
                 });
 
             }else{
-                noSpecialCharPassword = null;
+                noSpecialCharPassword = password;;
             }
             
 
             while(MSACheck == true){
-            const alphabet = /^[a-zA-Z]/ //Regex if first char is lower and uppercase charecter
-            const alphabet2 = (/[a-z]/);
-            const number = /^[0-9]/; //Regex Numbers
-            const numbers = (/[0-9]/);
-            const notNumber = /^\D/;
-            const lastCharNr = (/|0-9]$/);
-            const lastCharAP = (/[a-zA-Z]$/);
-            const specialCharacter = /^\W/; //Regex special characters
-            var wordProcess = false;
+                
+                const alphabet = /^[a-zA-Z]/ //Regex if first char is lower and uppercase charecter
+                const alphabet2 = (/[a-z]/);
+                const number = /^[0-9]/; //Regex Numbers
+                const numbers = (/[0-9]/);
+                const notNumber = /^\D/;
+                const lastCharNr = (/|0-9]$/);
+                const lastCharAP = (/[a-zA-Z]$/);
+                const specialCharacter = /^\W/; //Regex special characters
+                var wordProcess = false;
 
                 
                 /*TODO:
@@ -138,13 +138,10 @@
                         }
                         
                     }
-                    if(password.length == 0 && noSpecialCharPassword == null){
-                        wordProcess = true;
-                    }
+                    
                 };
                 
-                
-                if(password.length == 0 && noSpecialCharPassword != null){
+                if(password.length == 0 ){
 
                     for (let i = 0; i < noSpecialCharPassword.length; i++){
                         if(noSpecialCharPassword.match(number)){
@@ -182,7 +179,7 @@
                    
                 }
 
-                if(noSpecialCharPassword == 0 && cleanPassword != "" && noSpecialCharPassword != null){
+                if(noSpecialCharPassword == 0 && cleanPassword != ""){
                     for(let i = 0; i < leetSegmentationTracker.length; i++){
                         
                         if(leetSegmentationTracker[i].length > 1){
@@ -238,10 +235,8 @@
                                 segments = segments.slice(1); //Revmoves first element
                             
                             }
-                            if(segments.length == 0 && segmentsExpected == ""){
-                                MSACheck = false;
-                            }
-                            if(segments.length == 0 && segmentsExpected != ""){ // Exit loop.
+                            
+                            if(segments.length == 0){ // Exit loop.
                                 
                                 for(let j = 0; segmentsExpected.length > 0; j++){
                                     
@@ -276,7 +271,6 @@
                                     
                             }
                             
-                        
                     };
   
                 }
@@ -284,7 +278,6 @@
             segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
             expectedPassword = expectedPassword.join("");
             console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
-            console.log("password is no more", password);
         }
     </script>
 </body>
