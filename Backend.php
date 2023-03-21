@@ -3,12 +3,16 @@
 
    
    // connect to mongodb
-   $m = new MongoDB\Client("mongodb://localhost:27017");
+   $client = new MongoDB\Client("mongodb://localhost:27017");
 	
-   echo "Connection to database successfully";
-   // select a database
-   $db = $m->mydb;
-	
-   echo "Database mydb selected";
+   
+   foreach($client->listDatabases() as $db){ // Listar alla databaser som finns.
+      var_dump($db); 
+   };
 
+  /* foreach($database->listCollections() as $collection){
+      var_dump($collection);
+   }*/
+   
+      
 ?>
