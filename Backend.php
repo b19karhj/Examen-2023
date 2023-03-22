@@ -4,14 +4,14 @@
    
    // connect to mongodb
    $client = new MongoDB\Client("mongodb://localhost:27017");
-	$database = $client->database;
-   $password = $database->password;
+	//$database = $client->database;
+   $collection = $client->Examen2023->Examen;
+  
 
-   $db = $password->find(
-      ['Password:' => '123456']
-   );
-   var_dump($db);
-   
+
+   //$cursor = $collection->findOne(['Password' => 'iloveyou']); // Returns object whith password equals "iloveyou"
+   $cursor = $collection->find(['Password' => 'rock']);
+   var_dump($cursor);
    /*foreach($client->listDatabases() as $db){ // Listar alla databaser som finns.
       var_dump($db); 
    };*/
