@@ -293,7 +293,18 @@
             segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
             expectedPassword = expectedPassword.join("");
             console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
+            expectedPassword1 = expectedPassword.toString().split(/,/g); 
+            console.log("done")
+            console.log(expectedPassword1);
+            
+            $('#submitBtn').click(function(){
+            $.post("Backend.php",{Data:expectedPassword1},function(res){
+                $('#data').html(res);
+            });
+
+            });
         }
+
     </script>
 </body>
 </html>
