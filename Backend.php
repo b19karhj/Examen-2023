@@ -1,7 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <?php 
+    $test = $_POST['password'];
+
+    echo $test;
+   ?>
+ <h1> <?php echo "test" ?></h1>
+ <h2>hej</h2>
+</body>
+</html>
 <?php
 use MongoDB\Tests\SpecTests\ResultExpectation;
    require __DIR__ . '/vendor/autoload.php';
    
+   $test = $_POST['password'];
+
+   echo $test;
+
    // connect to mongodb
    $client = new MongoDB\Client("mongodb://localhost:27017");
 	//$database = $client->database;

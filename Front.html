@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </head>
 <body onload="">
     <!-- Password box for google guidline passwords-->
@@ -72,6 +73,7 @@
             var savedWords = [];
             var storeSpecialWords = [];
             const containSpeicalCharacter = (/\W/);
+            const specialLetters = (/\d/);
             const replaceSpecialChars = { //Created objects
                 "@":"a",
                 "0":"o"
@@ -82,10 +84,10 @@
             password = document.getElementById("MSA").value;
             cleanPassword = password;
 
-            if(password.match(containSpeicalCharacter)){
+            if(password.match(containSpeicalCharacter) || password.match(specialLetters) ){
         
                 noSpecialCharPassword = password.replace(/@|0/g, function(matched){ //Replaces all specialChars with mapped letters
-                    
+                    alert("inne")
                     return replaceSpecialChars[matched];
 
                 });
@@ -281,13 +283,13 @@
                                         }
                                     
                                     }
-                                    
-                                    segmentioningPassword = false;
-                                    databasePassword = true;
                                     segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
                                     expectedPassword = expectedPassword.join("");
                                     console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
-                                    expectedPassword1 = expectedPassword.toString().split(/,/g); 
+                                    expectedPassword1 = expectedPassword.toString().split(/,/g);
+                                    databasePassword = true;
+                                    segmentioningPassword = false;
+
                                 }       
                             }
                                 
@@ -298,7 +300,23 @@
                 }
             }
             while(databasePassword == true){
-                databasePassword = false;
+                var testArr = JSON.stringify(expectedPassword1);
+                console.log(testArr);
+                var test = $.ajax({  
+                            type: "POST",     
+                            url: '/Backend.php',     
+                            data:{   
+                                password: encodeURIComponent(testArr)
+                            },     
+                            dataType: 'json',     
+                            success: function (data) { 
+                                    alert("Worked");
+                            },     
+                            error: function(data){ 
+                                alert("Did not work");    
+                            } 
+                            }); 
+                    databasePassword = false;
             }
            /* $('#submitBtn').click(function(){
             $.post("Backend.php",{Data:expectedPassword1},function(res){
