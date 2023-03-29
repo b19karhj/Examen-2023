@@ -81,15 +81,15 @@
             var cleanPassword;
             var segmentioningPassword = true;
             var databasePassword = false;
+            var nonchangedPassword;
             password = document.getElementById("MSA").value;
+            nonchangedPassword = password;
             cleanPassword = password;
 
             if(password.match(containSpeicalCharacter) || password.match(specialLetters) ){
         
                 noSpecialCharPassword = password.replace(/@|0/g, function(matched){ //Replaces all specialChars with mapped letters
-                    alert("inne")
                     return replaceSpecialChars[matched];
-
                 });
 
             }else{
@@ -299,25 +299,35 @@
   
                 }
             }
-            while(databasePassword == true){
-                var testArr = JSON.stringify(expectedPassword1);
-                console.log(testArr);
-                var test = $.ajax({  
-                            type: "POST",     
-                            url: '/Backend.php',     
-                            data:{   
-                                password: encodeURIComponent(testArr)
-                            },     
-                            dataType: 'json',     
-                            success: function (data) { 
-                                    alert("Worked");
-                            },     
-                            error: function(data){ 
-                                alert("Did not work");    
-                            } 
-                            }); 
+           
+                //expectedPassword1
+                var testArr = JSON.stringify(nonchangedPassword);
+                $.ajax( "./Backend.php" ,{
+                    type: 'POST',
+                    data: { 
+                        password: encodeURIComponent(testArr)		
+                    }
+                    ,success: function(data){
+                      
+                        alert(decodeURIComponent(data))
+                    }
+                })
+                
+                .done(function (data) {
+                    console.log("inne")
                     databasePassword = false;
-            }
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    console.log("Fail")
+                    console.log(errorThrown)
+                    console.log(textStatus)
+                    console.log(jqXHR)
+                })
+                .always(function() {
+                console.log("yay");
+                });
+                
+         
            /* $('#submitBtn').click(function(){
             $.post("Backend.php",{Data:expectedPassword1},function(res){
                 $('#data').html(res);

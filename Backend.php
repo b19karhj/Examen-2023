@@ -1,67 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-   <?php 
-    $test = $_POST['password'];
-
-    echo $test;
-   ?>
- <h1> <?php echo "test" ?></h1>
- <h2>hej</h2>
-</body>
-</html>
 <?php
-use MongoDB\Tests\SpecTests\ResultExpectation;
-   require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
+   //Connection
    
-   $test = $_POST['password'];
-
-   echo $test;
-
-   // connect to mongodb
    $client = new MongoDB\Client("mongodb://localhost:27017");
-	//$database = $client->database;
-   //$collection = $database->collection;
    $collection = $client->Examen2023->Examen;
-  
    
+   //if(isset($_POST['password'])){
+     // $password = $_POST['password'];
+   //};
+   //$password = 'iloveyou';
+  
+   $arrayTest = array("i","love","you");
+ 
+
    //$query1 = $collection->find([ 'Password' => [ '$regex' => '%love$' ]]);
 
-   //$cursor = $collection->findOne(['Password' => "iloveyou"]); // Returns object whith password equals "iloveyou"
 
-   //var_dump($query1);
+//var_dump($cursor);
 
-   //$cursor = $collection->find(['Password' => [$regex ], 'rock']);
-  // var_dump($cursor);
-   /*foreach($client->listDatabases() as $db){ // Listar alla databaser som finns.
-      var_dump($db); 
-   };*/
+//$cursor = $collection->find(['Password' => [$regex ], 'rock']);
+//var_dump($cursor);
+//foreach($client->listDatabases() as $db){ // Listar alla databaser som finns.
+  // var_dump($db); 
+//};
+
+
 // Set up query with regex
-   $filter = ['Password' => ['$regex' => 'love']]; // Find documents where 'name' field starts with 'J'
-   $options = [];
+$filter = ['Password' => ['$regex' => 'iloveyou12345678']]; // Find documents where 'name' field starts with 'J'
+//$options = [];
 
-   // Execute query
- 
-   $cursor =  $collection->find($filter);
+// Execute query
+
+$cursor =  $collection->find($filter);
+
+$dataArray = $cursor->toArray();
+
+//$theHash = $_POST['hashString'];
+//print($theHash); 
+
+$totalArray = array();
+$totalHits = 0;
+foreach ($dataArray as $document){ 
+   $hits = $document->Hits;  //Saves the number from Hits
+   $totalHits += $hits;  //Adds and saves the total value of hits
+   //$totalArray[] = $totalHits;
    
-   $dataArray = $cursor->toArray();
-   $theHash = $_POST['hashString'];
-   print($theHash); 
+};
+//var_dump($totalHits);//[] = $totalHits;
+print($totalHits);
+   //print($numbers);
+//return // skicka tillbaka.
+//Todo. query ett password och få hits som response.
 
-  /*foreach ($dataArray as $document){ 
-      //$hits = $document->Hits; $password = $document->Password; 
-      print($hits ."\n"); 
-   }
-   return // skicka tillbaka.
-   //Todo. query ett password och få hits som response.*/
-
- 
-
-      
+   
 ?>
