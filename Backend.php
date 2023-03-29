@@ -10,7 +10,7 @@ require __DIR__ . '/vendor/autoload.php';
    //};
    //$password = 'iloveyou';
   
-   $arrayTest = array("i","love","you");
+   $arrayTest = array("iloveyou12345678","iloveyou123456789","iloveyou123456");
  
 
    //$query1 = $collection->find([ 'Password' => [ '$regex' => '%love$' ]]);
@@ -26,31 +26,33 @@ require __DIR__ . '/vendor/autoload.php';
 
 
 // Set up query with regex
-$filter = ['Password' => ['$regex' => 'iloveyou12345678']]; // Find documents where 'name' field starts with 'J'
-//$options = [];
 
-// Execute query
+$testArray = [];
 
-$cursor =  $collection->find($filter);
-
-$dataArray = $cursor->toArray();
-
-//$theHash = $_POST['hashString'];
-//print($theHash); 
-
-$totalArray = array();
-$totalHits = 0;
-foreach ($dataArray as $document){ 
-   $hits = $document->Hits;  //Saves the number from Hits
-   $totalHits += $hits;  //Adds and saves the total value of hits
-   //$totalArray[] = $totalHits;
+for ($i = 0; $i < count($arrayTest); $i++){
    
+   $filter = ['Password' => ['$regex' => $arrayTest[$i]]]; // Find documents where 'name' field starts with 'J'
+   $cursor =  $collection->find($filter);
+   $dataArray = $cursor->toArray();
+   $totalHits = 0;
+   print($arrayTest[$i]."\n");
+      foreach ($dataArray as $document){ 
+         $hits = $document->Hits;  //Saves the number from Hits
+         //print($hits."\n");
+         $totalHits += $hits;  //Adds and saves the total value of hits
+         //$totalArray[] = $totalHits;
+      }
+      $testArray[] = $totalHits;
 };
+
+
 //var_dump($totalHits);//[] = $totalHits;
-print($totalHits);
+//print($totalHits);
    //print($numbers);
 //return // skicka tillbaka.
 //Todo. query ett password och få hits som response.
 
-   
+foreach($testArray as $result){
+   print($result."\n");
+};
 ?>
