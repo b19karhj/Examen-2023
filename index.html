@@ -61,7 +61,8 @@
             var leetSearchingWord; //Stores the password created while last character is deleted.
             var wordDetector = 0;
             var expectedPassword = [];
-            var expectedPassword1 = [];
+            var readyForSend = [];
+            var prepareForSend = [];
             var expectedPassword2 = [];
             var segmentationTracker = []; //Keeps track of all segmentations
             var leetSegmentationTracker = [];
@@ -285,17 +286,17 @@
                                         }
                                     
                                     }
+                    
                                     segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
                                     expectedPassword = expectedPassword.join("");
                                     console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
-                                    expectedPassword1 = expectedPassword.split(/,/g);
-                                    console.log(expectedPassword1); 
-                                    for(let m = 0; m < expectedPassword1.length; m++){ //Varför fungerar inte denna?
-                                        if(expectedpassword1[m].length <= 2){
-                                            expectedPassword2.push('');
+                                    prepareForSend = expectedPassword.split(/,/g); 
+                                    for (let i = 0; i < prepareForSend.length; i++){ 
+                                        if(prepareForSend[i].length <= 2){
+                                            readyForSend.push('');
                                         }else{
-                                            expectedPassword2.push(expectedpassword1[m]);
-                                            print("hello");
+                                            readyForSend.push(prepareForSend[i]);
+                                            
                                         }
                                     };
                                     databasePassword = true;
@@ -310,12 +311,11 @@
   
                 }
             }
-            
-                console.log(expectedPassword);
+                console.log(readyForSend);
                 alert("Kolla")
                 //expectedPassword1
-                var segP = JSON.stringify(nonchangedPassword);
                 var noSegP = JSON.stringify(expectedPassword);
+                var segP = JSON.stringify(readyForSend);
                 $.ajax( "./Backend.php" ,{
                     type: 'POST',
                     data: { 
@@ -339,17 +339,6 @@
                     console.log(textStatus)
                     console.log(jqXHR)
                 })
-                .always(function() {
-                console.log("yay");
-                });
-                
-         
-           /* $('#submitBtn').click(function(){
-            $.post("Backend.php",{Data:expectedPassword1},function(res){
-                $('#data').html(res);
-            });
-            
-            });*/
         }
 
     </script>
