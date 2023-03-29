@@ -1,19 +1,21 @@
-Aaberg
-Aachen
-AAE
-AAEE
-AAF
-AAG
-aah
-aahed
-aahing
-aahs
-AAII
-aal
-Aalborg
-Aalesund
-aalii
-aaliis
-aals
-Aalst
-Aalto
+   $cursor = $collection->findOne(['Password' => $password]); // Returns object whith password equals "iloveyou"
+   if($cursor == null){
+      $testArray = [];
+      for ($i = 0; $i < count($arrayTest); $i++){
+         $totalHits = 0;
+         $filter = ['Password' => ['$regex' => $arrayTest[$i]]]; // Find documents where 'name' field starts with 'J'
+         $cursor =  $collection->find($filter);
+         $dataArray = $cursor->toArray();
+
+         foreach ($dataArray as $document){ 
+            $hits = $document->Hits;  //Saves the number from Hits
+            $totalHits += $hits;  //Adds and saves the total value of hits
+         }
+
+         $testArray[] = $totalHits;
+      };
+
+      foreach($testArray as $result){
+         print($result."\n");
+      };
+      

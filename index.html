@@ -301,15 +301,18 @@
             }
            
                 //expectedPassword1
-                var testArr = JSON.stringify(nonchangedPassword);
+                var segP = JSON.stringify(nonchangedPassword);
+                var noSegP = JSON.stringify(expectedPassword1);
                 $.ajax( "./Backend.php" ,{
                     type: 'POST',
                     data: { 
-                        password: encodeURIComponent(testArr)		
+                        noSegPassword: encodeURIComponent(noSegP),
+                        segPassword: encodeURIComponent(segP)	
                     }
                     ,success: function(data){
                       
                         alert(decodeURIComponent(data))
+                        
                     }
                 })
                 
