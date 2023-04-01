@@ -34,7 +34,7 @@
                 words = data.split("\r\n"); //Splittar textfilen och sparar i strängen.
             })
         }*/ 
-       function wordChecker(word){
+        function wordChecker(word){
             return new Promise ((resolve,reject) => {
                 fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+word+'')
                     .then(response => response.json())
@@ -52,8 +52,22 @@
                 
             }//If timed out again. Create catch error and refere to v1 of the api
 
+        function ajaxFunction(nonchangedPassword,readyForSend){
+            var noSegP = JSON.stringify(nonchangedPassword);
+            var segP = JSON.stringify(readyForSend);
+            let result;
+            result = $.ajax( "./Backend.php" ,{
+                    type: 'POST',
+                    data: { 
+                        noSegPassword: noSegP,
+                        segPassword: segP	
+                    }
+                }) 
+            return result;
+        }
+
         //Algorithm for MSA
-       async function MSA(){
+       async function MSA(result){
             //Varibales
             var password; //Holds passwords from password 2
             var noSpecialCharPassword;
@@ -85,6 +99,8 @@
             var segmentioningPassword = true;
             var databasePassword = false;
             var nonchangedPassword;
+            var returnData;
+            var returnWait = false;
             password = document.getElementById("MSA").value;
             nonchangedPassword = password;
             cleanPassword = password;
@@ -311,37 +327,26 @@
   
                 }
             }
-                console.log(expectedPassword)
+                //console.log(expectedPassword)
                
                 //expectedPassword1
-                var noSegP = JSON.stringify(nonchangedPassword);
-                var segP = JSON.stringify(readyForSend);
-                $.ajax( "./Backend.php" ,{
-                    type: 'POST',
-                    data: { 
-                        noSegPassword: noSegP,
-                        segPassword: segP	
-                    }
-                    ,success: function(data){
-                      
-                        //(decodeURIComponent(data))
-                        
-                    }
-                })
+                var returnValue;
+                returnValue = await ajaxFunction(nonchangedPassword,readyForSend);
+                returnValue = JSON.parse(returnValue);
+                console.log(returnValue)
+                if(returnValue == true){
+                    console.log("password exists");
+                    
+                }
+                else{
+                    
+                    console.log(returnValue)
+                    alert("array?")
+                }
+                   
                 
-                .done(function (data) {
-                    console.log(data);
-                    var hej = JSON.parse(data)
-                    console.log(hej);
-                    console.log("inne")
-                    databasePassword = false;
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    console.log("Fail")
-                    console.log(errorThrown)
-                    console.log(textStatus)
-                    console.log(jqXHR.response)
-                })
+               
+
         }
 
     </script>
