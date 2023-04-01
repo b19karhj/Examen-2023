@@ -12,25 +12,50 @@
             flex-direction: row;
         }
         .arraySegments{
+            border-radius: 2px solid black;
             margin-right: 10px;
+        }
+         
+        #page1{
+            display:none;
+            width: 100%;
+            min-height: 100%;
+            position: fixed;
+        }
+        #page2{
+            display: block;
+            width: 100%;
+            min-height: 100%;
+            position: fixed;
         }
     </style>
 </head>
 <body onload="">
     <!-- Password box for google guidline passwords-->
-    <div>
-        <label for="noMSA">Password 1</label>
-        <input type="text" id="noMSA" name="noMSA">
-        <input type="submit" value="submit1">
+    <div id="page1">
+        <div>
+            <label for="noMSA">Password 1</label>
+            <input type="text" id="noMSA" name="noMSA">
+            <input type="submit" value="submit1">
+        </div>
+        <!-- Password box for MSA passwords-->
+        <div>
+            <label for="MSA">Password 2</label>
+            <input type="text" id="MSA" name="MSA">
+            <input type="submit" value="submit2" onclick="MSA();">
+            <div id="container" class="arraySegments"></div>
+        </div>
     </div>
-     <!-- Password box for MSA passwords-->
-    <div>
-        <label for="MSA">Password 2</label>
-        <input type="text" id="MSA" name="MSA">
-        <input type="submit" value="submit2" onclick="MSA();">
-        <div id="container" class="arraySegments"></div>
+    <div id="page2">
+        <form>
+            <h1>Your password have been accepted!</h1>
+            <div class="arraySegments"></div>
+            <label for="f1">Was the segmentation of your password corrrect?</label>
+            <input type="radio" for="f1" id="yes" name="segq1" value="yes">
+            <input type="radio" for="f1" id="no" name="seg1" value="no">
+        </form>
     </div>
-    <script>
+    <script> 
          var words; //Global veriabel som håller innehåller alla ord från ordlistan.
 
        
@@ -88,7 +113,7 @@
         }
 
         //Algorithm for MSA
-       async function MSA(result){
+       async function MSA(){
             //Varibales
             var password; //Holds passwords from password 2
             var noSpecialCharPassword;
@@ -366,12 +391,36 @@
                 returnValue = JSON.parse(returnValue);
                 console.log(returnValue)
                 if(returnValue == true){
-                    console.log("password exists");
+                    alert("The password "+segmentedPassword+" has been leaked before and is not safe! Try a different password")
                     
                 }
                 else{
-                    console.log("hej")
-                    console.log(returnValue.length)
+                    var outputElements = document.getElementsByClassName("arraySegments"); //Fetch class
+                    for(let i = 0; i < returnValue.length; i++){
+                        if(returnValue[i] < 2000){
+                            outputElements[i+1].style.backgroundColor="green"; //i+1 beacuse 0 is always empety and first word is at postion 1
+                        }else{
+                            outputElements[i+1].style.backgroundColor="red";
+                        }
+                    }
+                }
+                var colortest = true;
+                for(let i = 1; i < outputElements.length; i++){
+                    if(outputElements[i].style.backgroundColor == "red"){
+                        colortest = false;
+                        break;
+                    }
+                    else{
+
+                    }
+                }
+                
+                if(colortest == false){
+                    alert("One or more segments are not accepted");
+                    
+                }else if(colortest == true){
+                    document.getElementById("page1").style.display = "none";
+                    document.getElementById("page2").style.display = "block";
                 }
                    
                 
