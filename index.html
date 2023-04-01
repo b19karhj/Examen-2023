@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <style>
+        #container{
+            display: flex;
+            flex-direction: row;
+        }
+        .arraySegments{
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body onload="">
     <!-- Password box for google guidline passwords-->
@@ -19,6 +28,7 @@
         <label for="MSA">Password 2</label>
         <input type="text" id="MSA" name="MSA">
         <input type="submit" value="submit2" onclick="MSA();">
+        <div id="container" class="arraySegments"></div>
     </div>
     <script>
          var words; //Global veriabel som håller innehåller alla ord från ordlistan.
@@ -64,6 +74,17 @@
                     }
                 }) 
             return result;
+        }
+
+        function clearElements(prepareForSend){
+            console.log(prepareForSend);
+            if(prepareForSend != null){
+                const list = document.getElementById("container");
+                while (list.hasChildNodes()) {
+                    list.removeChild(list.firstChild);
+                }
+                
+            }
         }
 
         //Algorithm for MSA
@@ -302,11 +323,19 @@
                                         }
                                     
                                     }
-                    
+                                    clearElements(prepareForSend);
                                     segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
                                     expectedPassword = expectedPassword.join("");
                                     console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
                                     prepareForSend = expectedPassword.split(/,/g); 
+                                    
+                                    const container = document.getElementById("container"); //Fetch id
+                                    for(let i = 0; i < prepareForSend.length; i++){ 
+                                        var divBoxes = document.createElement("div"); //create span element
+                                        divBoxes.classList.add("arraySegments"); // Add .item
+                                        divBoxes.textContent = prepareForSend[i]; //Add textcontent from current value of testa.
+                                        container.appendChild(divBoxes); //Append to span to container
+                                    }
                                     for (let i = 0; i < prepareForSend.length; i++){ 
                                         if(prepareForSend[i].length <= 2){
                                             readyForSend.push('');
@@ -315,6 +344,8 @@
                                             
                                         }
                                     };
+                                    
+                                    
                                     databasePassword = true;
                                     segmentioningPassword = false;
 
@@ -339,9 +370,8 @@
                     
                 }
                 else{
-                    
-                    console.log(returnValue)
-                    alert("array?")
+                    console.log("hej")
+                    console.log(returnValue.length)
                 }
                    
                 
