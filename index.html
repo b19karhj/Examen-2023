@@ -311,25 +311,28 @@
   
                 }
             }
-                console.log(readyForSend);
-                alert("Kolla")
+                console.log(expectedPassword)
+               
                 //expectedPassword1
-                var noSegP = JSON.stringify(expectedPassword);
+                var noSegP = JSON.stringify(nonchangedPassword);
                 var segP = JSON.stringify(readyForSend);
                 $.ajax( "./Backend.php" ,{
                     type: 'POST',
                     data: { 
-                        noSegPassword: encodeURIComponent(noSegP),
-                        segPassword: encodeURIComponent(segP)	
+                        noSegPassword: noSegP,
+                        segPassword: segP	
                     }
                     ,success: function(data){
                       
-                        alert(decodeURIComponent(data))
+                        //(decodeURIComponent(data))
                         
                     }
                 })
                 
                 .done(function (data) {
+                    console.log(data);
+                    var hej = JSON.parse(data)
+                    console.log(hej);
                     console.log("inne")
                     databasePassword = false;
                 })
@@ -337,7 +340,7 @@
                     console.log("Fail")
                     console.log(errorThrown)
                     console.log(textStatus)
-                    console.log(jqXHR)
+                    console.log(jqXHR.response)
                 })
         }
 
