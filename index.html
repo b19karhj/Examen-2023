@@ -28,6 +28,12 @@
             min-height: 100%;
             position: fixed;
         }
+        form{
+            width: 600px;
+            height: 1000px;
+            border: 2px solid black;
+            margin: auto;
+        }
     </style>
 </head>
 <body onload="">
@@ -50,13 +56,63 @@
         <form>
             <h1>Your password have been accepted!</h1>
             <div class="arraySegments"></div>
-            <label for="f1">Was the segmentation of your password corrrect?</label>
-            <input type="radio" for="f1" id="yes" name="segq1" value="yes">
-            <input type="radio" for="f1" id="no" name="seg1" value="no">
+            <label for="q1">Was the segmentation of your password corrrect?</label>
+                <br>
+                <label>Yes</label>
+                    <input type="radio" id="q1yes" name="q1" value="yes"><br>
+                <label>No</label>
+                    <input type="radio" id="q1no" name="q1" value="no">
+                <br>
+            <label for="q2">Did the validation service for segmented password help you create a stronger password then you did with the Googles guidelines?</label>
+                <br>
+                <label>Yes</label>
+                    <input type="radio" id="q2yes" name="q2" value="yes"><br>
+                <label>No</label>
+                    <input type="radio" id="q2no"  name="q2" value="no"><br>
+                <label>Indifferent</label>
+                    <input type="radio" id="q2same" name="q2" values="Indifferent"><br>
+                <label>Worse</label>
+                    <input type="radio" id="q2worse" name="q2" values="worse">
+                <br>
+            <label for="q3">Do you think the segmented password you created would be easy to remember?</label>
+                <br>
+                <label>Yes</label>
+                    <input type="radio" id="q3yes" name="q3" value="yes"><br>
+                <label>No</label>
+                    <input type="radio" id="q3no"  name="q3" value="no"><br>
+                <br>
+            <label for="q4">Was the feedback given helpful, if one or more segments were not deemed safe?</label>
+                <br>
+                <label>Yes</label>
+                    <input type="radio" id="q4yes" name="q4" value="yes"><br>
+                <label>No</label>
+                    <input type="radio" id="q4no"  name="q4" value="no"><br>
+                <label>My password got accepted on the first attempt</label>
+                    <input type="radio" id="q4first"  name="q4" value="accepted">
+                <br>
+            <label for="q5">How many attempts did it take you to get your password accepted?</label>
+                <br>
+                <label>1 attempt</label>
+                    <input type="radio" id="q51" name="q5" value="1"><br>
+                <label>Less than 3 attepmts</label>
+                    <input type="radio" id="q5less"  name="q5" value="lessthan3"><br>
+                <label>More than 3 attempts</label>
+                    <input type="radio" id="q5more"  name="q5" value="morethan3">
+                <br>
+            <label for="q6">If this validation service was optimized would you prefer it over Goggles validation service they use for their current services?</label>
+                <br>
+                <label>Yes</label>
+                    <input type="radio" id="q6yes" name="q6" value="1"><br>
+                <label>No</label>
+                    <input type="radio" id="q6no"  name="q6" value="lessthan3"><br>
+                <label>Indifferent</label>
+                    <input type="radio" id="q6Indifferent"  name="q6" value="Indifferent">
+                <br>
+            <input type="submit" value="Submit"></submit>
         </form>
     </div>
     <script> 
-         var words; //Global veriabel som håller innehåller alla ord från ordlistan.
+         //var words; //Global veriabel som håller innehåller alla ord från ordlistan.
 
        
         //Function for local files.
