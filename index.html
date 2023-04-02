@@ -17,23 +17,47 @@
         }
          
         #page1{
-            display:none;
+            display:block;
             width: 100%;
             min-height: 100%;
             position: fixed;
         }
         #page2{
-            display: block;
+            display: none;
             width: 100%;
             min-height: 100%;
-            position: fixed;
+            position: absolute;
+        }
+        #formContainer{
+            width: 50%;
+            height: 80%;
+            margin:auto;
+            
         }
         form{
-            width: 600px;
-            height: 1000px;
             border: 2px solid black;
-            margin: auto;
         }
+        .formL{
+            padding-top: 10px;
+            display:inline-block;
+            font-size: 1.05em;
+            
+        }
+        fieldset{
+            border: 2px solid black;
+            margin: 10px;
+            padding-right: 5px;
+            padding-bottom: 5px;
+          
+        }
+        input{
+            margin: 5px;
+           
+        }
+        #formH{
+            text-align: center;
+        }
+      
     </style>
 </head>
 <body onload="">
@@ -53,17 +77,21 @@
         </div>
     </div>
     <div id="page2">
+        <div id="formContainer">
         <form>
-            <h1>Your password have been accepted!</h1>
+            <h1 id="formH">Your password have been accepted!</h1>
             <div class="arraySegments"></div>
-            <label for="q1">Was the segmentation of your password corrrect?</label>
+            <fieldset>
+            <label class="formL" for="q1">Was the segmentation of your password corrrect?</label>
                 <br>
                 <label>Yes</label>
-                    <input type="radio" id="q1yes" name="q1" value="yes"><br>
+                    <input type="radio" class="q1a" name="q1" value="yes"><br>
                 <label>No</label>
-                    <input type="radio" id="q1no" name="q1" value="no">
+                    <input type="radio" class="q1a" name="q1" value="no">
                 <br>
-            <label for="q2">Did the validation service for segmented password help you create a stronger password then you did with the Googles guidelines?</label>
+            </fieldset>
+            <fieldset>
+            <label class="formL" for="q2">Did the validation service for segmented password help you create a stronger password then you did with the Googles guidelines?</label>
                 <br>
                 <label>Yes</label>
                     <input type="radio" id="q2yes" name="q2" value="yes"><br>
@@ -74,14 +102,18 @@
                 <label>Worse</label>
                     <input type="radio" id="q2worse" name="q2" values="worse">
                 <br>
-            <label for="q3">Do you think the segmented password you created would be easy to remember?</label>
+            </fieldset>
+            <fieldset>
+            <label class="formL" for="q3">Do you think the segmented password you created would be easy to remember?</label>
                 <br>
                 <label>Yes</label>
                     <input type="radio" id="q3yes" name="q3" value="yes"><br>
                 <label>No</label>
-                    <input type="radio" id="q3no"  name="q3" value="no"><br>
+                    <input type="radio" id="q3no"  name="q3" value="no">
                 <br>
-            <label for="q4">Was the feedback given helpful, if one or more segments were not deemed safe?</label>
+            </fieldset>
+            <fieldset>
+            <label class="formL" for="q4">Was the feedback given helpful, if one or more segments were not deemed safe?</label>
                 <br>
                 <label>Yes</label>
                     <input type="radio" id="q4yes" name="q4" value="yes"><br>
@@ -90,7 +122,9 @@
                 <label>My password got accepted on the first attempt</label>
                     <input type="radio" id="q4first"  name="q4" value="accepted">
                 <br>
-            <label for="q5">How many attempts did it take you to get your password accepted?</label>
+            </fieldset>
+            <fieldset>
+            <label class="formL" for="q5">How many attempts did it take you to get your password accepted?</label>
                 <br>
                 <label>1 attempt</label>
                     <input type="radio" id="q51" name="q5" value="1"><br>
@@ -99,7 +133,9 @@
                 <label>More than 3 attempts</label>
                     <input type="radio" id="q5more"  name="q5" value="morethan3">
                 <br>
-            <label for="q6">If this validation service was optimized would you prefer it over Goggles validation service they use for their current services?</label>
+            </fieldset>
+            <fieldset>
+            <label class="formL" for="q6">If this validation service was optimized would you prefer it over Goggles validation service they use for their current services?</label>
                 <br>
                 <label>Yes</label>
                     <input type="radio" id="q6yes" name="q6" value="1"><br>
@@ -108,8 +144,10 @@
                 <label>Indifferent</label>
                     <input type="radio" id="q6Indifferent"  name="q6" value="Indifferent">
                 <br>
-            <input type="submit" value="Submit"></submit>
+            </fieldset>
+            <input type="submit" value="Submit" onclick="ajaxQuestion();"></submit>
         </form>
+        </div>
     </div>
     <script> 
          //var words; //Global veriabel som håller innehåller alla ord från ordlistan.
@@ -142,19 +180,43 @@
                 })
                 
             }//If timed out again. Create catch error and refere to v1 of the api
-
+        
         function ajaxFunction(nonchangedPassword,readyForSend){
             var noSegP = JSON.stringify(nonchangedPassword);
             var segP = JSON.stringify(readyForSend);
             let result;
             result = $.ajax( "./Backend.php" ,{
-                    type: 'POST',
-                    data: { 
-                        noSegPassword: noSegP,
-                        segPassword: segP	
-                    }
-                }) 
-            return result;
+                type: 'POST',
+                data: { 
+                    noSegPassword: noSegP,
+                    segPassword: segP	
+                }
+            })
+            return result;    
+        }
+
+        function ajaxQuestion(){
+            var q1 = JSON.stringify(document.querySelector("input[name='q1']:checked").value);
+            var q2 = JSON.stringify(document.querySelector("input[name='q2']:checked").value);
+            var q3 = JSON.stringify(document.querySelector("input[name='q3']:checked").value);
+            var q4 = JSON.stringify(document.querySelector("input[name='q4']:checked").value);
+            var q5 = JSON.stringify(document.querySelector("input[name='q5']:checked").value);
+            var q6 = JSON.stringify(document.querySelector("input[name='q6']:checked").value);
+            //var pass = JSON.stringify(nonchangedPassword);
+            $.ajax( "./Backend.php" ,{
+                type: 'POST',
+                answers: { 
+                    q1: q1,
+                    q2: q2,
+                    q3: q3,
+                    q4: q4,
+                    q5: q5,
+                    q6: q6
+                    
+                }
+            }) 
+           
+            
         }
 
         function clearElements(prepareForSend){

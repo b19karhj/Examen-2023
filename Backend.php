@@ -1,7 +1,12 @@
 <?php
       require __DIR__ . '/vendor/autoload.php';
+      
+      $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+      $dotenv->load();
+
       //Connection
-      $client = new MongoDB\Client("mongodb+srv://Rena:ZynMonster%40!23@examen2023.rho8i7v.mongodb.net/test");
+      $client = new MongoDB\Client('mongodb+srv://'.$_ENV['MDB_USER'].':'.$_ENV['MDB_PASS'].'@'.$_ENV['ATLAS_CLUSTER_SRV'].'/test');
+     
       $collection = $client->Examen2023->Examen;
       
       if(isset($_POST['segPassword']) && isset($_POST['noSegPassword'])){
@@ -29,5 +34,16 @@
          }else if ($cursor != null){
             echo json_encode(true); //returnera ett stop tillbaka till javascript ajax.
          }
+   }
+   $final = $client->ExamenForm->Form;
+
+   if(isset($_POST['q1'])){
+      $insertResults = $final->insertOne(
+         [
+            'q1' => "test"
+         ]
+      );
+      
+      //var_dump($insertResults->getInsertedId());
    }
 ?>
