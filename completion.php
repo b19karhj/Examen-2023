@@ -29,6 +29,7 @@
             'GooglePassword' => $googlePass,
             'MSAPassword' => $msaPass,
         ]);
+        echo json_decode(true);
         
       };
       
