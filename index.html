@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="#">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,13 +21,13 @@
         }
          
         #page1{
-            display:block;
+            display:none;
             width: 100%;
             min-height: 100%;
             position: fixed;
         }
         #page2{
-            display: none;
+            display: block;
             width: 100%;
             min-height: 100%;
             position: absolute;
@@ -77,7 +78,10 @@
             text-align: right;
             margin-right: 10px;
         }
-      
+        button{
+            height: 50px;
+            width: 50px;
+        }
     </style>
 </head>
 <body onload="">
@@ -101,7 +105,7 @@
     </div>
     <div id="page2">
         <div id="formContainer">
-        <form>
+        <form id="form">
             <h1 id="formH">Your password have been accepted!</h1>
             <div class="arraySegments"></div>
             <fieldset>
@@ -168,7 +172,7 @@
                     <input type="radio" id="q6Indifferent"  name="q6" value="Indifferent">
                 <br>
             </fieldset>
-            <input type="submit" value="Submit" onclick="ajaxQuestion();"></submit>
+            <button type="submit"></button>
         </form>
         </div>
     </div>
@@ -217,30 +221,30 @@
             })
             return result;    
         }
+        
 
-        function ajaxQuestion(){
-            var q1 = JSON.stringify(document.querySelector("input[name='q1']:checked").value);
-            var q2 = JSON.stringify(document.querySelector("input[name='q2']:checked").value);
-            var q3 = JSON.stringify(document.querySelector("input[name='q3']:checked").value);
-            var q4 = JSON.stringify(document.querySelector("input[name='q4']:checked").value);
-            var q5 = JSON.stringify(document.querySelector("input[name='q5']:checked").value);
-            var q6 = JSON.stringify(document.querySelector("input[name='q6']:checked").value);
+        function logSubmit(event) {
+            var qes1 = JSON.stringify(document.querySelector("input[name='q1']:checked").value);
             //var pass = JSON.stringify(nonchangedPassword);
+            console.log("inne")
             $.ajax( "./completion.php" ,{
                 type: 'POST',
-                answers: { 
-                    q1: q1,
-                    q2: q2,
-                    q3: q3,
-                    q4: q4,
-                    q5: q5,
-                    q6: q6
-                    
+                data: { 
+                    qe1: qes1 
                 }
             }) 
+            .done(function(data){
+                var hej = JSON.parse(data)
+                onsole.log(hej);
+            });
            
-            
+            event.preventDefault();
         }
+
+        const form = document.getElementById("form");
+        form.addEventListener("submit", logSubmit);
+
+
 
         function clearElements(prepareForSend){
             console.log(prepareForSend);

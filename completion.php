@@ -9,10 +9,15 @@
      
       $collection = $client->Examen2023->Form;
 
-      $insertOneResult = $collection->insertOne([
-         'username' => 'admin',
-         'email' => 'admin@example.com',
-         'name' => 'Admin User'
-      ]);
+      if(isset($_POST['qe1'])){
+        $p1 = json_decode($_POST['qe1']);
+        $insertOneResult = $collection->insertOne([
+            'username' => 'admin2',
+            'email' => 'admin@example.com2',
+            'name' => 'Admin User2',
+        ]);
+         echo json_encode($p1);
+      };
+      
 
 ?>
