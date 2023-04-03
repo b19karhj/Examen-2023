@@ -153,14 +153,14 @@
         #warningGoogle{
             border: 2px solid black;
             height: 30px;
-            width: 200px;
+            width: 400px;
             background-color: red;
             display: none;
         }
         #warningMSA{
             border: 2px solid black;
             height: 30px;
-            width: 200px;
+            width: 400px;
             background-color: red;
             display: none;
         }
@@ -216,7 +216,7 @@
                         <p>Use 8 or more characters, mix of letters, numbers and symbols is recommended</p>
                     </div>
                 </div>
-                <div id="warningGoogle">Less than 8 characters long</div>
+                <div id="warningGoogle"><span id="gWP"></span></div>
             </fieldset>
         
         <!-- Password box for MSA passwords-->
@@ -230,7 +230,7 @@
                         </div>
                         <div id="container" class="arraySegments"></div>
                     </div>
-                    <div id="warningMSA">Less than 4 segments or contains space " "!</div>
+                    <div id="warningMSA"><span id="msaWP"></span></div>
                 </fieldset>
             </div>
             <input id="button" type="submit" value="submit2" onclick="passwordCheck();">
@@ -322,6 +322,7 @@
         var g = document.getElementById("noMSA").value;
         let google = false;
         let googleWa = document.getElementById("warningGoogle");
+        let googleWP = document.getElementById("gWP");
 
         if(g.length >= 8){
             google = true;
@@ -329,6 +330,7 @@
             googleWa.style.display = "none";
         }else{
             gcheck.style.backgroundColor = "red";
+            googleWP.innerHTML = "Less than 8 characters long";
             googleWa.style.display = "block";
         }
 
@@ -341,6 +343,7 @@
         let segmentcheck = [];
         let msaB = false;
         let msaWa = document.getElementById("warningMSA");
+        let msaWAP = document.getElementById("msaWP");
 
         while(msaPasscheck.length != 0){
             if(msaPasscheck.match(numberCheck)){
@@ -397,6 +400,7 @@
         else{
             msaP.style.background= "red";
             msaWa.style.display = "block";
+            msaWAP.innerHTML = 'Less than 4 segments or contains space !" "';
         }
         if(google == true && msaB == true){
             MSA(); 
@@ -439,14 +443,26 @@
             var noSegP = JSON.stringify(nonchangedPassword);
             var segP = JSON.stringify(readyForSend);
             let result;
-            result = $.ajax( "./Backend.php" ,{
-                type: 'POST',
-                data: { 
+            var xhr = new XMLHttpRequest();
+                xhr.open("POST", "Backend.php", true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+
+                xhr.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // do something with the response
+                        result = this.responseText;
+                        return result;
+                    }
+                };
+                var data = {
                     noSegPassword: noSegP,
                     segPassword: segP	
-                }
-            })
-            return result;    
+                };
+
+                var encodedData = Object.keys(data).map(function(key) {
+                    return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
+                }).join("&");
+                xhr.send(encodedData);    
         }
    
         const form = document.getElementById("form");
@@ -470,26 +486,31 @@
                 var googlePass = JSON.stringify(googlePassword);
                 var msaPass = JSON.stringify(nonchangedPassword);
 
-                $.ajax( "./completion.php" ,{
-                    type: 'POST',
-                    data: { 
-                        q1: q1,
-                        q2: q2,
-                        q3: q3,
-                        q4: q4,
-                        q5: q5,
-                        q6: q6,
-                        gp: googlePass,
-                        mp: msaPass,
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "completion.php", true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
 
+                xhr.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        //response
+                        console.log(this.responseText);
                     }
-                    .done(function(data){
-                       let end = parse.JSON(data);
-                       if(end == true){
-                        //display something.
-                       }
-                    })
-                }) 
+                };
+                var data = {
+                    q1: q1,
+                    q2: q2,
+                    q3: q3,
+                    q4: q4,
+                    q5: q5,
+                    q6: q6,
+                    gp: googlePass,
+                    mp: msaPass,
+                };
+
+                var encodedData = Object.keys(data).map(function(key) {
+                    return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
+                }).join("&");
+                xhr.send(encodedData);
                 event.preventDefault();
                 
             }else{
@@ -789,8 +810,9 @@
                 returnValue = JSON.parse(returnValue);
                 console.log(returnValue)
                 if(returnValue == true){
-                    alert("The password "+segmentedPassword+" has been leaked before and is not safe! Try a different password")
-                    
+                
+                    msaWa.style.backgroundColor = "red";
+                    msaWAP.innerHTML = "The password "+segmentedPassword+" has been leaked before and is not safe! Try a different password"
                 }
                 else{
                     var outputElements = document.getElementsByClassName("arraySegments"); //Fetch class
