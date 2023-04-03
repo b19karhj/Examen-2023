@@ -10,8 +10,8 @@
       $collection = $client->Examen2023->Examen;
       
       if(isset($_POST['segPassword']) && isset($_POST['noSegPassword'])){
-         $password = json_decode($_POST['noSegPassword']);
-         $segmentedPassword = json_decode($_POST['segPassword'], true);
+         $password = JSON_decode($_POST['noSegPassword']);
+         $segmentedPassword = JSON_decode($_POST['segPassword'], true);
          $cursor = $collection->findOne(['Password' => $password]); // Returns single object if found
          
          if($cursor == null){
@@ -29,10 +29,10 @@
    
                $responseArray[] = $totalHits; // Saves the total hits in array
             };
-            echo json_encode($responseArray);
+            echo JSON_encode($responseArray);
             
          }else if ($cursor != null){
-            echo json_encode(true); //returnera ett stop tillbaka till javascript ajax.
+            echo JSON_encode(true); //returnera ett stop tillbaka till javascript ajax.
          }
    }
    
