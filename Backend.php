@@ -35,15 +35,5 @@
             echo json_encode(true); //returnera ett stop tillbaka till javascript ajax.
          }
    }
-   $final = $client->ExamenForm->Form;
-
-   if(isset($_POST['q1'])){
-      $insertResults = $final->insertOne(
-         [
-            'q1' => "test"
-         ]
-      );
-      
-      //var_dump($insertResults->getInsertedId());
-   }
+   
 ?>
