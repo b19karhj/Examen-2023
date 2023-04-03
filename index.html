@@ -150,7 +150,20 @@
             top: 1%;
             z-index: 1;
         }
-
+        #warningGoogle{
+            border: 2px solid black;
+            height: 30px;
+            width: 200px;
+            background-color: red;
+            display: none;
+        }
+        #warningMSA{
+            border: 2px solid black;
+            height: 30px;
+            width: 200px;
+            background-color: red;
+            display: none;
+        }
     </style>
 </head>
 <body onload="">
@@ -203,6 +216,7 @@
                         <p>Use 8 or more characters, mix of letters, numbers and symbols is recommended</p>
                     </div>
                 </div>
+                <div id="warningGoogle">Less than 8 characters long</div>
             </fieldset>
         
         <!-- Password box for MSA passwords-->
@@ -216,6 +230,7 @@
                         </div>
                         <div id="container" class="arraySegments"></div>
                     </div>
+                    <div id="warningMSA">Less than 4 segments or contains space " "!</div>
                 </fieldset>
             </div>
             <input id="button" type="submit" value="submit2" onclick="passwordCheck();">
@@ -306,11 +321,15 @@
         var gcheck = document.getElementById("noMSA");
         var g = document.getElementById("noMSA").value;
         let google = false;
+        let googleWa = document.getElementById("warningGoogle");
 
         if(g.length >= 8){
             google = true;
+            gcheck.style.backgroundColor = "lightgreen";
+            googleWa.style.display = "none";
         }else{
-            gcheck.style.backgroundColor = "#f57";
+            gcheck.style.backgroundColor = "red";
+            googleWa.style.display = "block";
         }
 
         const numberCheck = /^[0-9]/;
@@ -321,6 +340,8 @@
         let msaPasscheck = document.getElementById("MSA").value;
         let segmentcheck = [];
         let msaB = false;
+        let msaWa = document.getElementById("warningMSA");
+
         while(msaPasscheck.length != 0){
             if(msaPasscheck.match(numberCheck)){
                 segmentcheck.push(msaPasscheck.match(numberCheck));
@@ -370,13 +391,15 @@
         segmentcheck = segmentcheck.join("").split(/,/g);
         if(segmentcheck.length >= 4){
             msaB = true
+            msaP.style.background= "lightgreen";
+            msaWa.style.display = "none";
         }
         else{
             msaP.style.background= "red";
+            msaWa.style.display = "block";
         }
         if(google == true && msaB == true){
-            MSA();
-        
+            MSA(); 
         }
         google = false;
         msaB = false;
