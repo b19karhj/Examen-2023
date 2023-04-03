@@ -570,6 +570,7 @@
             var returnWait = false;
             var googlePassword;
             var temp;
+            var test3 = 0;
             //googlePassword = document.getElementById("google").value;
             password = document.getElementById("MSA").value;
             nonchangedPassword = password;
@@ -597,7 +598,7 @@
                 const lastCharAP = (/[a-zA-Z]$/);
                 const specialCharacter = /^\W/; //Regex special characters
                 var wordProcess = false;
-
+                
                 
                 /*TODO:
                 Efter det fråga mot databasen.
@@ -614,9 +615,8 @@
                     }else if(password.match(specialCharacter)){
                         segmentationTracker.push(password.match(specialCharacter))
                         password = password.substring(1);
-                        
                     }else{
-                        let fetchWord; 
+                        let fetchWord;
                         searchingWord = password.substring(0, password.length - i)
                         fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
 
@@ -638,50 +638,48 @@
                 if(password.length == 0 ){
 
                     for (let i = 0; i < noSpecialCharPassword.length; i++){
-                     
+                        console.log(i);
                         if(noSpecialCharPassword.match(number)){
+                            console.log("siffra");
                             leetSegmentationTracker.push(noSpecialCharPassword.match(number))
                             storeSpecialWords.push(noSpecialCharPassword.match(number));
                             noSpecialCharPassword = noSpecialCharPassword.substring(1);
+                            alert(noSpecialCharPassword);
                          
                         }else if(noSpecialCharPassword.match(specialCharacter)){
-                            
+                            console.log("special");
                             leetSegmentationTracker.push(noSpecialCharPassword.match(specialCharacter))
                             storeSpecialWords.push(noSpecialCharPassword.match(specialCharacter));
                             noSpecialCharPassword = noSpecialCharPassword.substring(1);
-                           
 
                         }else{
-                            let fetchLeetWord; 
+                            let fetchLeetWord;
+                            
                             if(temp == null){
-                                
                                 leetSearchingWord = noSpecialCharPassword;
-                                console.log(leetSearchingWord)
-                                alert("test");
-                            }
-                            else if(temp != null){
+                            }else if(temp != null){
                                 leetSearchingWord = temp;
-                                console.log(leetSearchingWord)
-                                alert("test");
                             }
                             fetchLeetWord = await wordChecker(leetSearchingWord);
-                            
+
                             if(fetchLeetWord){
-                                console.log("Word found :",leetSearchingWord);
+                                console.log("Word found :",leetSearchingWord)
                                 leetSegmentationTracker.push(leetSearchingWord); //Adds the word to segmentation tracker
                                 storeSpecialWords.push(" ");
                                 noSpecialCharPassword = noSpecialCharPassword.replace(`${leetSearchingWord}`, ""); //Replaces the word in password string with nothing.
-                                i = 0; //Behövs eftersom en stor del text har försvunnit och annars enbart visar första bokstaven i vad som är kvar
                                 temp = null;
+                                i = 0; //Behövs eftersom en stor del text har försvunnit och annars enbart visar första bokstaven i vad som är kvar
+                                test3 = 0;
                             }
                             else if(leetSearchingWord.length <= 1){
-                                console.log("aldrig nu");
-                                alert("ALDRIG NU");
+                                console.log(leetSearchingWord, "oj")
+                                alert("bara en")
                                 leetSegmentationTracker.push(leetSearchingWord[0]);
                                 storeSpecialWords.push(leetSearchingWord[0]);
                                 noSpecialCharPassword = noSpecialCharPassword.substring(1);
                             }else{
-                               temp = noSpecialCharPassword.substring(0,noSpecialCharPassword.length -i);
+                                temp = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - test3);
+                                test3 += 1;
                             }
                         }
                         
