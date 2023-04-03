@@ -570,7 +570,7 @@
             var returnWait = false;
             var googlePassword;
             var temp;
-            var test3 = 0;
+            var subNumber = 0;
             //googlePassword = document.getElementById("google").value;
             password = document.getElementById("MSA").value;
             nonchangedPassword = password;
@@ -669,7 +669,7 @@
                                 noSpecialCharPassword = noSpecialCharPassword.replace(`${leetSearchingWord}`, ""); //Replaces the word in password string with nothing.
                                 temp = null;
                                 i = 0; //Behövs eftersom en stor del text har försvunnit och annars enbart visar första bokstaven i vad som är kvar
-                                test3 = 0;
+                                subNumber = 0; //Need as the itteration skips 0 when exiting if statment.
                             }
                             else if(leetSearchingWord.length <= 1){
                                 console.log(leetSearchingWord, "oj")
@@ -678,8 +678,8 @@
                                 storeSpecialWords.push(leetSearchingWord[0]);
                                 noSpecialCharPassword = noSpecialCharPassword.substring(1);
                             }else{
-                                temp = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - test3);
-                                test3 += 1;
+                                temp = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - subNumber);
+                                subNumber += 1;
                             }
                         }
                         
