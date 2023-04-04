@@ -17,18 +17,26 @@
          if($cursor == null){
             $responseArray = [];
             for ($i = 0; $i < count($segmentedPassword); $i++){
+               error_log(memory_get_usage()); 
                $totalHits = 0;
-               $filter = ['Password' => ['$regex' => $segmentedPassword[$i]]]; // Find documents with regex include
-               $cursor =  $collection->find($filter);
-               $dataArray = $cursor->toArray();
-   
-               foreach ($dataArray as $document){ 
-                  $hits = $document->Hits;  //Saves the number from Hits
-                  $totalHits += $hits;  //Adds and saves the total value of hits
+               if($segmentedPassword[$i] == " "){
+                  $totalHits = 0;
                }
-   
+               else{
+                  $filter = ['Password' => ['$regex' => $segmentedPassword[$i]]]; // Find documents with regex include
+              
+                  $cursor =  $collection->find($filter);
+                  $dataArray = $cursor->toArray();
+                  
+                  foreach ($dataArray as $document){ 
+                     $hits = $document->Hits;  //Saves the number from Hits
+                     $totalHits += $hits;  //Adds and saves the total value of hits
+                  }
+               }
+               
                $responseArray[] = $totalHits; // Saves the total hits in array
             };
+            
             echo JSON_encode($responseArray);
             
          }else if ($cursor != null){

@@ -617,18 +617,26 @@
                         password = password.substring(1);
                     }else{
                         let fetchWord;
-                        searchingWord = password.substring(0, password.length - i)
+                        if(temp == null){
+                            searchingWord = password;
+                        }else if(temp != null){
+                            searchingWord = temp;
+                        }
                         fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
 
                         if(fetchWord){
                             segmentationTracker.push(searchingWord); //Adds the word to segmentation tracker
                             password = password.replace(`${searchingWord}`, ""); //Replaces the word in password string with nothing.
                             i = 0; //Behövs eftersom en stor del text har försvunnit och annars enbart visar första bokstaven i vad som är kvar
-                            
+                            subnumber = 0;
+
                         }else if(searchingWord.length <= 1){ //If temp.length is less then 1 in length, enter here to remove characters.
                             segmentationTracker.push(searchingWord[0]);
                             password = password.substring(1);
                         
+                        }else{
+                            temp = noSpecialCharPassword.substring(0, password.length - subNumber);
+                            subNumber += 1;
                         }
                         
                     }
@@ -636,18 +644,18 @@
                 };
                 
                 if(password.length == 0 ){
-
+                    subnumber = 0;
                     for (let i = 0; i < noSpecialCharPassword.length; i++){
-                        console.log(i);
+          
                         if(noSpecialCharPassword.match(number)){
-                            console.log("siffra");
+                       
                             leetSegmentationTracker.push(noSpecialCharPassword.match(number))
                             storeSpecialWords.push(noSpecialCharPassword.match(number));
                             noSpecialCharPassword = noSpecialCharPassword.substring(1);
-                            alert(noSpecialCharPassword);
+                        
                          
                         }else if(noSpecialCharPassword.match(specialCharacter)){
-                            console.log("special");
+                  
                             leetSegmentationTracker.push(noSpecialCharPassword.match(specialCharacter))
                             storeSpecialWords.push(noSpecialCharPassword.match(specialCharacter));
                             noSpecialCharPassword = noSpecialCharPassword.substring(1);
@@ -672,8 +680,8 @@
                                 subNumber = 0; //Need as the itteration skips 0 when exiting if statment.
                             }
                             else if(leetSearchingWord.length <= 1){
-                                console.log(leetSearchingWord, "oj")
-                                alert("bara en")
+                      
+                      
                                 leetSegmentationTracker.push(leetSearchingWord[0]);
                                 storeSpecialWords.push(leetSearchingWord[0]);
                                 noSpecialCharPassword = noSpecialCharPassword.substring(1);
@@ -800,7 +808,7 @@
                                     }
                                     for (let i = 0; i < prepareForSend.length; i++){ 
                                         if(prepareForSend[i].length <= 2){
-                                            readyForSend.push('');
+                                            readyForSend.push(' ');
                                         }else{
                                             readyForSend.push(prepareForSend[i]);
                                             
@@ -823,6 +831,7 @@
                 //console.log(expectedPassword)
                
                 //expectedPassword1
+                console.log(readyForSend);
                 var returnValue = await ajaxFunction(nonchangedPassword,readyForSend);
                 returnValue = JSON.parse(returnValue);
                 console.log(returnValue);
