@@ -640,54 +640,30 @@
             const containSpeicalCharacter = (/\W/);
             const specialLetters = (/\d/);
             const replaceSpecialChars = { //Created objects
-                "@":"a","^":"a","α":"a","λ":"a",
-
+                "@":"a","^":"a","λ":"a",
                 "8":"b","|3":"b","ß":"b","l³":"b","I3":"b","J3":"b",
-                
                 "©":"c","¢":"c",
-               
                 "|)":"d","1)":"d","đ":"d","Ð":"D","|]":"d",
-             
                 "3":"e","ε":"e","£":"e","€":"e",
-             
                 "|=":"f",'l²':"f",'ƒ':"f",'|"':"f",
-             
                 '6':"G",'9':"g",
-               
                 '#':"h",')-(':"h",'/-/':"h",']-[':"h",'}{':"h",'|-|':"h",'4':"h",
-          
                 '!':"i",'ỉ':"i",'1':"i",
-              
                 '|<':"k",'|(':"k",'|{':"k",
-              
                 '|_':"l",'|':"l",
-
                 '|V|':"m",'!\/!':"m",'|Y|':"m",'|Y|':"m",'(V)':"m",'^^':"m",'|\/|':"m",']V[':"m",
-            
                 '|\|':"n",'!\!':"n",'(\)':"n",'|1':"n",'/\\/':"n",'|V':"n",'/V':"n",'/\/':"n",
-            
                 '()':"o", "0":"o",'{[]}':"o",'ø':"o",'<>':"o",'°':"o",'*':"o",'[]':"o",
-           
                 '|°':"p",'|D':"p",'|?':"p",'|²':"p",'][D':"p",'[]D':"p",'|*':"p",'|>':"p",
-           
                 '0_':"q",
-
                 '|2':"r",'.-':"r",'я':"r",'®':"r",'1²':"r",
-            
                 '5':"s",'ş':"s",'ŝ':"s",'§':"s",'$':"s",
-              
                 '7':"t","']['":"t",'+':"t",
-            
                 '|_|':"u",'[_]':"u",'µ':"u",
-             
                 '\/':"v","\'":"v",'|/':"v",
-               
                 "\/\/":"w","\^/":"w","\\'":"w","\A/":"w",
-            
                 "%":"x",")(":"x","><":"x",
-                
                 "°/":"y", "¥":"y","2":"y",'"/_':"y","'/_'":"y"
-               
 
             }
             var cleanPassword;
@@ -708,7 +684,7 @@
             loadingFunction();
             if(password.match(containSpeicalCharacter) || password.match(specialLetters) ){
         
-                noSpecialCharPassword = password.replace(/@|λ|8|ß|l³|I3|J3|©|¢|1)|đ|Ð|3|ε|£|€|l²|ƒ|6|9|#|}{|4|!|ỉ|1|(V)|0|0_|.-|я|®|1²|5|ş|ŝ|§|7|µ|%|><|2/g, function(matched){ //Replaces all specialChars with mapped letters
+                noSpecialCharPassword = password.replace(/@|λ|8|ß|l³|I3|J3|©|¢|đ|Ð|3|ε|£|€|l²|ƒ|6|9|#|}{|4|!|ỉ|1|0|0_|.-|я|®|1²|5|ş|ŝ|§|7|µ|%|><|2/g, function(matched){ //Replaces all specialChars with mapped letters
                     return replaceSpecialChars[matched];
                 });
 
