@@ -16,6 +16,11 @@
             flex-direction: row;
             padding: 10px;
         }
+        #containerArray{
+            display: flex;
+            flex-direction: row;
+            padding: 10px;
+        }
         .arraySegments{
             margin-right: 10px;
             font-size: 1.3em;
@@ -151,14 +156,14 @@
             border: 2px solid black;
             height: 30px;
             width: 400px;
-            background-color: red;
+            background-color: #ED675F;
             display: none;
         }
         #warningMSA{
             border: 2px solid black;
             height: 30px;
             width: 800px;
-            background-color: red;
+            background-color: #ED675F;
             display: none;
         }
         .loading{
@@ -206,7 +211,7 @@
     <!-- Password box for google guidline passwords-->
     <div id="page1">
         <div class="p1">
-            <div id="containerloading"><div class="loading"><p id="iconText">Working<br>Querys can take up to 4 min</p></div></div>  
+            <div id="containerloading"><div class="loading"><p id="iconText">Working:<br>Process can take up to ~5 min</p></div></div>  
             <div id="info">
                 <p class="intro">Hello and welcome to a pilot study for a thesis which tries to evaluate the impact on password creation through a validation service which is using a segmentation algorithm.</p><br>
 
@@ -250,7 +255,7 @@
                 <div id="innerGdiv">
                     <input type="text" id="noMSA" name="google">
                     <div>
-                        <p>Use 8 or more characters, mix of letters, numbers and symbols is recommended</p>
+                        <p>Between 8-20 characters. Mix of letters, numbers and symbols is recommended</p>
                     </div>
                 </div>
                 <div id="warningGoogle"><span id="gWP"></span></div>
@@ -263,7 +268,7 @@
                     <div id="innerMSAdiv">
                         <input type="text" id="MSA" name="MSA">
                         <div>
-                            <p>Use 8 or more characters, mix of letters, numbers and symbols. The password most contain at least 4 segments</p>
+                            <p>Between 8-20 characters. Mix of letters, numbers and symbols. The password most contain at least 4 segments</p>
                         </div>
                        
                     </div>
@@ -279,7 +284,7 @@
         <div id="formContainer">
         <form id="form">
             <h1 id="formH">Your password have been accepted!</h1>
-            <div id="container" class="arraySegments"></div>
+            <div id="containerArray" class="arraySegments"></div>
             <fieldset>
             <label class="formL" for="q1">Was the segmentation of your password corrrect?</label>
                 <br>
@@ -378,7 +383,7 @@
             gcheck.style.backgroundColor = "lightgreen";
             googleWa.style.display = "none";
         }else{
-            gcheck.style.backgroundColor = "red";
+            gcheck.style.backgroundColor = "#ED675F";
             googleWP.innerHTML = "Less than 8 characters long";
             googleWa.style.display = "block";
         }
@@ -448,7 +453,7 @@
         }
         else{
             msaB = true;
-            msaP.style.background= "red";
+            msaP.style.background= "#ED675F";
             msaWa.style.display = "block";
             msaWAP.innerHTML = 'Less than 4 segments or contains space !" "';
         }
@@ -557,7 +562,7 @@
                 xhr.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         //response
-                        console.log(this.responseText);
+                        //console.log(this.responseText);
                     }
                 };
                 var data = {
@@ -584,7 +589,7 @@
         };
 
         function clearElements(prepareForSend){
-            console.log(prepareForSend);
+            //console.log(prepareForSend);
             if(prepareForSend != null){
                 const list = document.getElementById("container");
                 while (list.hasChildNodes()) {
@@ -593,6 +598,21 @@
                 
             }
         }
+
+        function displaySegments(prepareForSend, containerID){
+            let array = prepareForSend;
+            let idContainer = containerID;
+
+            var containerPage = document.getElementById(idContainer); //Fetch id
+            for(let i = 0; i < array.length; i++){ 
+                var divBoxes = document.createElement("div"); //create span element
+                divBoxes.classList.add("arraySegments"); // Add .item
+                divBoxes.textContent = array[i]; //Add textcontent from current value of testa.
+                containerPage.appendChild(divBoxes); //Append to span to container
+            }
+        }
+     
+        
 
         //Algorithm for MSA
        async function MSA(){
@@ -632,6 +652,7 @@
             var googlePassword;
             var temp;
             var subNumber = 0;
+            var containerID;
             //googlePassword = document.getElementById("google").value;
             password = document.getElementById("MSA").value;
             nonchangedPassword = password;
@@ -733,7 +754,7 @@
                             fetchLeetWord = await wordChecker(leetSearchingWord);
 
                             if(fetchLeetWord){
-                                console.log("Word found :",leetSearchingWord)
+                                //console.log("Word found :",leetSearchingWord)
                                 leetSegmentationTracker.push(leetSearchingWord); //Adds the word to segmentation tracker
                                 storeSpecialWords.push(" ");
                                 noSpecialCharPassword = noSpecialCharPassword.replace(`${leetSearchingWord}`, ""); //Replaces the word in password string with nothing.
@@ -858,16 +879,12 @@
                                     clearElements(prepareForSend);
                                     segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
                                     expectedPassword = expectedPassword.join("");
-                                    console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
+                                    //console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
                                     prepareForSend = expectedPassword.split(/,/g); 
                                     
-                                    const container = document.getElementById("container"); //Fetch id
-                                    for(let i = 0; i < prepareForSend.length; i++){ 
-                                        var divBoxes = document.createElement("div"); //create span element
-                                        divBoxes.classList.add("arraySegments"); // Add .item
-                                        divBoxes.textContent = prepareForSend[i]; //Add textcontent from current value of testa.
-                                        container.appendChild(divBoxes); //Append to span to container
-                                    }
+                                    containerID = "container";
+                                    displaySegments(prepareForSend, containerID);
+                                   
                                     for (let i = 0; i < prepareForSend.length; i++){ 
                                         if(prepareForSend[i].length <= 2){
                                             readyForSend.push(' ');
@@ -893,47 +910,51 @@
                 //console.log(expectedPassword)
                
                
-                console.log(readyForSend);
+                //console.log(readyForSend);
                 var returnValue = await ajaxFunction(nonchangedPassword,readyForSend);
                 returnValue = JSON.parse(returnValue);
-                console.log(returnValue);
+                //console.log(returnValue);
                 let msaWa = document.getElementById("warningMSA");
                 let msaWAP = document.getElementById("msaWP");
                
                 if(returnValue == true){
-                    msaWa.style.backgroundColor = "red";
+                    msaWa.style.backgroundColor = "#ED675F";
                     msaWAP.innerHTML = "The password "+segmentedPassword+" has been leaked before and is not safe! Try a different password";
                     stopLoadingIcon();
                 }
                 else{
-                    var outputElements = document.getElementsByClassName("arraySegments"); //Fetch class
-                    
+                    var outputElements = document.getElementsByClassName("arraySegments");
                     for(let i = 0; i < returnValue.length; i++){
                         if(returnValue[i] < 2000){
-                            console.log("inne")
+                    
                             outputElements[i+1].style.backgroundColor="lightgreen"; //i+1 beacuse 0 is always empety and first word is at postion 1
                         }else{
                             outputElements[i+1].style.backgroundColor="#ED675F";
+                            outputElements[i+1].style.border = "5px dotted black";
                         }
-                    }
+            }
                 }
                 var colortest = true;
-                console.log(outputElements.length);
+                var outputElements = document.getElementsByClassName("arraySegments");
                 for(let i = 1; i < outputElements.length; i++){
                     let color = outputElements[i].style.backgroundColor;
-                    if(color = "rgb(237, 103, 95)"){
+                    if(color == "rgb(237, 103, 95)"){
+  
                         colortest = false;
                        
                     }
     
                 }
-                console.log(colortest)
+                //console.log(colortest)
                 if(colortest == false){
                     stopLoadingIcon();
                     msaWAP.innerHTML = "One or more segments are not accepted";
                 }
-                if(colortest == true){
+                else if(colortest == true){
                     stopLoadingIcon();
+                    document.getElementById("containerArray").style.justifyContent = "center";
+                    containerID = "containerArray";
+                    displaySegments(prepareForSend, containerID);
                     document.getElementById("page1").style.display = "none";
                     document.getElementById("page2").style.display = "block";
                 }
