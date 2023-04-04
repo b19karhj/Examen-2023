@@ -147,7 +147,7 @@
         }
         #segmentinfo{
             top: 1%;
-            z-index: 1;
+            position: relative;
         }
         #warningGoogle{
             border: 2px solid black;
@@ -163,12 +163,55 @@
             background-color: red;
             display: none;
         }
+        .loading{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+
+        }
+        #containerloading{
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            display: none;
+            z-index: 5;
+            backdrop-filter: blur(5px);
+           
+        }
+        #iconText{
+         
+            position: absolute;
+            bottom: 70px;
+            text-align: center;
+           
+        }
+
+
+        .loading::after {
+            content: "";
+            width: 200px;
+            height: 200px;
+            border: 30px solid #ddd;
+            border-right-color: rgb(24, 128, 93);
+            border-left-color: rgb(24, 128, 93);
+            border-top: none;
+            border-bottom: none;
+            border-radius: 50%;
+            animation: loading 1s ease infinite;
+        }
+        @keyframes loading{
+            to{
+                transform: rotate(1turn);
+            }
+        }
     </style>
 </head>
 <body onload="">
     <!-- Password box for google guidline passwords-->
     <div id="page1">
         <div class="p1">
+            <div id="containerloading"><div class="loading"><p id="iconText">Working<br>Querys can take up to 3 min</p></div></div>  
             <div id="info">
                 <p class="intro">Hello and welcome to a pilot study for a thesis which tries to evaluate the impact on password creation through a validation service which is using a segmentation algorithm.</p><br>
 
@@ -235,7 +278,7 @@
             </div>
             <input id="button" type="submit" value="submit2" onclick="passwordCheck();">
         </div>
-    </div>  
+    </div>
     </div>
     <div id="page2">
         <div id="formContainer">
@@ -311,6 +354,17 @@
         </div>
     </div>
     <script> 
+
+        document.getElementById("button").addEventListener("click", loadingFunction);
+        function loadingFunction(){
+           document.getElementById("containerloading").style.display = "block";
+        
+        }
+        function stopLoadingIcon(){
+            document.getElementById("containerloading").style.display = "none";
+        }
+
+    
         document.getElementById("infoBtn").addEventListener("click", displayInfo);
         function displayInfo(){
             document.getElementById("info").style.display="none";
@@ -424,7 +478,8 @@
         }*/ 
         function wordChecker(word){
             return new Promise ((resolve,reject) => {
-                fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+word+'')
+               try{ 
+                    fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+word+'')
                     .then(response => response.json())
                     .then(response => {
                         if(response.hasOwnProperty("title")){ //Checks if response object has property word.
@@ -434,11 +489,22 @@
                             resolve(true)
                         }
                         
-                    }) 
+                    })}
+                catch{
+                    fetch('https://api.dictionaryapi.dev/api/v1/entries/en/'+word+'')
+                    .then(response => response.json())
+                    .then(response => {
+                        if(response.hasOwnProperty("title")){ //Checks if response object has property word.
+                            resolve(false);
+                            
+                        }else{
+                            resolve(true)
+                        }
+                    
+            })}
                 
-                })
                 
-            }//If timed out again. Create catch error and refere to v1 of the api
+        })}//If timed out again. Create catch error and refere to v1 of the api
         
         function ajaxFunction(nonchangedPassword,readyForSend){
             return new Promise ((resolve,reject) => {
@@ -576,6 +642,7 @@
             nonchangedPassword = password;
             cleanPassword = password;
 
+            loadingFunction();
             if(password.match(containSpeicalCharacter) || password.match(specialLetters) ){
         
                 noSpecialCharPassword = password.replace(/@|0/g, function(matched){ //Replaces all specialChars with mapped letters
@@ -830,7 +897,7 @@
             }
                 //console.log(expectedPassword)
                
-                //expectedPassword1
+               
                 console.log(readyForSend);
                 var returnValue = await ajaxFunction(nonchangedPassword,readyForSend);
                 returnValue = JSON.parse(returnValue);
@@ -841,7 +908,7 @@
                 if(returnValue == true){
                     msaWa.style.backgroundColor = "red";
                     msaWAP.innerHTML = "The password "+segmentedPassword+" has been leaked before and is not safe! Try a different password";
-                    
+                    stopLoadingIcon();
                 }
                 else{
                     var outputElements = document.getElementsByClassName("arraySegments"); //Fetch class
@@ -867,9 +934,11 @@
                 }
                 console.log(colortest)
                 if(colortest == false){
+                    stopLoadingIcon();
                     msaWAP.innerHTML = "One or more segments are not accepted";
                 }
                 if(colortest == true){
+                    stopLoadingIcon();
                     document.getElementById("page1").style.display = "none";
                     document.getElementById("page2").style.display = "block";
                 }
