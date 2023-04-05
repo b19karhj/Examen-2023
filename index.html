@@ -831,30 +831,10 @@
                 }
 
                 var lessSegments = [];
-                if(wordSearch1 == true && convertedWithNumberArray == false){
-                    lessSegments = leetSegmentationTracker;
-                    wordSearch2 = false;
-                }
-                if(wordSearch2 == true){
-                    if(wordCounter1 < wordCounter2){
-                        lessSegments = leetSegmentationTracker;
-                        convertedWithNumberArray = "";
-                        wordCounter1 = 0;
-                        wordCounter2 = 0;
-                        wordSearch1 = false;
-                        wordSearch2 = false;
-                    }else if(wordCounter2 < wordCounter1){
-
-                        convertedWithNumberArray = "";
-                        lessSegments = leetSegmentationTrackerWithNumbers;
-                        wordCounter1 = 0;
-                        wordCounter2 = 0;
-                        wordSearch1 = false;
-                        wordSearch2 = false;
-                    }
-                }
+                var lessSegments = leetSegmentationTracker;
+               
                 //Problem solved with single letters.
-                if(lessSegments.length != 0 && cleanPassword != ""){
+                if(sendingWordsToApiDone == true){
                     console.log(lessSegments);
                     alert("kolla");
                     let temptext;
