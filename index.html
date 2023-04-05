@@ -136,7 +136,6 @@
             margin-left: 30px;
             margin-top: 2px;
             margin-bottom: 2px;
-
         }
         #infoBtn{
             margin-top: 30px;
@@ -171,7 +170,6 @@
             justify-content: center;
             margin-top: 50vh;
             position: relative;
-
         }
         #containerloading{
             position: absolute;
@@ -187,7 +185,6 @@
             bottom: 70px;
             text-align: center;
         }
-
         .loading::after {
             content: "";
             width: 200px;
@@ -214,7 +211,6 @@
             <div id="containerloading"><div class="loading"><p id="iconText">Working:<br>Process can take up to ~5 min</p></div></div>  
             <div id="info">
                 <p class="intro">Hello and welcome to a pilot study for a thesis which tries to evaluate the impact on password creation through a validation service which is using a segmentation algorithm.</p><br>
-
                 <p class="intro">Your participation will take 3 - 10 minutes.</p><br>
                 
                 <h3>Important!</h3><br>
@@ -354,7 +350,6 @@
         </div>
     </div>
     <script> 
-
         document.getElementById("button").addEventListener("click", loadingFunction);
         function loadingFunction(){
            document.getElementById("containerloading").style.display = "block";
@@ -363,21 +358,17 @@
         function stopLoadingIcon(){
             document.getElementById("containerloading").style.display = "none";
         }
-
     
         document.getElementById("infoBtn").addEventListener("click", displayInfo);
         function displayInfo(){
             document.getElementById("info").style.display="none";
         }
-
     function passwordCheck(){
-
         var gcheck = document.getElementById("noMSA");
         var g = document.getElementById("noMSA").value;
         let google = false;
         let googleWa = document.getElementById("warningGoogle");
         let googleWP = document.getElementById("gWP");
-
         if(g.length >= 8){
             google = true;
             gcheck.style.backgroundColor = "lightgreen";
@@ -387,23 +378,19 @@
             googleWP.innerHTML = "Less than 8 characters long";
             googleWa.style.display = "block";
         }
-
         const numberCheck = /^[0-9]/;
         const specialCharacterCheck = /^\W/;
         const alphabetCheck = (/[a-zA-z]/);
-
         let msaP = document.getElementById("MSA");
         let msaPasscheck = document.getElementById("MSA").value;
         let segmentcheck = [];
         let msaB = false;
         let msaWa = document.getElementById("warningMSA");
         let msaWAP = document.getElementById("msaWP");
-
         while(msaPasscheck.length != 0){
             if(msaPasscheck.match(numberCheck)){
                 segmentcheck.push(msaPasscheck.match(numberCheck));
                 msaPasscheck = msaPasscheck.substring(1);
-
             }else if(msaPasscheck.match(specialCharacterCheck)){
                 segmentcheck.push(msaPasscheck.match(specialCharacterCheck));
                 msaPasscheck = msaPasscheck.substring(1);
@@ -417,16 +404,13 @@
         const notNumber = /^\D/;
         const specialCharactersCheck = /^\W/;
         const alphabetsCheck = /^[a-zA-Z]/
-
         var concatSegments = segmentcheck.toString().split(/,/g);
         segmentcheck = [];
-
         if(segmentcheck.length == 0){
             segmentcheck  = segmentcheck .concat(concatSegments[0]);
             concatSegments = concatSegments.slice(1);
         }
         for(let i = 0; concatSegments.length > 0; i++){
-
             if(segmentcheck[i] == ","){ //If , == i, then add 1 to i
                 i++;
             }
@@ -434,10 +418,8 @@
                 segmentcheck[i].match(specialCharactersCheck) && concatSegments[0].match(specialCharactersCheck) ||
                 segmentcheck[i].match(alphabetsCheck) && concatSegments[0].match(alphabetsCheck) 
                 ){//If i and segment0 is the same char 
-
                     segmentcheck = segmentcheck.concat(concatSegments[0]);
                     concatSegments = concatSegments.slice(1);
-
             }else{ //if element [i] does not match the char in segments[0]
                 
                 segmentcheck = segmentcheck.concat(",",concatSegments[0]); //Cocats , and element to string.
@@ -464,7 +446,6 @@
         msaB = false;
     }
          //var words; //Global veriabel som håller innehåller alla ord från ordlistan.
-
        
         //Function for local files.
          /*function compareText(){  //Skriv kommentarer imorgon.
@@ -514,19 +495,16 @@
             var xhr = new XMLHttpRequest();
                 xhr.open("POST", "Backend.php", false);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-
                 xhr.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         // do something with the response
                         resolve(this.responseText);
-
                     }
                 };
                 var data = {
                     noSegPassword: noSegP,
                     segPassword: segP	
                 };
-
                 var encodedData = Object.keys(data).map(function(key) {
                     return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
                 }).join("&");
@@ -554,11 +532,9 @@
                 var q6 = document.querySelector("input[name='q6']:checked").value;
                 var googlePass = googlePassword;
                 var msaPass = nonchangedPassword;
-
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "completion.php", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-
                 xhr.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         //response
@@ -575,7 +551,6 @@
                     gp: googlePass,
                     mp: msaPass,
                 };
-
                 var encodedData = Object.keys(data).map(function(key) {
                     return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
                 }).join("&");
@@ -585,9 +560,7 @@
             }else{
                 alert("All questions have not been answered");
             }
-
         };
-
         function clearElements(prepareForSend){
             //console.log(prepareForSend);
             if(prepareForSend != null){
@@ -598,11 +571,9 @@
                 
             }
         }
-
         function displaySegments(prepareForSend, containerID){
             let array = prepareForSend;
             let idContainer = containerID;
-
             var containerPage = document.getElementById(idContainer); //Fetch id
             for(let i = 0; i < array.length; i++){ 
                 var divBoxes = document.createElement("div"); //create span element
@@ -613,7 +584,6 @@
         }
      
         
-
         //Algorithm for MSA
        async function MSA(){
             //Varibales
@@ -642,7 +612,6 @@
             const containSpeicalCharacter = (/\W/);
             const specialLetters = (/\d/);
             const replaceSpecialCharsNoNumbers = { //Created objects
-
                 "@":"a","λ":"a",
                 "ß":"b","l³":"b","I3":"b","J3":"b",
                 "©":"c","¢":"c",
@@ -655,7 +624,6 @@
                 'ş':"s",'ŝ':"s",'§':"s",'$':"s",
                 'µ':"u",
                 "%":"x","><":"x"
-
             }
             const replaceSpecialCharsWithNumbers = { //Created objects
                 "@":"a","λ":"a",
@@ -690,28 +658,23 @@
             password = document.getElementById("MSA").value;
             nonchangedPassword = password;
             cleanPassword = password;
-           
-
-
-            
             loadingFunction();
             if(password.match(containSpeicalCharacter) || password.match(specialLetters) ){
         
                 noSpecialCharPassword = password.replace(/@|λ|ß|l³|I3|J3|©|¢|đ|Ð|ε|£|€|l²|ƒ|#|}{|!|ỉ|0_|.-|я|®|1²|ş|ŝ|§|µ|%|></g, function(matched){ //Replaces all specialChars with mapped letters
                     return replaceSpecialCharsNoNumbers[matched];
                 });
-
                 noSPecialCharPasswordwithNumbers = password.replace(/@|λ|ß|l³|I3|J3|©|¢|đ|Ð|ε|£|€|l²|ƒ|#|}{|!|ỉ|0_|.-|я|®|1²|ş|ŝ|§|µ|%|><|0|1|2|3|4|5|6|7|8|9/g, function(matched){ //Replaces all specialChars with mapped letters
                     return replaceSpecialCharsWithNumbers[matched];
                 });
-
             }else{
                 noSpecialCharPassword = password;
             }
-            
+
             while(segmentioningPassword == true){
-                
+
                 const alphabet = /^[a-zA-Z]/ //Regex if first char is lower and uppercase charecter
+  
                 const alphabet2 = (/[a-z]/);
                 const number = /^[0-9]/; //Regex Numbers
                 const numbers = (/[0-9]/);
@@ -719,34 +682,105 @@
                 const lastCharNr = (/|0-9]$/);
                 const lastCharAP = (/[a-zA-Z]$/);
                 const specialCharacter = /^\W/; //Regex special characters
-                const onlyNumbers = (/^[0-9]+$/) //Regex only numbers
                 var wordProcess = false;
                 var sendingWordsToApiDone = false;
                 var convertedWithNumberArray = "";
                 var wordCounter1 = 0;
                 var wordCounter2 = 0;
-                var covertNormalPasswordToArrray = [];
-                var storeActiveWord;
-                var storeCleanPasswordCharacters = [];
-                var splitCleanPasswordSegment = [];
-                var tempWordHolder = [];
-                const onlyN = /^[0-9]+$/;
                 /*TODO:
                 Efter det fråga mot databasen.
                 Efter det formulera tydliga riktlinjer
                 Efter det skapa formulär
                 Samla in data*/
-                
-                
-                //console.log(covertNormalPasswordToArrray);
-               
-               
+
+                if(noSPecialCharPasswordwithNumbers != null){
+                    convertedWithNumberArray = true;
+                }else if(noSPecialCharPasswordwithNumbers == null){
+                    convertedWithNumberArray = false;
+                }
+                for (let i = 0; i < password.length; i++){
+                    if(password.match(number)){
+
+  
+                        segmentationTracker.push(password.match(number))
+                        password = password.substring(1);
+                    }else if(password.match(specialCharacter)){
+                        segmentationTracker.push(password.match(specialCharacter))
+                        password = password.substring(1);
+                    }else{
+                        let fetchWord;
+                        searchingWord = password.substring(0, password.length - i)
+                  
+                        fetchWord = await wordChecker(searchingWord); // calls on wordChecker and waits for it to complete
+                        if(fetchWord){
+                            segmentationTracker.push(searchingWord); //Adds the word to segmentation tracker
+                            password = password.replace(`${searchingWord}`, ""); //Replaces the word in password string with nothing.
+                            i = 0; //Behövs eftersom en stor del text har försvunnit och annars enbart visar första bokstaven i vad som är kvar
+                          
+                        }else if(searchingWord.length <= 1){ //If temp.length is less then 1 in length, enter here to remove characters.
+                            segmentationTracker.push(searchingWord[0]);
+                            password = password.substring(1);
+                        
+                        }
+                        
+                    }
+
+                };
+
+                if(password.length == 0){
                     subnumber = 0;
-        
+                    for (let i = 0; i < noSpecialCharPassword.length; i++){
+
+  
+                        if(noSpecialCharPassword.match(number)){
+                       
+                            leetSegmentationTracker.push(noSpecialCharPassword.match(number))
+                            storeSpecialWords.push(noSpecialCharPassword.match(number));
+                            noSpecialCharPassword = noSpecialCharPassword.substring(1);
+                        
+                         
+                        }else if(noSpecialCharPassword.match(specialCharacter)){
+                  
+                            leetSegmentationTracker.push(noSpecialCharPassword.match(specialCharacter))
+                            storeSpecialWords.push(noSpecialCharPassword.match(specialCharacter));
+                            noSpecialCharPassword = noSpecialCharPassword.substring(1);
+                        }else{
+                            let fetchLeetWord;
+                            
+                            if(temp == null){
+                                leetSearchingWord = noSpecialCharPassword;
+                            }else if(temp != null){
+                                leetSearchingWord = temp;
+                            }
+                            fetchLeetWord = await wordChecker(leetSearchingWord);
+                            if(fetchLeetWord){
+                                //console.log("Word found :",leetSearchingWord)
+                                leetSegmentationTracker.push(leetSearchingWord); //Adds the word to segmentation tracker
+                                storeSpecialWords.push(" ");
+                                noSpecialCharPassword = noSpecialCharPassword.replace(`${leetSearchingWord}`, ""); //Replaces the word in password string with nothing.
+                                temp = null;
+                                i = 0; //Behövs eftersom en stor del text har försvunnit och annars enbart visar första bokstaven i vad som är kvar
+                                subNumber = 0; //Need as the itteration skips 0 when exiting if statment.
+                                wordCounter1 += 1;
+                            }
+                            else if(leetSearchingWord.length <= 1){
+
+                                leetSegmentationTracker.push(leetSearchingWord[0]);
+                                storeSpecialWords.push(leetSearchingWord[0]);
+                                noSpecialCharPassword = noSpecialCharPassword.substring(1);
+                            }else{
+                                temp = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - subNumber);
+                                subNumber += 1;
+                            }
+                        } 
+                    }
+                }
+                if(noSpecialCharPassword.length == 0){
                     temp = null;
                     subnumber = 0;
                     for (let i = 0; i < noSPecialCharPasswordwithNumbers.length; i++){
-          
+
+
                         if(noSPecialCharPasswordwithNumbers.match(number)){
                        
                             leetSegmentationTrackerWithNumbers.push(noSPecialCharPasswordwithNumbers.match(number))
@@ -759,7 +793,6 @@
                             leetSegmentationTrackerWithNumbers.push(noSPecialCharPasswordwithNumbers.match(specialCharacter))
                             storeSpecialWordsWithNumbers.push(noSPecialCharPasswordwithNumbers.match(specialCharacter));
                             noSPecialCharPasswordwithNumbers = noSPecialCharPasswordwithNumbers.substring(1);
-
                         }else{
                             let fetchLeetWord2;
                             
@@ -781,8 +814,7 @@
                                 wordCounter2 += 1;
                             }
                             else if(leetSearchingWord2.length <= 1){
-                      
-                      
+
                                 leetSegmentationTrackerWithNumbers.push(leetSearchingWord[0]);
                                 storeSpecialWordsWithNumbers.push(leetSearchingWord[0]);
                                 noSPecialCharPasswordwithNumbers = noSPecialCharPasswordwithNumbers.substring(1);
@@ -791,69 +823,36 @@
                                 subNumber += 1;
                             }
                         }
-                        
+
                     }
-                
+                    if(noSPecialCharPasswordwithNumbers.length == 0){
+                        sendingWordsToApiDone = true;
+                    } 
+                }
+
                 var lessSegments = [];
-                if(sendingWordsToApiDone == true){
-                covertNormalPasswordToArrray = password.split("");
-                for(i = 0; i < leetSegmentationTrackerWithNumbers.length; i++){ 
-                    storeActiveWord = leetSegmentationTrackerWithNumbers[i];                    
-                    for(let j = 0; j < storeActiveWord.length; j++){                         
-                        tempWordHolder.push(covertNormalPasswordToArrray[j]);                            
-                    };
-                    tempWordHolder = tempWordHolder.join("");
-                    storeCleanPasswordCharacters.push(tempWordHolder," ");
-                    console.log(storeCleanPasswordCharacters);
-                    covertNormalPasswordToArrray = covertNormalPasswordToArrray.slice(storeActiveWord.length);
-                    
-                    tempWordHolder = [];
-                    if(covertNormalPasswordToArrray.length == 0){
-                        sendingWordsToApiDone = false;
-                        break;
+                if(wordSearch1 == true && convertedWithNumberArray == false){
+                    lessSegments = leetSegmentationTracker;
+                    wordSearch2 = false;
+                }
+                if(wordSearch2 == true){
+                    if(wordCounter1 < wordCounter2){
+                        lessSegments = leetSegmentationTracker;
+                        convertedWithNumberArray = "";
+                        wordCounter1 = 0;
+                        wordCounter2 = 0;
+                        wordSearch1 = false;
+                        wordSearch2 = false;
+                    }else if(wordCounter2 < wordCounter1){
+
+                        convertedWithNumberArray = "";
+                        lessSegments = leetSegmentationTrackerWithNumbers;
+                        wordCounter1 = 0;
+                        wordCounter2 = 0;
+                        wordSearch1 = false;
+                        wordSearch2 = false;
                     }
                 }
-            }
-            
-                console.log(storeCleanPasswordCharacters, "är det korrekt?")
-                alert("pause");
-
-                        /*if(storeCleanPasswordCharacters[i] == " "){
-                            if(storeCleanPasswordCharacters[i+1].match(onlyN)){
-                                var temp10 = storeCleanPasswordCharacters[i+1];
-                                splitCleanPasswordSegment = temp10.split("");
-                                console.log(splitCleanPasswordSegment, "eftersplit");
-                                for(j = 0; j < splitCleanPasswordSegment.length; j++){
-                      
-                                    leetSegmentationTrackerWithNumbers[i] = leetSegmentationTrackerWithNumbers[i].replace(`${leetSegmentationTrackerWithNumbers[i]}`, splitCleanPasswordSegment[j]);
-                                }
-                                splitCleanPasswordSegment = "skyum";
-                                console.log(splitCleanPasswordSegment);
-                            }
-                        }else if(storeCleanPasswordCharacters[i] != " "){
-                            if(storeCleanPasswordCharacters[i].match(onlyN)){
-
-                                var temp9 = storeCleanPasswordCharacters[i];
-                                splitCleanPasswordSegment = temp9.split("");
-                                console.log(splitCleanPasswordSegment, "eftersplit");
-                                
-                                for(j = 0; j < splitCleanPasswordSegment.length; j++){
-                                
-                                    leetSegmentationTrackerWithNumbers[i] = leetSegmentationTrackerWithNumbers[i].replace(`${leetSegmentationTrackerWithNumbers[i]}`, splitCleanPasswordSegment[j]);
-                                }
-                                splitCleanPasswordSegment = "skyum";
-                                console.log(splitCleanPasswordSegment);
-                                console.log(leetSegmentationTrackerWithNumbers);
-                            
-                            }
-                        }
-                        alert("stop");
-                                               
-                        console.log(leetSegmentationTrackerWithNumbers," slut");
-                 
-                    }
-                    sendingWordsToApiDone = false;*/
-                
                 //Problem solved with single letters.
                 if(lessSegments.length != 0 && cleanPassword != ""){
                     console.log(lessSegments);
@@ -861,15 +860,14 @@
                     let temptext;
                     for(let i = 0; i < lessSegments.length; i++){
                         temptext = lessSegments[i].toString(); 
+  
                         if(lessSegments[i].length >= 1 && temptext.match(alphabet)){
                             if (savedWords.length != 0){
                                 savedWords.push("-");
-
                             }
                             for(let j = 0; j < lessSegments[i].length; j++){
                                 savedWords.push(cleanPassword[j])
                             }
-
                         }else{
                             cleanPassword = cleanPassword.substring(0);
                         }
@@ -881,7 +879,6 @@
                 };
                 
                 if(wordProcess == true){
-
                     var segments;
                     var segmentsExpected;
                     segments = lessSegments.toString().split(/,/g);//Converts to string and split and save it to varibal segments
@@ -890,12 +887,20 @@
                     if(segmentedPassword.length == 0){
                         segmentedPassword = segmentedPassword.concat(segments[0]);
                         expectedPassword = expectedPassword.concat(segmentsExpected[0]);
+
+    
+          
+            
+    
+
+          
+    
+    
+  
                         segments = segments.slice(1);
                         segmentsExpected = segmentsExpected.slice(1);                           
-
                     }
                     for(let i = 0; segments.length > 0; i++){
-
                         if(segmentedPassword[i] == ","){ //If , == i, then add 1 to i
                             i++;
                         }
@@ -903,10 +908,8 @@
                                 segmentedPassword[i].match(specialCharacter) && segments[0].match(specialCharacter) ||
                                 segmentedPassword[i].match(alphabet) && segments[0].match(alphabet) 
                             ){//If i and segment0 is the same char 
-
                                 segmentedPassword = segmentedPassword.concat(segments[0]);
                                 segments = segments.slice(1);
-
                         }else{ //if element [i] does not match the char in segments[0]
                             
                             segmentedPassword = segmentedPassword.concat(",",segments[0]); //Cocats , and element to string.
@@ -921,12 +924,10 @@
                                 if(expectedPassword[j] == ","){ //If , == j, then add 1 to j
                                     j++;
                                 }
-
                                 if(expectedPassword[j].match(numbers) && segmentsExpected[0].match(numbers) ||
                                         expectedPassword[j].match(specialCharacter) && segmentsExpected[0].match(specialCharacter) ||
                                         expectedPassword[j].match(alphabet) && segmentsExpected[0].match(alphabet)
                                     ){//If j and segment0 is the same char 
-
                                     expectedPassword = expectedPassword.concat(segmentsExpected[0]);
                                     segmentsExpected = segmentsExpected.slice(1);
                                     
@@ -944,7 +945,6 @@
                                                 expectedPassword[i] = savedWords[0]+",";
                                                 savedWords = savedWords.slice(1);
                                             }else{
-
                                                 expectedPassword[i] = savedWords[0];
                                                 savedWords = savedWords.slice(1);
                                             }
@@ -976,7 +976,6 @@
                                     
                                     databasePassword = true;
                                     segmentioningPassword = false;
-
                                 }       
                             }
                                 
@@ -1038,7 +1037,6 @@
                     document.getElementById("page2").style.display = "block";
                 }
 }
-
     </script>
 </body>
 </html>

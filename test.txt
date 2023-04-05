@@ -1,21 +1,61 @@
-   $cursor = $collection->findOne(['Password' => $password]); // Returns object whith password equals "iloveyou"
-   if($cursor == null){
-      $testArray = [];
-      for ($i = 0; $i < count($arrayTest); $i++){
-         $totalHits = 0;
-         $filter = ['Password' => ['$regex' => $arrayTest[$i]]]; // Find documents where 'name' field starts with 'J'
-         $cursor =  $collection->find($filter);
-         $dataArray = $cursor->toArray();
+var lessSegments = [];
+                if(sendingWordsToApiDone == true){
+                covertNormalPasswordToArrray = password.split("");
+                for(i = 0; i < leetSegmentationTrackerWithNumbers.length; i++){ 
+                    storeActiveWord = leetSegmentationTrackerWithNumbers[i];                    
+                    for(let j = 0; j < storeActiveWord.length; j++){                         
+                        tempWordHolder.push(covertNormalPasswordToArrray[j]);                            
+                    };
+                    tempWordHolder = tempWordHolder.join("");
+                    storeCleanPasswordCharacters.push(tempWordHolder," ");
+                    console.log(storeCleanPasswordCharacters);
+                    covertNormalPasswordToArrray = covertNormalPasswordToArrray.slice(storeActiveWord.length);
+                    
+                    tempWordHolder = [];
+                    if(covertNormalPasswordToArrray.length == 0){
+                        sendingWordsToApiDone = false;
+                        break;
+                    }
+                }
+            }
+            
+                console.log(storeCleanPasswordCharacters, "är det korrekt?")
+                alert("pause");
 
-         foreach ($dataArray as $document){ 
-            $hits = $document->Hits;  //Saves the number from Hits
-            $totalHits += $hits;  //Adds and saves the total value of hits
-         }
+                        /*if(storeCleanPasswordCharacters[i] == " "){
+                            if(storeCleanPasswordCharacters[i+1].match(onlyN)){
+                                var temp10 = storeCleanPasswordCharacters[i+1];
+                                splitCleanPasswordSegment = temp10.split("");
+                                console.log(splitCleanPasswordSegment, "eftersplit");
+                                for(j = 0; j < splitCleanPasswordSegment.length; j++){
+                      
+                                    leetSegmentationTrackerWithNumbers[i] = leetSegmentationTrackerWithNumbers[i].replace(`${leetSegmentationTrackerWithNumbers[i]}`, splitCleanPasswordSegment[j]);
+                                }
+                                splitCleanPasswordSegment = "skyum";
+                                console.log(splitCleanPasswordSegment);
+                            }
+                        }else if(storeCleanPasswordCharacters[i] != " "){
+                            if(storeCleanPasswordCharacters[i].match(onlyN)){
 
-         $testArray[] = $totalHits;
-      };
-
-      foreach($testArray as $result){
-         print($result."\n");
-      };
-      
+                                var temp9 = storeCleanPasswordCharacters[i];
+                                splitCleanPasswordSegment = temp9.split("");
+                                console.log(splitCleanPasswordSegment, "eftersplit");
+                                
+                                for(j = 0; j < splitCleanPasswordSegment.length; j++){
+                                
+                                    leetSegmentationTrackerWithNumbers[i] = leetSegmentationTrackerWithNumbers[i].replace(`${leetSegmentationTrackerWithNumbers[i]}`, splitCleanPasswordSegment[j]);
+                                }
+                                splitCleanPasswordSegment = "skyum";
+                                console.log(splitCleanPasswordSegment);
+                                console.log(leetSegmentationTrackerWithNumbers);
+                            
+                            }
+                        }
+                        alert("stop");
+                                               
+                        console.log(leetSegmentationTrackerWithNumbers," slut");
+                 
+                    }
+                    sendingWordsToApiDone = false;*/
+                
+                //Problem solved with single letters.
