@@ -726,6 +726,11 @@
                 var wordCounter1 = 0;
                 var wordCounter2 = 0;
                 var covertNormalPasswordToArrray = [];
+                var storeActiveWord;
+                var storeCleanPasswordCharacters = [];
+                var splitCleanPasswordSegment = [];
+                var tempWordHolder = [];
+                const onlyN = /^[0-9]+$/;
                 /*TODO:
                 Efter det fråga mot databasen.
                 Efter det formulera tydliga riktlinjer
@@ -737,55 +742,7 @@
                
                
                     subnumber = 0;
-                    for (let i = 0; i < noSpecialCharPassword.length; i++){
-          
-                        if(noSpecialCharPassword.match(number)){
-                       
-                            leetSegmentationTracker.push(noSpecialCharPassword.match(number))
-                            storeSpecialWords.push(noSpecialCharPassword.match(number));
-                            noSpecialCharPassword = noSpecialCharPassword.substring(1);
-                        
-                         
-                        }else if(noSpecialCharPassword.match(specialCharacter)){
-                  
-                            leetSegmentationTracker.push(noSpecialCharPassword.match(specialCharacter))
-                            storeSpecialWords.push(noSpecialCharPassword.match(specialCharacter));
-                            noSpecialCharPassword = noSpecialCharPassword.substring(1);
-
-                        }else{
-                            let fetchLeetWord;
-                            
-                            if(temp == null){
-                                leetSearchingWord = noSpecialCharPassword;
-                            }else if(temp != null){
-                                leetSearchingWord = temp;
-                            }
-                            fetchLeetWord = await wordChecker(leetSearchingWord);
-
-                            if(fetchLeetWord){
-                                //console.log("Word found :",leetSearchingWord)
-                                leetSegmentationTracker.push(leetSearchingWord); //Adds the word to segmentation tracker
-                                storeSpecialWords.push(" ");
-                                noSpecialCharPassword = noSpecialCharPassword.replace(`${leetSearchingWord}`, ""); //Replaces the word in password string with nothing.
-                                temp = null;
-                                i = 0; //Behövs eftersom en stor del text har försvunnit och annars enbart visar första bokstaven i vad som är kvar
-                                subNumber = 0; //Need as the itteration skips 0 when exiting if statment.
-                                wordCounter1 += 1;
-                            }
-                            else if(leetSearchingWord.length <= 1){
-                      
-                      
-                                leetSegmentationTracker.push(leetSearchingWord[0]);
-                                storeSpecialWords.push(leetSearchingWord[0]);
-                                noSpecialCharPassword = noSpecialCharPassword.substring(1);
-                            }else{
-                                temp = noSpecialCharPassword.substring(0, noSpecialCharPassword.length - subNumber);
-                                subNumber += 1;
-                            }
-                        } 
-                    }
-                
-                if(noSpecialCharPassword.length == 0){
+        
                     temp = null;
                     subnumber = 0;
                     for (let i = 0; i < noSPecialCharPasswordwithNumbers.length; i++){
@@ -836,66 +793,67 @@
                         }
                         
                     }
-                    if(noSPecialCharPasswordwithNumbers.length == 0){
-                        sendingWordsToApiDone = true;
-                    } 
-                }
-            
+                
                 var lessSegments = [];
                 if(sendingWordsToApiDone == true){
-                    var storeActiveWord;
-                    var storeCleanPasswordCharacters = [];
-                    var splitCleanPasswordSegment = [];
-                    var counterToavoidSpace = 0;
-                    var tempWordHolder = [];
-                    covertNormalPasswordToArrray = password.split("");
-                    for(i = 0; i < leetSegmentationTrackerWithNumbers.length; i++){
+                covertNormalPasswordToArrray = password.split("");
+                for(i = 0; i < leetSegmentationTrackerWithNumbers.length; i++){ 
+                    storeActiveWord = leetSegmentationTrackerWithNumbers[i];                    
+                    for(let j = 0; j < storeActiveWord.length; j++){                         
+                        tempWordHolder.push(covertNormalPasswordToArrray[j]);                            
+                    };
+                    tempWordHolder = tempWordHolder.join("");
+                    storeCleanPasswordCharacters.push(tempWordHolder," ");
+                    console.log(storeCleanPasswordCharacters);
+                    covertNormalPasswordToArrray = covertNormalPasswordToArrray.slice(storeActiveWord.length);
+                    
+                    tempWordHolder = [];
+                    if(covertNormalPasswordToArrray.length == 0){
+                        sendingWordsToApiDone = false;
+                        break;
+                    }
+                }
+            }
+            
+                console.log(storeCleanPasswordCharacters, "är det korrekt?")
+                alert("pause");
+
+                        /*if(storeCleanPasswordCharacters[i] == " "){
+                            if(storeCleanPasswordCharacters[i+1].match(onlyN)){
+                                var temp10 = storeCleanPasswordCharacters[i+1];
+                                splitCleanPasswordSegment = temp10.split("");
+                                console.log(splitCleanPasswordSegment, "eftersplit");
+                                for(j = 0; j < splitCleanPasswordSegment.length; j++){
                       
-                        
-                        storeActiveWord = leetSegmentationTrackerWithNumbers[i];
-                      
-                     
-                        for(let j = 0; j < storeActiveWord.length; j++){
-                          
-                            tempWordHolder.push(covertNormalPasswordToArrray[j]);
-                            
-                        };
-                        tempWordHolder = tempWordHolder.join("");
-                        storeCleanPasswordCharacters.push(tempWordHolder," ");
-                        console.log(storeActiveWord.length);
-                        covertNormalPasswordToArrray = covertNormalPasswordToArrray.slice(storeActiveWord.length);
-                        tempWordHolder = [];
-                        console.log(storeCleanPasswordCharacters);
-                        console.log(covertNormalPasswordToArrray);
-                        alert("stämmer arrayerna?");
-                        
-                       
-                        console.log(storeCleanPasswordCharacters[counterToavoidSpace], "utan 1");
-                        console.log(storeCleanPasswordCharacters[counterToavoidSpace+1], "med 1");
-                        console.log(storeCleanPasswordCharacters, "Hela");
-                        console.log(counterToavoidSpace);
-                        alert("boven?")
-                        if(storeCleanPasswordCharacters[counterToavoidSpace] == " "){
-                            console.log(storeCleanPasswordCharacters[counterToavoidSpace+1], "inne")
-                            if(storeCleanPasswordCharacters[counterToavoidSpace+1].match(specialLetters)){
-                                //console.log(leetSegmentationTrackerWithNumbers[i]);
-                                console.log(storeCleanPasswordCharacters[i+1], "vad är i")
-                                splitCleanPasswordSegment = storeCleanPasswordCharacters[i+1].split("");
-                                alert(splitCleanPasswordSegment);
-                                for(j = 0; j <= splitCleanPasswordSegment.length; j++){
-                                    leetSegmentationTrackerWithNumbers[i] = leetSegmentationTrackerWithNumbers[i].replace(`${leetSegmentationTrackerWithNumbers[i]}`, splitCleanPasswordSegment);
+                                    leetSegmentationTrackerWithNumbers[i] = leetSegmentationTrackerWithNumbers[i].replace(`${leetSegmentationTrackerWithNumbers[i]}`, splitCleanPasswordSegment[j]);
                                 }
+                                splitCleanPasswordSegment = "skyum";
+                                console.log(splitCleanPasswordSegment);
+                            }
+                        }else if(storeCleanPasswordCharacters[i] != " "){
+                            if(storeCleanPasswordCharacters[i].match(onlyN)){
+
+                                var temp9 = storeCleanPasswordCharacters[i];
+                                splitCleanPasswordSegment = temp9.split("");
+                                console.log(splitCleanPasswordSegment, "eftersplit");
+                                
+                                for(j = 0; j < splitCleanPasswordSegment.length; j++){
+                                
+                                    leetSegmentationTrackerWithNumbers[i] = leetSegmentationTrackerWithNumbers[i].replace(`${leetSegmentationTrackerWithNumbers[i]}`, splitCleanPasswordSegment[j]);
+                                }
+                                splitCleanPasswordSegment = "skyum";
+                                console.log(splitCleanPasswordSegment);
+                                console.log(leetSegmentationTrackerWithNumbers);
+                            
                             }
                         }
-                        
-                        
-                        counterToavoidSpace += 1;
-                       
+                        alert("stop");
+                                               
                         console.log(leetSegmentationTrackerWithNumbers," slut");
                  
                     }
-                    sendingWordsToApiDone = false;
-                }
+                    sendingWordsToApiDone = false;*/
+                
                 //Problem solved with single letters.
                 if(lessSegments.length != 0 && cleanPassword != ""){
                     console.log(lessSegments);
