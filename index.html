@@ -746,7 +746,6 @@
             var test1 = false;
             while (noSpecialCharPassword.length != 0) {
                 for (let i = 0; i < noSpecialCharPassword.length; i++) {
-
                     if (noSpecialCharPassword.match(number)) {
 
                         leetSegmentationTracker.push(noSpecialCharPassword.match(number))
@@ -795,33 +794,37 @@
 
             while (noSpecialCharPassword.length == 0 && noSPecialCharPasswordwithNumbers.length != 0) {
                 temp = null;
-                subnumber = 0;
+                subNumber = 0;
                 for (let i = 0; i < noSPecialCharPasswordwithNumbers.length; i++) {
-
-
+                  
                     if (noSPecialCharPasswordwithNumbers.match(number)) {
-
+                        console.log("numer har stoppats in");
                         leetSegmentationTrackerWithNumbers.push(noSPecialCharPasswordwithNumbers.match(number))
                         storeSpecialWordsWithNumbers.push(noSPecialCharPasswordwithNumbers.match(number));
                         noSpecialCharPassword = noSPecialCharPasswordwithNumbers.substring(1);
-
+                       
 
                     } else if (noSPecialCharPasswordwithNumbers.match(specialCharacter)) {
-
+                        console.log("speical tecken har stoppats in");
                         leetSegmentationTrackerWithNumbers.push(noSPecialCharPasswordwithNumbers.match(specialCharacter))
                         storeSpecialWordsWithNumbers.push(noSPecialCharPasswordwithNumbers.match(specialCharacter));
                         noSPecialCharPasswordwithNumbers = noSPecialCharPasswordwithNumbers.substring(1);
+                       
                     } else {
                         let fetchLeetWord2;
 
                         if (temp == null) {
+                            console.log("temp är null");
                             leetSearchingWord2 = noSPecialCharPasswordwithNumbers;
                         } else if (temp != null) {
+                            console.log("temp är är inte null");
                             leetSearchingWord2 = temp;
+                            console.log(leetSearchingWord2, "blir i?");
                         }
                         fetchLeetWord = await wordChecker(leetSearchingWord2);
-
+                        console.log(leetSearchingWord2, "är ordet");
                         if (fetchLeetWord) {
+                            console.log("ord har stoppats in");
                             //console.log("Word found :",leetSearchingWord)
                             leetSegmentationTrackerWithNumbers.push(leetSearchingWord2); //Adds the word to segmentation tracker
                             storeSpecialWordsWithNumbers.push(" ");
@@ -829,25 +832,31 @@
                             temp = null;
                             i = 0; //Behövs eftersom en stor del text har försvunnit och annars enbart visar första bokstaven i vad som är kvar
                             subNumber = 0; //Need as the itteration skips 0 when exiting if statment.
-
+                           
                         }
                         else if (leetSearchingWord2.length <= 1) {
-
-                            leetSegmentationTrackerWithNumbers.push(leetSearchingWord[0]);
-                            storeSpecialWordsWithNumbers.push(leetSearchingWord[0]);
+                            console.log("mindre än 1");
+                            leetSegmentationTrackerWithNumbers.push(leetSearchingWord2[0]);
+                            storeSpecialWordsWithNumbers.push(leetSearchingWord2[0]);
                             noSPecialCharPasswordwithNumbers = noSPecialCharPasswordwithNumbers.substring(1);
                         } else {
                             temp = noSPecialCharPasswordwithNumbers.substring(0, noSPecialCharPasswordwithNumbers.length - subNumber);
+                            console.log(temp, "når i?");
                             subNumber += 1;
                         }
+                        //ser ut att aldrig bli i efter itterationen.
                     }
 
                 };
                 if (noSPecialCharPasswordwithNumbers.length == 0) {
+                    
+                    console.log("ska vara slut");
+                    console.log(leetSegmentationTrackerWithNumbers);
                     sendingWordsToApiDone = true;
                 }
             }
-
+            console.log(leetSegmentationTrackerWithNumbers);
+            alert("stop");
             var lessSegments = [];
             var lessSegments = leetSegmentationTracker;
             var covertNormalPasswordToArrray = [];
@@ -875,34 +884,36 @@
                     }
                 }
             }
-            console.log(storeCleanPasswordCharacters, "denna ska vara fylld");
-            console.log(leetSegmentationTrackerWithNumbers);
-            alert("stop");
+           // console.log(storeCleanPasswordCharacters, "denna ska vara fylld");
+            //console.log(leetSegmentationTrackerWithNumbers);
+            
             var replaceSegmentation = [];
             replaceSegmentation = leetSegmentationTrackerWithNumbers;
             var counterForSpace = 0;
             var splitCleanPasswordSegment = [];
             var savedSplit = [];
-            var tempHoldingSplit = [];
+            var tempHoldingSplit;
+            var covertedArrayResult = [];
             const onlyN = (/^[0-9]+$/);
             while (splitDone == true) {
                 for (i = 0; i < storeCleanPasswordCharacters.length; i++) {
-                    
+                 
                     if (storeCleanPasswordCharacters[i].match(onlyN)) {
-                        console.log("inne");
                         tempHoldingSplit = storeCleanPasswordCharacters[i].split("");
                         for(j = 0; j < tempHoldingSplit.length; j++){
-                           //För in splittade värderna på korrekt plats i arrayen.
+                            covertedArrayResult.push(tempHoldingSplit[j]);
                         }
-                        tempHoldingSplit = [];
                     }
-                    console.log(storeCleanPasswordCharacters, "bör vara splittad");
-                    alert("stop");
-                    if (i == storeCleanPasswordCharacters.length) {
-                        splitDone = false;
+                    else{
+                        covertedArrayResult.push(storeCleanPasswordCharacters[i]);
                     }
+                   
                 }
+                splitDone = false;    
             }
+            console.log(covertedArrayResult, "färdig array");
+            alert("resultet borde vara klart");
+            
             console.log(replaceSegmentation);
             alert("stop 2");
             //Problem solved with single letters.
