@@ -719,6 +719,7 @@
                 const lastCharNr = (/|0-9]$/);
                 const lastCharAP = (/[a-zA-Z]$/);
                 const specialCharacter = /^\W/; //Regex special characters
+                const onlyNumbers = (/^[0-9]+$/) //Regex only numbers
                 var wordProcess = false;
                 var sendingWordsToApiDone = false;
                 var convertedWithNumberArray = "";
@@ -730,10 +731,10 @@
                 Efter det formulera tydliga riktlinjer
                 Efter det skapa formulär
                 Samla in data*/
-                covertNormalPasswordToArrray = password.split("");
                 
-                console.log(covertNormalPasswordToArrray);
-                alert("kolla substring!");
+                
+                //console.log(covertNormalPasswordToArrray);
+               
                
                     subnumber = 0;
                     for (let i = 0; i < noSpecialCharPassword.length; i++){
@@ -842,15 +843,58 @@
             
                 var lessSegments = [];
                 if(sendingWordsToApiDone == true){
-                    let storeActiveWordLength;
-                    for(i = 0; i < leetSegmentationTracker.length; i++){
-
-                       storeActiveWordLength = leetSegmentationTracker[i].length;
-
+                    var storeActiveWord;
+                    var storeCleanPasswordCharacters = [];
+                    var splitCleanPasswordSegment = [];
+                    var counterToavoidSpace = 0;
+                    var tempWordHolder = [];
+                    covertNormalPasswordToArrray = password.split("");
+                    for(i = 0; i < leetSegmentationTrackerWithNumbers.length; i++){
+                      
+                        
+                        storeActiveWord = leetSegmentationTrackerWithNumbers[i];
+                      
+                     
+                        for(let j = 0; j < storeActiveWord.length; j++){
+                          
+                            tempWordHolder.push(covertNormalPasswordToArrray[j]);
+                            
+                        };
+                        tempWordHolder = tempWordHolder.join("");
+                        storeCleanPasswordCharacters.push(tempWordHolder," ");
+                        console.log(storeActiveWord.length);
+                        covertNormalPasswordToArrray = covertNormalPasswordToArrray.slice(storeActiveWord.length);
+                        tempWordHolder = [];
+                        console.log(storeCleanPasswordCharacters);
+                        console.log(covertNormalPasswordToArrray);
+                        alert("stämmer arrayerna?");
+                        
+                       
+                        console.log(storeCleanPasswordCharacters[counterToavoidSpace], "utan 1");
+                        console.log(storeCleanPasswordCharacters[counterToavoidSpace+1], "med 1");
+                        console.log(storeCleanPasswordCharacters, "Hela");
+                        console.log(counterToavoidSpace);
+                        alert("boven?")
+                        if(storeCleanPasswordCharacters[counterToavoidSpace] == " "){
+                            console.log(storeCleanPasswordCharacters[counterToavoidSpace+1], "inne")
+                            if(storeCleanPasswordCharacters[counterToavoidSpace+1].match(specialLetters)){
+                                //console.log(leetSegmentationTrackerWithNumbers[i]);
+                                console.log(storeCleanPasswordCharacters[i+1], "vad är i")
+                                splitCleanPasswordSegment = storeCleanPasswordCharacters[i+1].split("");
+                                alert(splitCleanPasswordSegment);
+                                for(j = 0; j <= splitCleanPasswordSegment.length; j++){
+                                    leetSegmentationTrackerWithNumbers[i] = leetSegmentationTrackerWithNumbers[i].replace(`${leetSegmentationTrackerWithNumbers[i]}`, splitCleanPasswordSegment);
+                                }
+                            }
+                        }
+                        
+                        
+                        counterToavoidSpace += 1;
+                       
+                        console.log(leetSegmentationTrackerWithNumbers," slut");
+                 
                     }
-                    leetSegmentationTrackerWithNumbers
-
-
+                    sendingWordsToApiDone = false;
                 }
                 //Problem solved with single letters.
                 if(lessSegments.length != 0 && cleanPassword != ""){
