@@ -690,6 +690,7 @@
             password = document.getElementById("MSA").value;
             nonchangedPassword = password;
             cleanPassword = password;
+           
 
 
             
@@ -708,7 +709,6 @@
                 noSpecialCharPassword = password;
             }
             
-
             while(segmentioningPassword == true){
                 
                 const alphabet = /^[a-zA-Z]/ //Regex if first char is lower and uppercase charecter
@@ -720,14 +720,21 @@
                 const lastCharAP = (/[a-zA-Z]$/);
                 const specialCharacter = /^\W/; //Regex special characters
                 var wordProcess = false;
-                
-                
+                var sendingWordsToApiDone = false;
+                var convertedWithNumberArray = "";
+                var wordCounter1 = 0;
+                var wordCounter2 = 0;
                 /*TODO:
                 Efter det fråga mot databasen.
                 Efter det formulera tydliga riktlinjer
                 Efter det skapa formulär
                 Samla in data*/
-
+               
+                if(noSPecialCharPasswordwithNumbers != null){
+                    convertedWithNumberArray = true;
+                }else if(noSPecialCharPasswordwithNumbers == null){
+                    convertedWithNumberArray = false;
+                }
                 for (let i = 0; i < password.length; i++){
                     if(password.match(number)){
                      
@@ -759,7 +766,7 @@
                     
                 };
                 
-                if(password.length == 0 ){
+                if(password.length == 0){
                     subnumber = 0;
                     for (let i = 0; i < noSpecialCharPassword.length; i++){
           
@@ -794,6 +801,7 @@
                                 temp = null;
                                 i = 0; //Behövs eftersom en stor del text har försvunnit och annars enbart visar första bokstaven i vad som är kvar
                                 subNumber = 0; //Need as the itteration skips 0 when exiting if statment.
+                                wordCounter1 += 1;
                             }
                             else if(leetSearchingWord.length <= 1){
                       
@@ -808,7 +816,7 @@
                         } 
                     }
                 }
-                if(noSpecialCharPassword.length == 0 && noSPecialCharPasswordwithNumbers.length != 0){
+                if(noSpecialCharPassword.length == 0){
                     temp = null;
                     subnumber = 0;
                     for (let i = 0; i < noSPecialCharPasswordwithNumbers.length; i++){
@@ -838,12 +846,13 @@
 
                             if(fetchLeetWord){
                                 //console.log("Word found :",leetSearchingWord)
-                                leetSegmentationTrackerWithNumbers.push(leetSearchingWord); //Adds the word to segmentation tracker
+                                leetSegmentationTrackerWithNumbers.push(leetSearchingWord2); //Adds the word to segmentation tracker
                                 storeSpecialWordsWithNumbers.push(" ");
                                 noSPecialCharPasswordwithNumbers = noSPecialCharPasswordwithNumbers.replace(`${leetSearchingWord2}`, ""); //Replaces the word in password string with nothing.
                                 temp = null;
                                 i = 0; //Behövs eftersom en stor del text har försvunnit och annars enbart visar första bokstaven i vad som är kvar
                                 subNumber = 0; //Need as the itteration skips 0 when exiting if statment.
+                                wordCounter2 += 1;
                             }
                             else if(leetSearchingWord2.length <= 1){
                       
@@ -858,17 +867,38 @@
                         }
                         
                     }
-                   
+                    if(noSPecialCharPasswordwithNumbers.length == 0){
+                        sendingWordsToApiDone = true;
+                    } 
                 }
+            
                 var lessSegments = [];
-                if(leetSegmentationTracker.length < leetSegmentationTrackerWithNumbers.length){
+                if(wordSearch1 == true && convertedWithNumberArray == false){
                     lessSegments = leetSegmentationTracker;
-                }else if(leetSegmentationTrackerWithNumbers.length < leetSegmentationTracker.length){
-                    lessSegments = leetSegmentationTrackerWithNumbers;
+                    wordSearch2 = false;
                 }
+                if(wordSearch2 == true){
+                    if(wordCounter1 < wordCounter2){
+                        lessSegments = leetSegmentationTracker;
+                        convertedWithNumberArray = "";
+                        wordCounter1 = 0;
+                        wordCounter2 = 0;
+                        wordSearch1 = false;
+                        wordSearch2 = false;
+                    }else if(wordCounter2 < wordCounter1){
 
+                        convertedWithNumberArray = "";
+                        lessSegments = leetSegmentationTrackerWithNumbers;
+                        wordCounter1 = 0;
+                        wordCounter2 = 0;
+                        wordSearch1 = false;
+                        wordSearch2 = false;
+                    }
+                }
                 //Problem solved with single letters.
                 if(lessSegments.length != 0 && cleanPassword != ""){
+                    console.log(lessSegments);
+                    alert("kolla");
                     let temptext;
                     for(let i = 0; i < lessSegments.length; i++){
                         temptext = lessSegments[i].toString(); 
@@ -897,7 +927,7 @@
                     var segmentsExpected;
                     segments = lessSegments.toString().split(/,/g);//Converts to string and split and save it to varibal segments
                     segmentsExpected = storeSpecialWords.toString().split(/,/g); 
-
+                    
                     if(segmentedPassword.length == 0){
                         segmentedPassword = segmentedPassword.concat(segments[0]);
                         expectedPassword = expectedPassword.concat(segmentsExpected[0]);
