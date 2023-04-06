@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="MSA" name="MSA">
+    <input id="button" type="submit" value="submit2" onclick="passwordCheck();">
+</body>
+<script>
+
+function wordChecker(word) {
+    var test = word;
+    
+            return new Promise((resolve, reject) => {
+            fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + test + '')
+                .then(response => response.json())
+                .then(response => {
+                    if (response.hasOwnProperty("title")) { //Checks if response object has property word.
+                       
+                        resolve(false);
+
+                    } else {
+                        
+                        resolve(true)
+                      
+                    }
+
+            })
+         })
+}
+
+
+    
+  
+
+    async function passwordCheck(){
+
+        var string = document.getElementById("MSA").value;
+        var array = [];
+        var sendWord;
+        const number = /^[0-9]/;
+        const symbol = /^\W/;
+        const alphabet = /^[a-zA-Z]/
+        sendWord = string;
+        for (let i = 0; i <= string.length; i++){  
+            if(string.match(number)){
+                array.push(sendWord[0]);
+                string = string.substring(1);
+                sendWord = string; //Sets the value after substracting
+                i = 0;
+            }
+            if(string.match(symbol)){
+                array.push(sendWord[0]);
+                string = string.substring(1);
+                sendWord = string; //Sets the value after substracting
+                i = 0;
+            }
+            if(string.match(alphabet)){ //Needs to be in as the api will throw error midway if symbols are sent in as it cant parse it.
+                checkIfwordExist = await wordChecker(sendWord); // calls on wordChecker and waits for it to complete
+                if(checkIfwordExist){
+                    array.push(sendWord); //Adds the word to segmentation tracker
+                    string = string.replace(`${sendWord}`, ""); //Replaces the word in password string with nothing. Example ilove after is love
+                    console.log(string, "efter replace")
+                    sendWord = string;
+                    i = 0; //To start at the begining of the word again
+
+                }
+                else if(checkIfwordExist == false && sendWord.length == 1){ //If temp.length is less then 1 in length, enter here to remove characters.
+
+                    array.push(sendWord);
+                    string = string.substring(1); //Substact first element
+                    sendWord = string; //Sets sendWord to string value again
+                    i = 0;  //To start at the begining of the word again
+                }
+                else{
+                    sendWord = string.substring(0, string.length - i); //Removes the last element
+                    console.log(sendWord)
+                }         
+            }
+            
+        }
+            
+            console.log(array);
+            alert("done");
+    }   
+</script>
+</html>
