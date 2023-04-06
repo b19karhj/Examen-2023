@@ -859,46 +859,19 @@
 
             const onlyContainNumbers =  /^[0-9]+$/;
             const notContaningAnyNumbers = /^[^\d]+$/;
-            //var splitMirrorArraySegments = [];
-            var convertToNumber;
+         
             var elementIndex; //Decided where in the array we put in the number
-            var deleteElement; 
             var checkForNumbersAndSymbols;
-            var counter;
+            
             arrayForlength = storeWordWithNumbersArray;
             for(let i = 0; i < arrayForlength.length; i++){
-                if(i > mirrorCleanArray.length){
-                    break;
+                if(mirrorCleanArray[i].match(onlyContainNumbers)){ 
+                    deleteElement = 1;
+                    storeWordWithNumbersArray.splice(i,1,mirrorCleanArray[i].split("")); //Splice, first index, second how many elements to remove, third add  
                 }
-                else if(i < mirrorCleanArray.length){
-        
-                    if(mirrorCleanArray[i].match(onlyContainNumbers)){ 
-                        let splitMirrorArraySegments = mirrorCleanArray[i].split(""); //Splits the number segment into single elements
-                        elementIndex = i;
-                        deleteElement = 1;
-                        
-                        for(let j = 0; j < splitMirrorArraySegments.length; j++){ //Inner loop to put in the numbers
-                            console.log("inne",splitMirrorArraySegments[j])
-                            convertToNumber = splitMirrorArraySegments[j];
-                            console.log(convertToNumber, "convert");
-                            console.log(elementIndex, "elementIndex")
-                            console.log(elementIndex, "elementIndex")
-                            console.log(mirrorCleanArray[i],"mirrorCleanArray[i]")
-                            console.log(mirrorCleanArray, "mirrorCleanArray");
-                            storeWordWithNumbersArray.splice(elementIndex,deleteElement,convertToNumber); //First at what index the number is inserted, amount of elements to remove, third insert number
-                            elementIndex +=1; //Adds one value so insert value is not overwritten if its more then one number
-                            deleteElement = 0; 
-                            console.log(storeWordWithNumbersArray, "stored in loop")
-                            alert("Hitta felet")
-                        }
-                     
-                        mirrorCleanArray.splice(i,1,"c");
-                        arrayForlength = storeWordWithNumbersArray;
-                        i = 0;
-                    }
-                }
-               
+                
             }
+            storeWordWithNumbersArray = [].concat(...storeWordWithNumbersArray); //Concat with ... to "unpack" the sub arrays
             console.log(storeWordWithNumbersArray, "stored");
             alert("är det korrekt?");
          
