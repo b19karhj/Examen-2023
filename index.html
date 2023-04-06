@@ -661,7 +661,39 @@
             var storeSpecialWordsWithNumbers = [];
             const containSpeicalCharacter = (/\W/);
             const specialLetters = (/\d/);
-            const replaceSpecialCharsNoNumbers = { //Created objects
+            
+     
+            var segmentioningPassword = true;
+            var databasePassword = false;
+  
+            var returnData;
+            var returnWait = false;
+            var googlePassword;
+            var temp;
+  
+            var containerID;
+            var noSPecialCharPasswordwithNumbers;
+            //googlePassword = document.getElementById("google").value;
+            
+
+
+            /////Varibales
+            var segmentionPasswordNotMappingNumbers;    //Do not convert numbers when mapping "leet words"
+            var segmentionPasswordMappingNumbers;   //Do convert numbers when mapping "leet words"
+            var cleanPassword; //Stores the password as it was typed (No segmentation)
+            ///Arrays///
+            var storeWordWithNoNumbersArray = [];   //Stores words and all characters found with segmentionPasswordNotMappingNumbers
+            var storeWordWithNumbersArray = [];     //Stores words and all characters found with segmentionPasswordMappingNumbers
+            var sendWord;
+            /////////Regex
+            const number = /^[0-9]/; //Regex if first char is lower and uppercase charecter
+            const numbers = (/[0-9]/); //Numbers character all elements
+            const alphabet = /^[a-zA-Z]/; //First element alphabet character
+            const alphabets = (/[a-zA-Z]/); //Alphabet character all elements
+            const symbol = /^\W/; //First element symbol´
+
+            ///////Leet words vocabulary
+            const replaceSpecialCharsNoNumbers = { //Without Numbers
                 "@": "a", "λ": "a",
                 "ß": "b", "l³": "b", "I3": "b", "J3": "b",
                 "©": "c", "¢": "c",
@@ -675,7 +707,7 @@
                 'µ': "u",
                 "%": "x", "><": "x"
             }
-            const replaceSpecialCharsWithNumbers = { //Created objects
+            const replaceSpecialCharsWithNumbers = { //Wirth Numbers
                 "@": "a", "λ": "a",
                 "8": "b", "ß": "b", "l³": "b", "I3": "b", "J3": "b",
                 "©": "c", "¢": "c",
@@ -693,49 +725,101 @@
                 "%": "x", "><": "x",
                 "2": "y"
             }
-            var cleanPassword;
-            var segmentioningPassword = true;
-            var databasePassword = false;
-            var nonchangedPassword;
-            var returnData;
-            var returnWait = false;
-            var googlePassword;
-            var temp;
-            var subNumber = 0;
-            var containerID;
-            var noSPecialCharPasswordwithNumbers;
-            //googlePassword = document.getElementById("google").value;
-            password = document.getElementById("MSA").value;
-            nonchangedPassword = password;
-            cleanPassword = password;
-            loadingFunction();
-
-            /////Varibales
-            var segmentionPasswordNotMappingNumbers;    //Do not convert numbers when mapping "leet words"
-            var segmentionPasswordMappingNumbers;   //Do convert numbers when mapping "leet words"
-            ///Arrays///
-            var storeWordWithNoNumbersArray = [];   //Stores words and all characters found with segmentionPasswordNotMappingNumbers
-            var storeWordWithNumbersArray = [];     //Stores words and all characters found with segmentionPasswordMappingNumbers
-            var sendWord;
-            /////////Regex
-            const number = /^[0-9]/; //Regex if first char is lower and uppercase charecter
-            const numbers = (/[0-9]/); //Numbers character all elements
-            const alphabet = /^[a-zA-Z]/; //First element alphabet character
-            const alphabets = (/[a-zA-Z]/); //Alphabet character all elements
-            const symbol = /^\W/; //First element symbol
           
             ///////////////
+            ///Sets password to the strings
+            segmentionPasswordNotMappingNumbers = document.getElementById("MSA").value;
+            segmentionPasswordMappingNumbers = document.getElementById("MSA").value;
+            cleanPassword = password;
+
+            loadingFunction(); //Starts working animation
 
             ////////Mapping characters with "leet words"
-            segmentionPasswordNotMappingNumbers = password.replace(/@|λ|ß|l³|I3|J3|©|¢|đ|Ð|ε|£|€|l²|ƒ|#|}{|!|ỉ|0_|.-|я|®|1²|ş|ŝ|§|µ|%|></g, function (matched) { //Replaces all specialChars with mapped letters
+            segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.replace(/@|λ|ß|l³|I3|J3|©|¢|đ|Ð|ε|£|€|l²|ƒ|#|}{|!|ỉ|0_|.-|я|®|1²|ş|ŝ|§|µ|%|></g, function (matched) { //Replaces all specialChars with mapped letters
                 return replaceSpecialCharsNoNumbers[matched];
             });
-            segmentionPasswordMappingNumbers = password.replace(/@|λ|ß|l³|I3|J3|©|¢|đ|Ð|ε|£|€|l²|ƒ|#|}{|!|ỉ|0_|.-|я|®|1²|ş|ŝ|§|µ|%|><|0|1|2|3|4|5|6|7|8|9/g, function (matched) { //Replaces all specialChars with mapped letters
+            segmentionPasswordMappingNumbers = segmentionPasswordMappingNumbers.replace(/@|λ|ß|l³|I3|J3|©|¢|đ|Ð|ε|£|€|l²|ƒ|#|}{|!|ỉ|0_|.-|я|®|1²|ş|ŝ|§|µ|%|><|0|1|2|3|4|5|6|7|8|9/g, function (matched) { //Replaces all specialChars with mapped letters
                 return replaceSpecialCharsWithNumbers[matched];
             });
             ////////
 
+            ///Loop to check if segmentionPasswordNotMappingNumbers contains words when its mapped
+            sendWord = segmentionPasswordNotMappingNumbers;
+            for (let i = 0; i <= segmentionPasswordNotMappingNumbers.length; i++){  
+                if(segmentionPasswordNotMappingNumbers.match(number)){
+                    storeWordWithNoNumbersArray.push(sendWord[0]);
+                    segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.substring(1);
+                    sendWord = segmentionPasswordNotMappingNumbers; //Sets the value after substracting
+                    i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
+                }
+                if(segmentionPasswordNotMappingNumbers.match(symbol)){
+                    storeWordWithNoNumbersArray.push(sendWord[0]);
+                    segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.substring(1);
+                    sendWord = segmentionPasswordNotMappingNumbers; //Sets the value after substracting
+                    i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
+                }
+                if(segmentionPasswordNotMappingNumbers.match(alphabet)){ //Needs to be in as the api will throw error midway if symbols are sent in as it cant parse it.
+                    checkIfwordExist = await wordChecker(sendWord); // calls on wordChecker and waits for it to complete
+                    if(checkIfwordExist){
+                        storeWordWithNoNumbersArray.push(sendWord); //Adds the word to segmentation tracker
+                        segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.replace(`${sendWord}`, ""); //Replaces the word in password string with nothing. Example ilove after is love
+                    
+                        sendWord = segmentionPasswordNotMappingNumbers;
+                        i = 0; //To start at the begining of the word again
 
+                    }
+                    else if(checkIfwordExist == false && sendWord.length == 1){ //If temp.length is less then 1 in length, enter here to remove characters.
+
+                        storeWordWithNoNumbersArray.push(sendWord);
+                        segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.substring(1); //Substact first element
+                        sendWord = segmentionPasswordNotMappingNumbers; //Sets sendWord to string value again
+                        i = 0;  //To start at the begining of the word again
+                    }
+                    else{
+                        sendWord = segmentionPasswordNotMappingNumbers.substring(0, segmentionPasswordNotMappingNumbers.length - i); //Removes the last element
+                    }         
+                }    
+            }
+            
+            ///Loop to check if segmentionPasswordMappingNumbers contains words when its mapped
+
+            sendWord = segmentionPasswordMappingNumbers;
+            for (let i = 0; i <= segmentionPasswordMappingNumbers.length; i++){  
+            
+                if(segmentionPasswordMappingNumbers.match(symbol)){
+                    storeWordWithNumbersArray.push(sendWord[0]);
+                    segmentionPasswordMappingNumbers = segmentionPasswordMappingNumbers.substring(1);
+                    sendWord = segmentionPasswordMappingNumbers; //Sets the value after substracting
+                    i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
+                }
+                if(segmentionPasswordMappingNumbers.match(alphabet)){ //Needs to be in as the api will throw error midway if symbols are sent in as it cant parse it.
+                    checkIfwordExist = await wordChecker(sendWord); // calls on wordChecker and waits for it to complete
+                 
+                    if(checkIfwordExist){
+
+                        storeWordWithNumbersArray.push(sendWord); //Adds the word to segmentation tracker
+                        segmentionPasswordMappingNumbers = segmentionPasswordMappingNumbers.replace(`${sendWord}`, ""); //Replaces the word in password string with nothing. Example ilove after is love
+                        i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
+                        sendWord = segmentionPasswordMappingNumbers;
+
+                    }else if(checkIfwordExist == false && sendWord.length == 1){ //If temp.length is less then 1 in length, enter here to remove characters.
+                    
+                        storeWordWithNumbersArray.push(sendWord);
+                        segmentionPasswordMappingNumbers = segmentionPasswordMappingNumbers.substring(1); //Substact first element
+                        sendWord = segmentionPasswordMappingNumbers; //Sets sendWord to string value again
+                    
+                        i = 0;  
+                    }else{
+                        sendWord = segmentionPasswordMappingNumbers.substring(0, segmentionPasswordMappingNumbers.length - i); //Removes the last element
+
+                    }     
+                }
+            }
+            ///////
+
+            //console.log(storeWordWithNoNumbersArray); Both now works as they should. DONT FORGET TO DELETE LATER
+            //console.log(storeWordWithNumbersArray);
+            
 
 
             /*TODO:
