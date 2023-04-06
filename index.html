@@ -638,7 +638,7 @@
         //Algorithm for MSA
         async function MSA() {
             //Varibales
-            var password; //Holds passwords from password 2
+           
             var noSpecialCharPassword;
             var searchingWord;
             var leetSearchingWord; //Stores the password created while last character is deleted.
@@ -678,9 +678,15 @@
 
 
             /////Varibales
-            var segmentionPasswordNotMappingNumbers;    //Do not convert numbers when mapping "leet words"
-            var segmentionPasswordMappingNumbers;   //Do convert numbers when mapping "leet words"
-            var cleanPassword; //Stores the password as it was typed (No segmentation)
+            var password; //Stores the password as it was typed (No segmentation)
+            var segmentionPasswordNotMappingNumbers;    //Stores passwrod and do not convert numbers when mapping "leet words"
+            var segmentionPasswordMappingNumbers;   //Stores passwrod and do convert numbers when mapping "leet words"
+            
+
+            /////Split
+
+            var splitPasswordArray = []; //Stores all orignal characters from password.
+
             ///Arrays///
             var storeWordWithNoNumbersArray = [];   //Stores words and all characters found with segmentionPasswordNotMappingNumbers
             var storeWordWithNumbersArray = [];     //Stores words and all characters found with segmentionPasswordMappingNumbers
@@ -728,9 +734,10 @@
           
             ///////////////
             ///Sets password to the strings
+            password = document.getElementById("MSA").value;
             segmentionPasswordNotMappingNumbers = document.getElementById("MSA").value;
             segmentionPasswordMappingNumbers = document.getElementById("MSA").value;
-            cleanPassword = password;
+          
 
             loadingFunction(); //Starts working animation
 
@@ -782,7 +789,7 @@
             }
             
             ///Loop to check if segmentionPasswordMappingNumbers contains words when its mapped
-
+            //NEED TO READ CONCAT PUSH SPACE ARRAY! DO NOT FORGET!
             sendWord = segmentionPasswordMappingNumbers;
             for (let i = 0; i <= segmentionPasswordMappingNumbers.length; i++){  
             
@@ -807,7 +814,6 @@
                         storeWordWithNumbersArray.push(sendWord);
                         segmentionPasswordMappingNumbers = segmentionPasswordMappingNumbers.substring(1); //Substact first element
                         sendWord = segmentionPasswordMappingNumbers; //Sets sendWord to string value again
-                    
                         i = 0;  
                     }else{
                         sendWord = segmentionPasswordMappingNumbers.substring(0, segmentionPasswordMappingNumbers.length - i); //Removes the last element
@@ -817,10 +823,41 @@
             }
             ///////
 
-            //console.log(storeWordWithNoNumbersArray); Both now works as they should. DONT FORGET TO DELETE LATER
-            //console.log(storeWordWithNumbersArray);
-            
+            //console.log(storeWordWithNoNumbersArray); //Both now works as they should. DONT FORGET TO DELETE LATER
+            console.log(storeWordWithNumbersArray);
+     
 
+            
+            /*Mirror storeWordWithNumbersArray but with no changed characters. So it can later be checked if a word only consist of
+            numbers or symbols and that word can be converted back as its not likley to be what the user meant. As the word api
+            atm has odd words like "wr"*/
+
+            var storeIValue; //Store value of position i of storeWordWithNumbersArray
+            var tempStorePushedISplitValues = []; //Temp store values in array
+            var arrayForlength = []; //Just a copy of storeWordWithNumbersArray so the count in for loop can work
+            var mirrorCleanArray = []; //Stores the mirrored elements
+            var tempJoin; //Used for join so it can later be pushed into array as a segment;
+    
+
+            arrayForlength = storeWordWithNumbersArray;
+            splitPasswordArray = password.split(""); //Splits all elements from the typed in password and puts then in an array 
+            for (i = 0; i < arrayForlength.length; i++) {//Loop throught length of storeWordWithNumbersArray
+                storeIValue = arrayForlength[i];
+                for (j = 0; j < storeIValue.length; j++){
+                    tempStorePushedISplitValues.push(splitPasswordArray[j]);
+                }
+                tempJoin = tempStorePushedISplitValues.join(''); //joined values
+                mirrorCleanArray.push(tempJoin);   //Push joined value into array
+                splitPasswordArray = splitPasswordArray.slice(storeIValue.length); //Remove the joined elements from the array cointaning "clean" characters
+                arrayForlength = arrayForlength.slice(i); //Removes first element from array
+                tempStorePushedISplitValues = []; //Reset temp array to 0 elements
+                i = 0; //Reset i as elements were substracted*/
+            }
+
+            console.log(storeWordWithNumbersArray);
+            console.log(mirrorCleanArray);
+            alert("vad är de?");
+            
 
             /*TODO:
             Efter det fråga mot databasen.
