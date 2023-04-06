@@ -854,9 +854,20 @@
                 i = 0; //Reset i as elements were substracted*/
             }
 
-            console.log(storeWordWithNumbersArray);
-            console.log(mirrorCleanArray);
-            alert("vad är de?");
+            /*Convert back words if they are just made out of numbers or symbols as its likely that the user did not have that in mind. As the api
+            classify words such as wr which can be made out of two numbers which is most likley wrong*/
+
+            const onlyContainNumbers =  /^[0-9]+$/;
+            var splitMirrorArraySegments = [];
+            arrayForlength = storeWordWithNumbersArray;
+            for(i = 0; i < arrayForlength.length; i++){
+                if(mirrorCleanArray[i].match(onlyContainNumbers)){
+                    splitMirrorArraySegments = mirrorCleanArray[i].split("");
+                    console.log(mirrorCleanArray[i], "är clean")
+                    console.log(splitMirrorArraySegments,"ska innehålla split");
+                   
+                }
+            }
             
 
             /*TODO:
