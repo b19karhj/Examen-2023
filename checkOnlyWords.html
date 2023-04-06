@@ -43,9 +43,10 @@ function wordChecker(word) {
         var array = [];
         var sendWord;
         const symbol = /^\W/;
+        const alphabet = /^[a-zA-Z]/
         sendWord = string;
-        for (let i = 0; i <= string.length; i++){  
 
+        for (let i = 0; i <= string.length; i++){  
             if(string.match(symbol)){
                 array.push(sendWord[0]);
                 string = string.substring(1);
@@ -56,27 +57,27 @@ function wordChecker(word) {
                 checkIfwordExist = await wordChecker(sendWord); // calls on wordChecker and waits for it to complete
                 console.log(checkIfwordExist, "är fetch")
                 if(checkIfwordExist){
+
                     array.push(sendWord); //Adds the word to segmentation tracker
                     string = string.replace(`${sendWord}`, ""); //Replaces the word in password string with nothing. Example ilove after is love
-                    console.log(string, "efter replace")
-                    i = 0; //Behövs eftersom en stor del text har försvunnit och annars enbart visar första bokstaven i vad som är kvar
+                    i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
                     sendWord = string;
 
                 }else if(checkIfwordExist == false && sendWord.length == 1){ //If temp.length is less then 1 in length, enter here to remove characters.
-                    console.log("inne");
+                  
                     array.push(sendWord);
                     string = string.substring(1); //Substact first element
                     sendWord = string; //Sets sendWord to string value again
-                    alert(string);
+                 
                     i = 0;  
                 }else{
                     sendWord = string.substring(0, string.length - i); //Removes the last element
-                    console.log(sendWord)
+
                 }     
             }
-            console.log(array);
-            alert("done");
         }
+        console.log(array);
+        alert("done");
     }   
 </script>
 </html>
