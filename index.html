@@ -679,18 +679,17 @@
 
             /////Varibales
             var password; //Stores the password as it was typed (No segmentation)
-            var segmentionPasswordNotMappingNumbers;    //Stores passwrod and do not convert numbers when mapping "leet words"
-            var segmentionPasswordMappingNumbers;   //Stores passwrod and do convert numbers when mapping "leet words"
-            
-
+            var segmentationPassword;   //Stores passwrod and  maps "leet words"
+            var normalPassword;
             /////Split
 
             var splitPasswordArray = []; //Stores all orignal characters from password.
 
             ///Arrays///
-            var storeWordWithNoNumbersArray = [];   //Stores words and all characters found with segmentionPasswordNotMappingNumbers
-            var storeWordWithNumbersArray = [];     //Stores words and all characters found with segmentionPasswordMappingNumbers
-            var sendWord;
+    
+            var segmentationPasswordArray = []; //Stores words and all characters found with segmentationPassword
+            var segmentSeperator = []; //Stores space so concating segmentationPassword is correct
+            var normalPasswordArray = []; //Used to store matched typed segments from segmentationPasswordArray but with normalPassword characters
             /////////Regex
             const number = /^[0-9]/; //Regex if first char is lower and uppercase charecter
             const numbers = (/[0-9]/); //Numbers character all elements
@@ -735,113 +734,69 @@
             ///////////////
             ///Sets password to the strings
             password = document.getElementById("MSA").value;
-            segmentionPasswordNotMappingNumbers = document.getElementById("MSA").value;
-            segmentionPasswordMappingNumbers = document.getElementById("MSA").value;
+            segmentationPassword = document.getElementById("MSA").value;
+            normalPassword = document.getElementById("MSA").value;
           
-
             loadingFunction(); //Starts working animation
 
             ////////Mapping characters with "leet words"
-            segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.replace(/@|λ|ß|l³|I3|J3|©|¢|đ|Ð|ε|£|€|l²|ƒ|#|}{|!|ỉ|0_|.-|я|®|1²|ş|ŝ|§|µ|%|></g, function (matched) { //Replaces all specialChars with mapped letters
-                return replaceSpecialCharsNoNumbers[matched];
-            });
-            segmentionPasswordMappingNumbers = segmentionPasswordMappingNumbers.replace(/@|λ|ß|l³|I3|J3|©|¢|đ|Ð|ε|£|€|l²|ƒ|#|}{|!|ỉ|0_|.-|я|®|1²|ş|ŝ|§|µ|%|><|0|1|2|3|4|5|6|7|8|9/g, function (matched) { //Replaces all specialChars with mapped letters
+            segmentationPassword = segmentationPassword.replace(/@|λ|ß|l³|I3|J3|©|¢|đ|Ð|ε|£|€|l²|ƒ|#|}{|!|ỉ|0_|.-|я|®|1²|ş|ŝ|§|µ|%|><|0|1|2|3|4|5|6|7|8|9/g, function (matched) { //Replaces all specialChars with mapped letters
                 return replaceSpecialCharsWithNumbers[matched];
             });
-            ////////
-
-            ///Loop to check if segmentionPasswordNotMappingNumbers contains words when its mapped
-            sendWord = segmentionPasswordNotMappingNumbers;
-            for (let i = 0; i <= segmentionPasswordNotMappingNumbers.length; i++){  
-                if(segmentionPasswordNotMappingNumbers.match(number)){
-                    storeWordWithNoNumbersArray.push(sendWord[0]);
-                    segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.substring(1);
-                    sendWord = segmentionPasswordNotMappingNumbers; //Sets the value after substracting
-                    i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
-                }
-                if(segmentionPasswordNotMappingNumbers.match(symbol)){
-                    storeWordWithNoNumbersArray.push(sendWord[0]);
-                    segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.substring(1);
-                    sendWord = segmentionPasswordNotMappingNumbers; //Sets the value after substracting
-                    i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
-                }
-                if(segmentionPasswordNotMappingNumbers.match(alphabet)){ //Needs to be in as the api will throw error midway if symbols are sent in as it cant parse it.
-                    checkIfwordExist = await wordChecker(sendWord); // calls on wordChecker and waits for it to complete
-                    if(checkIfwordExist){
-                        storeWordWithNoNumbersArray.push(sendWord); //Adds the word to segmentation tracker
-                        segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.replace(`${sendWord}`, ""); //Replaces the word in password string with nothing. Example ilove after is love
-                    
-                        sendWord = segmentionPasswordNotMappingNumbers;
-                        i = 0; //To start at the begining of the word again
-
-                    }
-                    else if(checkIfwordExist == false && sendWord.length == 1){ //If temp.length is less then 1 in length, enter here to remove characters.
-
-                        storeWordWithNoNumbersArray.push(sendWord);
-                        segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.substring(1); //Substact first element
-                        sendWord = segmentionPasswordNotMappingNumbers; //Sets sendWord to string value again
-                        i = 0;  //To start at the begining of the word again
-                    }
-                    else{
-                        sendWord = segmentionPasswordNotMappingNumbers.substring(0, segmentionPasswordNotMappingNumbers.length - i); //Removes the last element
-                    }         
-                }    
-            }
             
-            ///Loop to check if segmentionPasswordMappingNumbers contains words when its mapped
+            ///Loop to check if segmentationPassword contains words when its mapped
             //NEED TO READ CONCAT PUSH SPACE ARRAY! DO NOT FORGET!
-            sendWord = segmentionPasswordMappingNumbers;
-            for (let i = 0; i <= segmentionPasswordMappingNumbers.length; i++){  
+            sendWord = segmentationPassword;
+            for (let i = 0; i <= segmentationPassword.length; i++){  
             
-                if(segmentionPasswordMappingNumbers.match(symbol)){
-                    storeWordWithNumbersArray.push(sendWord[0]);
-                    segmentionPasswordMappingNumbers = segmentionPasswordMappingNumbers.substring(1);
-                    sendWord = segmentionPasswordMappingNumbers; //Sets the value after substracting
+                if(segmentationPassword.match(symbol)){
+                    segmentationPasswordArray.push(sendWord[0]);
+                    segmentationPassword = segmentationPassword.substring(1);
+                    sendWord = segmentationPassword; //Sets the value after substracting
+                    //Adds space so concat can be done later on and segments are correct.
                     i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
                 }
-                if(segmentionPasswordMappingNumbers.match(alphabet)){ //Needs to be in as the api will throw error midway if symbols are sent in as it cant parse it.
+                if(segmentationPassword.match(alphabet)){ //Needs to be in as the api will throw error midway if symbols are sent in as it cant parse it.
                     checkIfwordExist = await wordChecker(sendWord); // calls on wordChecker and waits for it to complete
                  
                     if(checkIfwordExist){
 
-                        storeWordWithNumbersArray.push(sendWord); //Adds the word to segmentation tracker
-                        segmentionPasswordMappingNumbers = segmentionPasswordMappingNumbers.replace(`${sendWord}`, ""); //Replaces the word in password string with nothing. Example ilove after is love
+                        segmentationPasswordArray.push(sendWord); //Adds the word to segmentation tracker
+                        segmentationPassword = segmentationPassword.replace(`${sendWord}`, ""); //Replaces the word in password string with nothing. Example ilove after is love
                         i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
-                        sendWord = segmentionPasswordMappingNumbers;
+                        sendWord = segmentationPassword;
 
                     }else if(checkIfwordExist == false && sendWord.length == 1){ //If temp.length is less then 1 in length, enter here to remove characters.
                     
-                        storeWordWithNumbersArray.push(sendWord);
-                        segmentionPasswordMappingNumbers = segmentionPasswordMappingNumbers.substring(1); //Substact first element
-                        sendWord = segmentionPasswordMappingNumbers; //Sets sendWord to string value again
+                        segmentationPasswordArray.push(sendWord);
+                        segmentationPassword = segmentationPassword.substring(1); //Substact first element
+                        sendWord = segmentationPassword; //Sets sendWord to string value again
                         i = 0;  
                     }else{
-                        sendWord = segmentionPasswordMappingNumbers.substring(0, segmentionPasswordMappingNumbers.length - i); //Removes the last element
+                        sendWord = segmentationPassword.substring(0, segmentationPassword.length - i); //Removes the last element
 
                     }     
                 }
             }
-            ///////
-
-            //console.log(storeWordWithNoNumbersArray); //Both now works as they should. DONT FORGET TO DELETE LATER
-            console.log(storeWordWithNumbersArray);
+   
+            //console.log(segmentationPasswordArray);
      
 
             
-            /*Mirror storeWordWithNumbersArray but with no changed characters. So it can later be checked if a word only consist of
+            /*Mirror segmentationPassword but with no changed characters. So it can later be checked if a word only consist of
             numbers or symbols and that word can be converted back as its not likley to be what the user meant. As the word api
             atm has odd words like "wr"*/
 
-            var storeIValue; //Store value of position i of storeWordWithNumbersArray
+            var storeIValue; //Store value of position i of segmentationPassword
             var tempStorePushedISplitValues = []; //Temp store values in array
-            var arrayForlength = []; //Just a copy of storeWordWithNumbersArray so the count in for loop can work
+            var arrayForlength = []; //Just a copy of segmentationPassword so the count in for loop can work
             var mirrorCleanArray = []; //Stores the mirrored elements
             var tempJoin; //Used for join so it can later be pushed into array as a segment;
     
 
-            arrayForlength = storeWordWithNumbersArray;
+            arrayForlength = segmentationPasswordArray;
             splitPasswordArray = password.split(""); //Splits all elements from the typed in password and puts then in an array 
-            for (i = 0; i < arrayForlength.length; i++) {//Loop throught length of storeWordWithNumbersArray
+            for (i = 0; i < arrayForlength.length; i++) {//Loop throught length of segmentationPassword
                 storeIValue = arrayForlength[i];
                 for (j = 0; j < storeIValue.length; j++){
                     tempStorePushedISplitValues.push(splitPasswordArray[j]);
@@ -857,71 +812,58 @@
             /*Convert back words if they are just made out of numbers or symbols as its likely that the user did not have that in mind. As the api
             classify words such as wr which can be made out of two numbers which is most likley wrong*/
 
-            const onlyContainNumbers =  /^[0-9]+$/;
-            const notContaningAnyNumbers = /^[^\d]+$/;
+            const onlyContainNumbers =  /^[0-9]+$/; //Only contain numbers
+            const onlyContainSymbols = /^[\W_]+$/; //Only contain symbols
          
-            var elementIndex; //Decided where in the array we put in the number
-            var checkForNumbersAndSymbols;
-            
-            arrayForlength = storeWordWithNumbersArray;
+            arrayForlength = segmentationPasswordArray;
             for(let i = 0; i < arrayForlength.length; i++){
-                if(mirrorCleanArray[i].match(onlyContainNumbers)){ 
-                    deleteElement = 1;
-                    storeWordWithNumbersArray.splice(i,1,mirrorCleanArray[i].split("")); //Splice, first index, second how many elements to remove, third add  
+                if(mirrorCleanArray[i].match(onlyContainNumbers) || mirrorCleanArray[i].match(onlyContainSymbols) ){ 
+                    
+                    segmentationPasswordArray.splice(i,1,mirrorCleanArray[i].split("")); //Splice, first index, second how many elements to remove, third add  and split to sub array
                 }
                 
             }
-            storeWordWithNumbersArray = [].concat(...storeWordWithNumbersArray); //Concat with ... to "unpack" the sub arrays
-            console.log(storeWordWithNumbersArray, "stored");
-            alert("är det korrekt?");
-         
+            segmentationPasswordArray = [].concat(...segmentationPasswordArray); //Concat with ... to "unpack" the sub arrays
             
+     
+            //console.log(segmentationPasswordArray, "With");
+          
+           
 
-            /*TODO:
-            Efter det fråga mot databasen.
-            Efter det formulera tydliga riktlinjer
-            Efter det skapa formulär
-            Samla in data*/
-            
-            alert("stop 2");
-            //Problem solved with single letters.
-            if (sendingWordsToApiDone == "STANNA") {
-                console.log(lessSegments);
-                alert("kolla");
-                let temptext;
-                for (let i = 0; i < lessSegments.length; i++) {
-                    temptext = lessSegments[i].toString();
-
-                    if (lessSegments[i].length >= 1 && temptext.match(alphabet)) {
-                        if (savedWords.length != 0) {
-                            savedWords.push("-");
-                        }
-                        for (let j = 0; j < lessSegments[i].length; j++) {
-                            savedWords.push(cleanPassword[j])
-                        }
-                    } else {
-                        cleanPassword = cleanPassword.substring(0);
-                    }
-                    cleanPassword = cleanPassword.substring(lessSegments[i].length)
+            //Loops through array and adds " " as sepertor if a word is found so it can be joined corret later
+            for(let i = 0; i < segmentationPasswordArray.length; i++){
+                if(segmentationPasswordArray[i].length > 1 ){
+                    segmentSeperator.push(" ");
                 }
-                savedWords = savedWords.join('').split(/-/g);
-                wordProcess = true;
-
-            };
-
-            if (wordProcess == true) {
-                var segments;
-                var segmentsExpected;
-                segments = lessSegments.toString().split(/,/g);//Converts to string and split and save it to varibal segments
-                segmentsExpected = storeSpecialWords.toString().split(/,/g);
-
-                if (segmentedPassword.length == 0) {
-                    segmentedPassword = segmentedPassword.concat(segments[0]);
-                    expectedPassword = expectedPassword.concat(segmentsExpected[0]);
-
-                    segments = segments.slice(1);
-                    segmentsExpected = segmentsExpected.slice(1);
+                else{
+                    segmentSeperator.push(segmentationPasswordArray[i]);
                 }
+            }
+      
+
+             //Typed in password characters are pushed into array to match segments in segmentationPasswordArray
+            for(let i = 0; i < segmentationPasswordArray.length; i++){
+        
+                for(let j = 0; j < segmentationPasswordArray[i].length; j++){
+                    normalPasswordArray.push(normalPassword[j])
+                }
+               
+                normalPassword = normalPassword.substring(segmentationPasswordArray[i].length)
+                normalPasswordArray.push("-")//Is adding to end after password needs fix 
+            }
+                
+           
+                normalPasswordArray = normalPasswordArray.join('').split(/-/g);
+                
+                    
+                console.log(normalPasswordArray)
+                alert("är det korrekt?");
+
+                segmentationPassword; //Empty so it can be refilled with segments without "," between all nonwords 
+
+                segmentSeperator = segmentSeperator.toString().split(/,/g); //Convert to string and split at ","
+                console.log(segmentSeperator)
+                alert("är det korrekt?");
                 for (let i = 0; segments.length > 0; i++) {
                     if (segmentedPassword[i] == ",") { //If , == i, then add 1 to i
                         i++;
@@ -1005,7 +947,7 @@
 
                 };
 
-            }
+            
 
             //console.log(expectedPassword)
 
