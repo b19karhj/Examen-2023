@@ -9,9 +9,9 @@
      
       $collection = $client->Examen2023->Examen;
       
-      if(isset($_POST['segPassword']) && isset($_POST['noSegPassword'])){
-         $password = JSON_decode($_POST['noSegPassword']);
-         $segmentedPassword = JSON_decode($_POST['segPassword'], true);
+      if(isset($_POST['notSegmentedPassword']) && isset($_POST['segmentedPassword'])){
+         $password = JSON_decode($_POST['notSegmentedPassword']);
+         $segmentedPassword = JSON_decode($_POST['segmentedPassword'], true);
          $cursor = $collection->findOne(['Password' => $password]); // Returns single object if found
          
          if($cursor == null){
