@@ -483,7 +483,6 @@
             }
          
             msaSegmentCheckArray = msaSegmentCheckArray.join("").split(/ /g); //joins and split at " " to get all segments
-            console.log(msaSegmentCheckArray.length,"msaSegmentCheckArray");
             if(msaSegmentCheckArray.length >= 4) {
                 msaCheck = true;
                 msaInput.style.background = "lightgreen";
@@ -617,7 +616,7 @@
         function displaySegments(prepareForSend,containerID) {
             let array = prepareForSend;
             let IDcontainer = containerID;
-            var containerPage = document.getElementById("IDcontainer"); //Fetch id
+            var containerPage = document.getElementById(IDcontainer); //Fetch id
             for (let i = 0; i < array.length; i++) {
                 var divBoxes = document.createElement("div"); //create span element
                 divBoxes.classList.add("arraySegments"); // Add .item
@@ -655,8 +654,9 @@
             var googlePassword; //Holds value of the password typed in google input box
             var colortest = true; //Boolean for checking all colors in display segment
             var outputElements = document.getElementsByClassName("arraySegments"); //Holds the class element that displays segments to user
-            let msaWarningDiv = document.getElementById("warningMSASegmentedPassword"); //Golds id of warning div for msaPassword
-            let msaWarningSpan = document.getElementById("msaWarningTextSpan"); //Holds id of warning span for msaPassword
+            var msaWarningDiv = document.getElementById("warningMSASegmentedPassword"); //Golds id of warning div for msaPassword
+            var msaWarningSpan = document.getElementById("msaWarningTextSpan"); //Holds id of warning span for msaPassword
+            let color; //Holds value of output segments displayed to user
 
             ///Arrays///
             var segmentationPasswordMappedArray = []; //Stores words and all characters found with segmentationPassword with mapped characters
@@ -666,6 +666,8 @@
             var tempStorePushedISplitValues = []; //Temp store values in array
             var arrayForlength = []; //Just a copy of segmentationPassword so the count in for loop can work
             var mirrorCleanArray = []; //Stores the mirrored elements
+            var prepareForSend = []; //Stores all segmented values and is used when checking if segment is less than 2
+            var readyForSend = []; //Stores segments that will be sent to do database after check if segments are less than 2.
             
             /////////Regex
             const letters = /^[a-zA-Z]/; //First element alphabet character
@@ -694,8 +696,6 @@
                 "%": "x", "><": "x",
                 "2": "y"
             }
-            
-            loadingFunction(); //Starts working animation
 
             ///////////////
             ///Sets password to the strings
@@ -703,8 +703,9 @@
             segmentationPasswordMapped = document.getElementById("msaPassword").value;
             segmentationPassword = document.getElementById("msaPassword").value;
             purePassword = document.getElementById("msaPassword").value;
-            googlePassword = document.getElementById("google").value;
-            
+            googlePassword = document.getElementById("googlePassword").value;
+            foundSegmentedPassword = document.getElementById("msaPassword").value;
+    
             ////////Mapping characters with "leet words"
             segmentationPasswordMapped = segmentationPasswordMapped.replace(/@|λ|ß|l³|I3|J3|©|¢|đ|Ð|ε|£|€|l²|ƒ|#|}{|!|ỉ|0_|.-|я|®|1²|ş|ŝ|§|µ|%|><|0|1|2|3|4|5|6|7|8|9/g, function (matched) { //Replaces all specialChars with mapped letters
                 return replaceSpecialCharsWithNumbers[matched];
@@ -843,56 +844,57 @@
 
             for (let i = 0; i < prepareForSend.length; i++) { //If a segment is less or equal to 2 in length. It will be send in as " ", as otherwise it will find hits in every word in the database
                 if (prepareForSend[i].length <= 2) {
-                    segmentedPasswordSendtoDB.push(' ');
+                    readyForSend.push(' ');
                 } else {
-                    segmentedPasswordSendtoDB.push(prepareForSend[i]);
+                    readyForSend.push(prepareForSend[i]);
 
                 }
             };
 
             //Sends segments to database for search
-            returnValue = await ajaxFunction(purePassword, segmentedPasswordSendtoDB); //Sends in typed in password with no segments, and segmented password
+            returnValue = await ajaxFunction(purePassword, readyForSend); //Sends in typed in password with no segments, and segmented password
             returnValue = JSON.parse(returnValue);
-
+            
             //Displays segment to user
             if (returnValue == true) {
+                console.log("pass found");
+                clearElements(prepareForSend);
+                msaWarningDiv.style.display = "block";
                 msaWarningDiv.style.backgroundColor = "#ED675F";
                 msaWarningSpan.innerHTML = "The password " + foundSegmentedPassword + " has been leaked before and is not safe! Try a different password";
                 stopLoadingIcon();
             }
-            else {
+            else{    
                 for (let i = 0; i < returnValue.length; i++) {
                     if (returnValue[i] < 2000) {
-
                         outputElements[i + 1].style.backgroundColor = "lightgreen"; //i+1 beacuse 0 is always empety and first word is at postion 1
                     } else {
                         outputElements[i + 1].style.backgroundColor = "#ED675F";
                         outputElements[i + 1].style.border = "5px dotted black";
                     }
                 }
-            }
-
-            //Checks if any segment has color of red
-            for (let i = 1; i < outputElements.length; i++) {
-                let color = outputElements[i].style.backgroundColor;
-                if (color == "rgb(237, 103, 95)") {
-                    colortest = false;
+                 //Checks if any segment has color of red
+                for (let i = 1; i < outputElements.length; i++) {
+                    color = outputElements[i].style.backgroundColor;
+                    if (color == "rgb(237, 103, 95)") {
+                        colortest = false;
+                    }
                 }
-            }
-            
-            //Checks if boolean is true or false. If a segment is red it wont go to next page.
-            if (colortest == false) {
-                stopLoadingIcon();
-                msaWarningSpan.innerHTML = "One or more segments are not accepted";
-            }
-            //If all segments are true then display next page for user
-            else if (colortest == true) {
-                stopLoadingIcon();
-                document.getElementById("containerArray").style.justifyContent = "center";
-                containerID = "containerArray";
-                displaySegments(prepareForSend, containerID);
-                document.getElementById("page1").style.display = "none";
-                document.getElementById("page2").style.display = "block";
+                //Checks if boolean is true or false. If a segment is red it wont go to next page.
+                if (colortest == false) {
+                    stopLoadingIcon();
+                    msaWarningDiv.style.display = "block";
+                    msaWarningSpan.innerHTML = "One or more segments are not accepted";
+                }
+                //If all segments are true then display next page for user
+                else if (colortest == true) {
+                    stopLoadingIcon();
+                    document.getElementById("containerArray").style.justifyContent = "center";
+                    containerID = "containerArray";
+                    displaySegments(prepareForSend, containerID);
+                    document.getElementById("page1").style.display = "none";
+                    document.getElementById("page2").style.display = "block";
+                }
             }
         }
     </script>
