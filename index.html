@@ -824,111 +824,91 @@
                     segmentationPasswordMappedArray.splice(i,1,mirrorCleanArray[i].split("")); //Splice, first index, second how many elements to remove, third add  and split to sub array
                 }
             }
-            segmentationPasswordMappedArray = [].concat(...segmentationPasswordMappedArray); //Concat with ... to "unpack" the sub arrays
+            segmentationPasswordMappedArray = [].concat(...segmentationPasswordMappedArray); //Concat with ...parent array to "unpack" the sub arrays
 
             
             //Typed in password characters are pushed into array to match segments in segmentationPasswordMappedArray
             for(let i = 0; i < segmentationPasswordMappedArray.length; i++){
         
-                for(let j = 0; j < segmentationPasswordMappedArray[i].length; j++){
-                    segmentationPasswordArray.push(segmentationPassword[j])
+                for(let j = 0; j < segmentationPasswordMappedArray[i].length; j++){ //Push in i value which match typed in values of segmentationPassword
+                    segmentationPasswordArray.push(segmentationPassword[j]) 
                 }
-                if(i == (segmentationPasswordMappedArray.length-1)){
+
+                if(i == (segmentationPasswordMappedArray.length-1)){ //Check to see if i is at last element in the array. So " " is not pushed in at the end
                     segmentationPassword = segmentationPassword.substring(segmentationPasswordMappedArray[i].length)
                 }else{
-                    segmentationPassword = segmentationPassword.substring(segmentationPasswordMappedArray[i].length)
+                    segmentationPassword = segmentationPassword.substring(segmentationPasswordMappedArray[i].length) //Remove the value of length as for loop j always start at the first value in segmentationPassword
                     segmentationPasswordArray.push(" ")//Adds a seperator " " so when splitting all single elements are still only one element in the array after join 
                 }
             }   
             segmentationPasswordArray = segmentationPasswordArray.join('').split(/ /g);
             arrayForlength = segmentationPasswordArray;
             segmentationPasswordArray = [];
-            
-            //If loop too push in words,numbers,symobls,letters so when joning the value in the array each word, segment of letters/symobls/numbers are seperated by ","
+   
+            //If loop too push in words,numbers,symobls,letters so when joning the value in the array each word, segment of letters/symobls/numbers are seperated by " "
             for (let i = 0; i < arrayForlength.length; i++) {
                 if(i < (arrayForlength.length-1)){ //Check to see if i is less then arrayForLength. If i is same value, i+1 will be out of bound
                     if(arrayForlength[i].match(onlyContainNumbers) && arrayForlength[i+1].match(onlyContainNumbers)){ //Check if value of i and i+1 both consist of numbers
                         segmentationPasswordArray.push(arrayForlength[i]);
-                        console.log(segmentationPasswordArray,"concat")
-                        alert("number")
+
                     }
                     else if(arrayForlength[i].match(onlyContainSymbols) && arrayForlength[i+1].match(onlyContainSymbols)){//Check if value of i and i+1 both consist of symbols
                         segmentationPasswordArray.push(arrayForlength[i]);
-                        console.log(segmentationPasswordArray,"concat")
-                        alert("symbol")
+
 
                     }
                     else if(arrayForlength[i].match(onlyLetters) && arrayForlength[i+1].match(onlyLetters)){//Check if value of i and i+1 are both consist of symbols
                         segmentationPasswordArray.push(arrayForlength[i]);
-                        console.log(segmentationPasswordArray,"concat")
-                        alert("found")
+
 
                     } else { //if i and i+1 do not match. its an indication of a word or a new segment.
-                        segmentationPasswordArray.push(arrayForlength[i],",");//Cocats , and element to string.
-                        //segmentsExpected = segmentsExpected.slice(1); //Revmoves first element
-                        console.log(segmentationPasswordArray,"concat")
-                        alert("else")
+                        segmentationPasswordArray.push(arrayForlength[i]," ");//Push in value and " " as a new segment will be pushed in next
+
                     }
                 }
-                if(i == (arrayForlength.length-1)){ //Check to see if i value is equal to the last element in arraForlengt. Then compare is done to the value before i. As i+1 is out of bound
-                    alert("inne")
+                if(i == (arrayForlength.length-1)){ //Check to see if i value is equal to the last element in arraForlengt. Then compare is done to the value before i. As i+1 is out of bound. Same things are happening but with i-1 checks
                         if(arrayForlength[i].match(onlyContainNumbers) && arrayForlength[i-1].match(onlyContainNumbers)){
                         segmentationPasswordArray.push(arrayForlength[i]);
-                        console.log(segmentationPasswordArray,"concat")
-                        alert("number")
+
                     }
                     else if(arrayForlength[i].match(onlyContainSymbols) && arrayForlength[i-1].match(onlyContainSymbols)){
                         segmentationPasswordArray.push(arrayForlength[i]);
-                        console.log(segmentationPasswordArray,"concat")
-                        alert("symbol")
+
 
                     }
-                    else if(arrayForlength[i].match(onlyLetters) && arrayForlength[i-1].match(onlyLetters)){//If j and segment0 is the same char 
+                    else if(arrayForlength[i].match(onlyLetters) && arrayForlength[i-1].match(onlyLetters)){
                         segmentationPasswordArray.push(arrayForlength[i]);
-                        //segmentsExpected = segmentsExpected.slice(1);
-                        console.log(segmentationPasswordArray,"concat")
-                        alert("found")
 
-                    } else { //if element [j] does not match the char in segments[0]
-                        segmentationPasswordArray.push(arrayForlength[i],",");//Cocats , and element to string.
-                        //segmentsExpected = segmentsExpected.slice(1); //Revmoves first element
-                        console.log(segmentationPasswordArray,"concat")
-                        alert("else")
+                    }
+                    else{ 
+                        segmentationPasswordArray.push(arrayForlength[i]); //No " " is pushed as its the last value
+          
                     }
                 }
             }
-            console.log(segmentationPasswordArray);
-            alert("är det korrekt?");  
-        
-                                clearElements(prepareForSend);
-                                segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
-                                expectedPassword = expectedPassword.join("");
-                                //console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
-                                prepareForSend = expectedPassword.split(/,/g);
+           
+            clearElements(prepareForSend); //clear created divs that displays each segment (if user fails first time, so next try it will not have divs for segments up)
+            prepareForSend = segmentationPasswordArray.join("").split(/ /g); //Joins the array to a string and splits at " " and saves it in prepareForSend which will be used to send in segments for test in database
+            expectedPassword = expectedPassword.join("");
+       
+            console.log(prepareForSend ,"prepareForSend")
+            alert("är det korrekt");
 
-                                containerID = "container";
-                                displaySegments(prepareForSend, containerID);
+            containerID = "container";
+            displaySegments(prepareForSend, containerID);
 
-                                for (let i = 0; i < prepareForSend.length; i++) {
-                                    if (prepareForSend[i].length <= 2) {
-                                        readyForSend.push(' ');
-                                    } else {
-                                        readyForSend.push(prepareForSend[i]);
+            for (let i = 0; i < prepareForSend.length; i++) {
+                if (prepareForSend[i].length <= 2) {
+                    readyForSend.push(' ');
+                } else {
+                    readyForSend.push(prepareForSend[i]);
 
-                                    }
-                                };
+                }
+            };
 
 
-                                databasePassword = true;
-                                segmentioningPassword = false;
-                          
-                        
-
-                    
-
-               
-
-            
+            databasePassword = true;
+            segmentioningPassword = false;
 
             //console.log(expectedPassword)
 
