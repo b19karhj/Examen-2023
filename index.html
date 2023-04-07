@@ -103,7 +103,7 @@
             width: 50px;
         }
 
-        #googlepanel {
+        #googleFieldContianer {
             border: 2px solid black;
             margin: 10px;
             padding-right: 5px;
@@ -115,7 +115,7 @@
             flex-direction: row;
         }
 
-        #msapanel {
+        #msagoogleFieldContianer{
             border: 2px solid black;
             margin: 10px;
             padding-right: 5px;
@@ -173,7 +173,7 @@
             background-color: green;
         }
 
-        #segmentinfo {
+        #segmentedPasswordInfo{
             top: 1%;
             position: relative;
         }
@@ -264,7 +264,7 @@
                 </ul>
                 <button id="infoBtn">I understand</button>
             </div>
-            <div id="segmentinfo">
+            <div id="segmentedPasswordInfo">
                 <fieldset>
                     <legend>How segmented password works</legend>
                     <p>A segment in a password is simply a bundle of the same set of characters in a password.<br>
@@ -287,31 +287,29 @@
                     </fieldset>
                 </fieldset>
             </div>
-            <div id="p1container">
-                <fieldset id="googlepanel">
+            <div id="page1Container">
+                <fieldset id="googleFieldContianer">
                     <legend class="legendp1">Google guideline password</legend>
                     <div id="innerGdiv">
-                        <input type="text" id="noMSA" name="google">
+                        <input type="text" id="googlePassword" name="google">
                         <div>
                             <p>Between 8-20 characters. Mix of letters, numbers and symbols is recommended</p>
                         </div>
                     </div>
-                    <div id="warningGoogle"><span id="gWP"></span></div>
+                    <div id="warningGooglePassword"><span id="googleWarningTextSpan"></span></div>
                 </fieldset>
-
                 <!-- Password box for MSA passwords-->
                 <div>
-                    <fieldset id="msapanel">
+                    <fieldset id="msagoogleFieldContianer">
                         <legend class="legendp1">Segmented password</legend>
                         <div id="innerMSAdiv">
-                            <input type="text" id="MSA" name="MSA">
+                            <input type="text" id="msaPassword" name="MSA">
                             <div>
                                 <p>Between 8-20 characters. Mix of letters, numbers and symbols. The password most
                                     contain at least 4 segments</p>
                             </div>
-
                         </div>
-                        <div id="warningMSA"><span id="msaWP"></span></div>
+                        <div id="warningMSASegmentedPassword"><span id="msaWarningTextSpan"></span></div>
                         <div id="container" class="arraySegments"></div>
                     </fieldset>
                 </div>
@@ -398,7 +396,8 @@
         </div>
     </div>
     <script>
-        document.getElementById("button").addEventListener("click", loadingFunction);
+        
+        //Functions for loading animation
         function loadingFunction() {
             document.getElementById("containerloading").style.display = "block";
 
@@ -407,104 +406,103 @@
             document.getElementById("containerloading").style.display = "none";
         }
 
+        //Event listener for when info button is clicked (does not display if clicked)
         document.getElementById("infoBtn").addEventListener("click", displayInfo);
         function displayInfo() {
             document.getElementById("info").style.display = "none";
         }
+       
+        //Checks if passwords have all requirments
         function passwordCheck() {
-            var gcheck = document.getElementById("noMSA");
-            var g = document.getElementById("noMSA").value;
-            let google = false;
-            let googleWa = document.getElementById("warningGoogle");
-            let googleWP = document.getElementById("gWP");
-            if (g.length >= 8) {
-                google = true;
-                gcheck.style.backgroundColor = "lightgreen";
-                googleWa.style.display = "none";
-            } else {
-                gcheck.style.backgroundColor = "#ED675F";
-                googleWP.innerHTML = "Less than 8 characters long";
-                googleWa.style.display = "block";
-            }
-            const numberCheck = /^[0-9]/;
-            const specialCharacterCheck = /^\W/;
-            const alphabetCheck = (/[a-zA-z]/);
-            let msaP = document.getElementById("MSA");
-            let msaPasscheck = document.getElementById("MSA").value;
-            let segmentcheck = [];
-            let msaB = false;
-            let msaWa = document.getElementById("warningMSA");
-            let msaWAP = document.getElementById("msaWP");
-            while (msaPasscheck.length != 0) {
-                if (msaPasscheck.match(numberCheck)) {
-                    segmentcheck.push(msaPasscheck.match(numberCheck));
-                    msaPasscheck = msaPasscheck.substring(1);
-                } else if (msaPasscheck.match(specialCharacterCheck)) {
-                    segmentcheck.push(msaPasscheck.match(specialCharacterCheck));
-                    msaPasscheck = msaPasscheck.substring(1);
-                } else if (msaPasscheck.match(alphabetCheck)) {
-                    segmentcheck.push(msaPasscheck.match(alphabetCheck));
-                    msaPasscheck = msaPasscheck.substring(1);
-                }
 
-            }
-            const numbersCheck = (/[0-9]/);
-            const notNumber = /^\D/;
-            const specialCharactersCheck = /^\W/;
-            const alphabetsCheck = /^[a-zA-Z]/
-            var concatSegments = segmentcheck.toString().split(/,/g);
-            segmentcheck = [];
-            if (segmentcheck.length == 0) {
-                segmentcheck = segmentcheck.concat(concatSegments[0]);
-                concatSegments = concatSegments.slice(1);
-            }
-            for (let i = 0; concatSegments.length > 0; i++) {
-                if (segmentcheck[i] == ",") { //If , == i, then add 1 to i
-                    i++;
-                }
-                if (segmentcheck[i].match(numbersCheck) && concatSegments[0].match(numbersCheck) ||
-                    segmentcheck[i].match(specialCharactersCheck) && concatSegments[0].match(specialCharactersCheck) ||
-                    segmentcheck[i].match(alphabetsCheck) && concatSegments[0].match(alphabetsCheck)
-                ) {//If i and segment0 is the same char 
-                    segmentcheck = segmentcheck.concat(concatSegments[0]);
-                    concatSegments = concatSegments.slice(1);
-                } else { //if element [i] does not match the char in segments[0]
+            //Checking Google Password
+            let googleCheck = false;
+            var googleInput = document.getElementById("googlePassword");
+            var googleInputValue = document.getElementById("googlePassword").value;
+            let googleWarningDiv = document.getElementById("warningGooglePassword");
+            let googleWarningText = document.getElementById("googleWarningTextSpan");
 
-                    segmentcheck = segmentcheck.concat(",", concatSegments[0]); //Cocats , and element to string.
-                    concatSegments = concatSegments.slice(1); //Revmoves first element
+            if(googleInputValue.length >= 8) {
+                googleCheck = true;
+                googleInput.style.backgroundColor = "lightgreen";
+                googleWarningDiv.style.display = "none";
+            }
+            else{
+                googleInput.style.backgroundColor = "#ED675F";
+                googleWarningText.innerHTML = "Less than 8 characters long";
+                googleWarningDiv.style.display = "block";
+            }
 
+            //Checking MSA Password
+            let msaInput = document.getElementById("msaPassword");
+            let msaInputValue = document.getElementById("msaPassword").value;
+            let msaInputValueArray = [];
+            let msaSegmentCheckArray = [];
+            let msaCheck = false;
+            let msaWarningDiv = document.getElementById("warningMSASegmentedPassword");
+            let msaWarningSpan = document.getElementById("msaWarningTextSpan");
+
+            const onlyContainNumbers =  /^[0-9]+$/; //Only contain numbers
+            const onlyContainSymbols = /^[\W_]+$/; //Only contain symbols
+            const onlyContainNumbersAndSymbols = /^[\d\W]+$/; //Only contain numbers and symbols
+            const onlyLetters = /^[a-zA-Z]+$/;
+
+            msaInputValueArray = msaInputValue.split(""); //Splits string to array 
+            for (let i = 0; i < msaInputValueArray.length; i++) {
+                if(i < (msaInputValueArray.length-1)){ //Check to see if i is less then msaInputValueArray. If i is same value, i+1 will be out of bound
+                    if(msaInputValueArray[i].match(onlyContainNumbers) && msaInputValueArray[i+1].match(onlyContainNumbers)){ //Check if value of i and i+1 both consist of numbers
+                        msaSegmentCheckArray.push(msaInputValueArray[i]);
+
+                    }
+                    else if(msaInputValueArray[i].match(onlyContainSymbols) && msaInputValueArray[i+1].match(onlyContainSymbols)){//Check if value of i and i+1 both consist of symbols
+                        msaSegmentCheckArray.push(msaInputValueArray[i]);
+
+
+                    }
+                    else if(msaInputValueArray[i].match(onlyLetters) && msaInputValueArray[i+1].match(onlyLetters)){//Check if value of i and i+1 are both consist of symbols
+                        msaSegmentCheckArray.push(msaInputValueArray[i]);
+                    } 
+                    else { //if i and i+1 do not match. its an indication of a new segment.
+                        msaSegmentCheckArray.push(msaInputValueArray[i]," ");//Push in value and " " as a new segment will be pushed in next
+                    }
+                }
+                if(i == (msaInputValueArray.length-1)){ //Check to see if i value is equal to the last element in msaInputValueArray. Then compare is done to the value before i. As i+1 is out of bound. Same things are happening but with i-1 checks
+                    if(msaInputValueArray[i].match(onlyContainNumbers) && msaInputValueArray[i-1].match(onlyContainNumbers)){
+                        msaSegmentCheckArray.push(msaInputValueArray[i]);
+                    }
+                    else if(msaInputValueArray[i].match(onlyContainSymbols) && msaInputValueArray[i-1].match(onlyContainSymbols)){
+                        msaSegmentCheckArray.push(msaInputValueArray[i]);
+                    }
+                    else if(msaInputValueArray[i].match(onlyLetters) && msaInputValueArray[i-1].match(onlyLetters)){
+                        msaSegmentCheckArray.push(msaInputValueArray[i]);
+                    }
+                    else{ 
+                        msaSegmentCheckArray.push(msaInputValueArray[i]); //No " " is pushed as its the last value
+                    }
                 }
             }
-            segmentcheck = segmentcheck.join("").split(/,/g);
-            if (segmentcheck.length >= 4) {
-                msaB = true;
-                msaP.style.background = "lightgreen";
-                msaWa.style.display = "none";
+         
+            msaSegmentCheckArray = msaSegmentCheckArray.join("").split(/ /g); //joins and split at " " to get all segments
+            console.log(msaSegmentCheckArray.length,"msaSegmentCheckArray");
+            if(msaSegmentCheckArray.length >= 4) {
+                msaCheck = true;
+                msaInput.style.background = "lightgreen";
+                msaWarningDiv.style.display = "none";
             }
-            else {
-                msaB = true;
-                msaP.style.background = "#ED675F";
-                msaWa.style.display = "block";
-                msaWAP.innerHTML = 'Less than 4 segments or contains space !" "';
+            else if(msaSegmentCheckArray.length < 4){
+                msaCheck = false;
+                msaInput.style.background = "#ED675F";
+                msaWarningDiv.style.display = "block";
+                msaWarningSpan.innerHTML = 'Less than 4 segments or contains space !" "';
+                
             }
-            if (google == true && msaB == true) {
+            if(googleCheck == true && msaCheck == true) {
+                loadingFunction();
                 MSA();
             }
-            google = false;
-            msaB = false;
         }
-        //var words; //Global veriabel som håller innehåller alla ord från ordlistan.
 
-        //Function for local files.
-        /*function compareText(){  //Skriv kommentarer imorgon.
-           fetch("wordList.txt") //Hämtar textfilen.
-               .then(function(textFile){ //En promise some tar emot datan och en response.
-                   return (textFile.text()); //Splitar innehållet på "\n".
-           })
-           .then(function(data){  //Tar emot datan från returnen.
-               words = data.split("\r\n"); //Splittar textfilen och sparar i strängen.
-           })
-       }*/
+       //Function for checking if words exists with word api
         function wordChecker(word) {
             return new Promise((resolve, reject) => {
                 try {
@@ -534,15 +532,15 @@
                         })
                 }
 
-
             })
         }//If timed out again. Create catch error and refere to v1 of the api
 
-        function ajaxFunction(nonchangedPassword, readyForSend) {
+        //Sending passwords to database for searching if matches are found
+        function ajaxFunction(purePassword, readyForSend) {
             return new Promise((resolve, reject) => {
-                var noSegP = JSON.stringify(nonchangedPassword);
-                var segP = JSON.stringify(readyForSend);
-                let result;
+                let notSegmentedPassword = JSON.stringify(purePassword);
+                let segmentedPassword = JSON.stringify(readyForSend);
+            
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "Backend.php", false);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
@@ -553,8 +551,8 @@
                     }
                 };
                 var data = {
-                    noSegPassword: noSegP,
-                    segPassword: segP
+                    notSegmentedPassword: notSegmentedPassword,
+                    segmentedPassword: segmentedPassword
                 };
                 var encodedData = Object.keys(data).map(function (key) {
                     return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
@@ -563,6 +561,8 @@
             });
         }
 
+
+        //Checking if all questions have been answered and sending response to database
         const form = document.getElementById("form");
         form.addEventListener("submit", questionnaire);
         function questionnaire(event) {
@@ -575,14 +575,14 @@
                 }
             });
             if (test == 6) {
-                var q1 = document.querySelector("input[name='q1']:checked").value;
-                var q2 = document.querySelector("input[name='q2']:checked").value;
-                var q3 = document.querySelector("input[name='q3']:checked").value;
-                var q4 = document.querySelector("input[name='q4']:checked").value;
-                var q5 = document.querySelector("input[name='q5']:checked").value;
-                var q6 = document.querySelector("input[name='q6']:checked").value;
-                var googlePass = googlePassword;
-                var msaPass = nonchangedPassword;
+                let q1 = document.querySelector("input[name='q1']:checked").value;
+                let q2 = document.querySelector("input[name='q2']:checked").value;
+                let q3 = document.querySelector("input[name='q3']:checked").value;
+                let q4 = document.querySelector("input[name='q4']:checked").value;
+                let q5 = document.querySelector("input[name='q5']:checked").value;
+                let q6 = document.querySelector("input[name='q6']:checked").value;
+                let passwordGoogle = googlePassword;
+                let passwordMSA = purePassword;
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "completion.php", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
@@ -599,8 +599,8 @@
                     q4: q4,
                     q5: q5,
                     q6: q6,
-                    gp: googlePass,
-                    mp: msaPass,
+                    passwordGoogle: passwordGoogle,
+                    passwordMSA: passwordMSA,
                 };
                 var encodedData = Object.keys(data).map(function (key) {
                     return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
@@ -612,6 +612,21 @@
                 alert("All questions have not been answered");
             }
         };
+
+        //Function that displays password segments for user
+        function displaySegments(prepareForSend,containerID) {
+            let array = prepareForSend;
+            let IDcontainer = containerID;
+            var containerPage = document.getElementById("IDcontainer"); //Fetch id
+            for (let i = 0; i < array.length; i++) {
+                var divBoxes = document.createElement("div"); //create span element
+                divBoxes.classList.add("arraySegments"); // Add .item
+                divBoxes.textContent = array[i]; //Add textcontent from current value of testa.
+                containerPage.appendChild(divBoxes); //Append to span to container
+            }
+        }
+
+        //Function clear divs that display password segments for user
         function clearElements(prepareForSend) {
             //console.log(prepareForSend);
             if (prepareForSend != null) {
@@ -622,96 +637,45 @@
 
             }
         }
-        function displaySegments(prepareForSend, containerID) {
-            let array = prepareForSend;
-            let idContainer = containerID;
-            var containerPage = document.getElementById(idContainer); //Fetch id
-            for (let i = 0; i < array.length; i++) {
-                var divBoxes = document.createElement("div"); //create span element
-                divBoxes.classList.add("arraySegments"); // Add .item
-                divBoxes.textContent = array[i]; //Add textcontent from current value of testa.
-                containerPage.appendChild(divBoxes); //Append to span to container
-            }
-        }
 
 
-        //Algorithm for MSA
+        //MSA algorithm
         async function MSA() {
-            //Varibales
-           
-            var noSpecialCharPassword;
-            var searchingWord;
-            var leetSearchingWord; //Stores the password created while last character is deleted.
-            var expectedPassword = [];
-            var readyForSend = [];
-            var prepareForSend = [];
-            var expectedPassword2 = [];
-            var segmentationTracker = []; //Keeps track of all segmentations
-            var leetSegmentationTracker = [];
-            var leetSegmentationTrackerWithNumbers = [];
-            var MSACheck = true;
-            var segmentedPassword = [];
-            var segmentbolean = true;
-            var segmentExpectbolean = true;
-            var passwordCharChange;
-            var expectedPassword = [];
-            var expectedPasswordArray = [];
-            var savedWords = [];
-            var storeSpecialWords = [];
-            var storeSpecialWordsWithNumbers = [];
-            const containSpeicalCharacter = (/\W/);
-            const specialLetters = (/\d/);
-            
-     
-            var segmentioningPassword = true;
-            var databasePassword = false;
-  
-            var returnData;
-            var returnWait = false;
-            var googlePassword;
-            var temp;
-  
-            var containerID;
-            var noSPecialCharPasswordwithNumbers;
-            //googlePassword = document.getElementById("google").value;
-            
-
 
             /////Varibales
             var password; //Stores the password as it was typed (No segmentation)
             var segmentationPasswordMapped;   //Stores passwrod and  maps "leet words"
-            var segmentationPassword;
-            /////Split
-
-            var splitPasswordArray = []; //Stores all orignal characters from password.
+            var segmentationPassword; //Stores password thats not mapped with "leet words"
+            var purePassword; //Stores password as it is and will be sent to database to check for whole password
+            var foundSegmentedPassword; //Displays password if exact password is matched in database.
+            var storeIValue; //Store value of position i of segmentationPassword
+            var tempJoinArrayValue; //Used for join so it can later be pushed into array as a segment
+            var containerID; //Used to hold different containting id depending on page'
+            var returnData; //Holds return data from ajax request
+            var googlePassword; //Holds value of the password typed in google input box
+            var colortest = true; //Boolean for checking all colors in display segment
+            var outputElements = document.getElementsByClassName("arraySegments"); //Holds the class element that displays segments to user
+            let msaWarningDiv = document.getElementById("warningMSASegmentedPassword"); //Golds id of warning div for msaPassword
+            let msaWarningSpan = document.getElementById("msaWarningTextSpan"); //Holds id of warning span for msaPassword
 
             ///Arrays///
-    
             var segmentationPasswordMappedArray = []; //Stores words and all characters found with segmentationPassword with mapped characters
             var segmentSeperator = []; //Stores space so concating segmentationPassword is correct
             var segmentationPasswordArray = []; //Store matched typed segments from segmentationPasswordMappedArray but with non mapped characters
+            var splitPasswordArray = []; //Stores all splitted all elements from the typed in password and puts then in an array 
+            var tempStorePushedISplitValues = []; //Temp store values in array
+            var arrayForlength = []; //Just a copy of segmentationPassword so the count in for loop can work
+            var mirrorCleanArray = []; //Stores the mirrored elements
+            
             /////////Regex
-            const number = /^[0-9]/; //Regex if first char is lower and uppercase charecter
-            const numbers = (/[0-9]/); //Numbers character all elements
-            const alphabet = /^[a-zA-Z]/; //First element alphabet character
-            const alphabets = (/[a-zA-Z]/); //Alphabet character all elements
-            const symbol = /^\W/; //First element symbol´
+            const letters = /^[a-zA-Z]/; //First element alphabet character
+            const symbol = /^\W/; //First element symbol
+            const onlyContainNumbers =  /^[0-9]+$/; //Only contain numbers
+            const onlyContainSymbols = /^[\W_]+$/; //Only contain symbols
+            const onlyContainNumbersAndSymbols = /^[\d\W]+$/; //Only contain numbers and symbols
+            const onlyLetters = /^[a-zA-Z]+$/; //Only letters
 
             ///////Leet words vocabulary
-            const replaceSpecialCharsNoNumbers = { //Without Numbers
-                "@": "a", "λ": "a",
-                "ß": "b", "l³": "b", "I3": "b", "J3": "b",
-                "©": "c", "¢": "c",
-                "đ": "d", "Ð": "d",
-                "ε": "e", "£": "e", "€": "e",
-                'l²': "f", 'ƒ': "f",
-                '#': "h",
-                '!': "i",
-                '.-': "r", 'я': "r", '®': "r", '1²': "r",
-                'ş': "s", 'ŝ': "s", '§': "s", '$': "s",
-                'µ': "u",
-                "%": "x", "><": "x"
-            }
             const replaceSpecialCharsWithNumbers = { //Wirth Numbers
                 "@": "a", "λ": "a",
                 "8": "b", "ß": "b", "l³": "b", "I3": "b", "J3": "b",
@@ -730,22 +694,23 @@
                 "%": "x", "><": "x",
                 "2": "y"
             }
-          
-            ///////////////
-            ///Sets password to the strings
-            password = document.getElementById("MSA").value;
-            segmentationPasswordMapped = document.getElementById("MSA").value;
-            segmentationPassword = document.getElementById("MSA").value;
-          
+            
             loadingFunction(); //Starts working animation
 
+            ///////////////
+            ///Sets password to the strings
+            password = document.getElementById("msaPassword").value;
+            segmentationPasswordMapped = document.getElementById("msaPassword").value;
+            segmentationPassword = document.getElementById("msaPassword").value;
+            purePassword = document.getElementById("msaPassword").value;
+            googlePassword = document.getElementById("google").value;
+            
             ////////Mapping characters with "leet words"
             segmentationPasswordMapped = segmentationPasswordMapped.replace(/@|λ|ß|l³|I3|J3|©|¢|đ|Ð|ε|£|€|l²|ƒ|#|}{|!|ỉ|0_|.-|я|®|1²|ş|ŝ|§|µ|%|><|0|1|2|3|4|5|6|7|8|9/g, function (matched) { //Replaces all specialChars with mapped letters
                 return replaceSpecialCharsWithNumbers[matched];
             });
             
-            ///Loop to check if segmentationPassword contains words when its mapped
-            //NEED TO READ CONCAT PUSH SPACE ARRAY! DO NOT FORGET!
+            ///Loop to check if segmentationPasswordMapped contains words when its mapped
             sendWord = segmentationPasswordMapped;
             for (let i = 0; i <= segmentationPasswordMapped.length; i++){  
             
@@ -756,7 +721,7 @@
                     //Adds space so concat can be done later on and segments are correct.
                     i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
                 }
-                if(segmentationPasswordMapped.match(alphabet)){ //Needs to be in as the api will throw error midway if symbols are sent in as it cant parse it.
+                if(segmentationPasswordMapped.match(letters)){ //Needs to be in as the api will throw error midway if symbols are sent in as it cant parse it.
                     checkIfwordExist = await wordChecker(sendWord); // calls on wordChecker and waits for it to complete
                  
                     if(checkIfwordExist){
@@ -778,21 +743,11 @@
                     }     
                 }
             }
-   
-            //console.log(segmentationPasswordArray);
-     
 
             
             /*Mirror segmentationPassword but with no changed characters. So it can later be checked if a word only consist of
             numbers or symbols and that word can be converted back as its not likley to be what the user meant. As the word api
             atm has odd words like "wr"*/
-
-            var storeIValue; //Store value of position i of segmentationPassword
-            var tempStorePushedISplitValues = []; //Temp store values in array
-            var arrayForlength = []; //Just a copy of segmentationPassword so the count in for loop can work
-            var mirrorCleanArray = []; //Stores the mirrored elements
-            var tempJoin; //Used for join so it can later be pushed into array as a segment;
-    
 
             arrayForlength = segmentationPasswordMappedArray;
             splitPasswordArray = password.split(""); //Splits all elements from the typed in password and puts then in an array 
@@ -801,8 +756,8 @@
                 for (j = 0; j < storeIValue.length; j++){
                     tempStorePushedISplitValues.push(splitPasswordArray[j]);
                 }
-                tempJoin = tempStorePushedISplitValues.join(''); //joined values
-                mirrorCleanArray.push(tempJoin);   //Push joined value into array
+                empJoinArrayValue = tempStorePushedISplitValues.join(''); //joined values
+                mirrorCleanArray.push(empJoinArrayValue);   //Push joined value into array
                 splitPasswordArray = splitPasswordArray.slice(storeIValue.length); //Remove the joined elements from the array cointaning "clean" characters
                 arrayForlength = arrayForlength.slice(i); //Removes first element from array
                 tempStorePushedISplitValues = []; //Reset temp array to 0 elements
@@ -811,12 +766,6 @@
 
             /*Convert back words if they are just made out of numbers or symbols as its likely that the user did not have that in mind. As the api
             classify words such as wr which can be made out of two numbers which is most likley wrong*/
-
-            const onlyContainNumbers =  /^[0-9]+$/; //Only contain numbers
-            const onlyContainSymbols = /^[\W_]+$/; //Only contain symbols
-            const onlyContainNumbersAndSymbols = /^[\d\W]+$/; //Only contain numbers and symbols
-            const onlyLetters = /^[a-zA-Z]+$/;
-
          
             arrayForlength = segmentationPasswordMappedArray;
             for(let i = 0; i < arrayForlength.length; i++){
@@ -886,47 +835,32 @@
                     }
                 }
             }
-           
+            //Display segments for user and prepare array with segments for database search
             clearElements(prepareForSend); //clear created divs that displays each segment (if user fails first time, so next try it will not have divs for segments up)
-            prepareForSend = segmentationPasswordArray.join("").split(/ /g); //Joins the array to a string and splits at " " and saves it in prepareForSend which will be used to send in segments for test in database
-            expectedPassword = expectedPassword.join("");
-       
-            console.log(prepareForSend ,"prepareForSend")
-            alert("är det korrekt");
-
+            prepareForSend = segmentationPasswordArray.join("").split(/ /g); //Joins the array to a string and splits at " " and saves it in prepareForSend which will be used to send in segments for test in database    
             containerID = "container";
-            displaySegments(prepareForSend, containerID);
+            displaySegments(prepareForSend,containerID); //Sends in array to function that displays the segments to the user
 
-            for (let i = 0; i < prepareForSend.length; i++) {
+            for (let i = 0; i < prepareForSend.length; i++) { //If a segment is less or equal to 2 in length. It will be send in as " ", as otherwise it will find hits in every word in the database
                 if (prepareForSend[i].length <= 2) {
-                    readyForSend.push(' ');
+                    segmentedPasswordSendtoDB.push(' ');
                 } else {
-                    readyForSend.push(prepareForSend[i]);
+                    segmentedPasswordSendtoDB.push(prepareForSend[i]);
 
                 }
             };
 
-
-            databasePassword = true;
-            segmentioningPassword = false;
-
-            //console.log(expectedPassword)
-
-
-            //console.log(readyForSend);
-            var returnValue = await ajaxFunction(nonchangedPassword, readyForSend);
+            //Sends segments to database for search
+            returnValue = await ajaxFunction(purePassword, segmentedPasswordSendtoDB); //Sends in typed in password with no segments, and segmented password
             returnValue = JSON.parse(returnValue);
-            //console.log(returnValue);
-            let msaWa = document.getElementById("warningMSA");
-            let msaWAP = document.getElementById("msaWP");
 
+            //Displays segment to user
             if (returnValue == true) {
-                msaWa.style.backgroundColor = "#ED675F";
-                msaWAP.innerHTML = "The password " + segmentedPassword + " has been leaked before and is not safe! Try a different password";
+                msaWarningDiv.style.backgroundColor = "#ED675F";
+                msaWarningSpan.innerHTML = "The password " + foundSegmentedPassword + " has been leaked before and is not safe! Try a different password";
                 stopLoadingIcon();
             }
             else {
-                var outputElements = document.getElementsByClassName("arraySegments");
                 for (let i = 0; i < returnValue.length; i++) {
                     if (returnValue[i] < 2000) {
 
@@ -937,22 +871,21 @@
                     }
                 }
             }
-            var colortest = true;
-            var outputElements = document.getElementsByClassName("arraySegments");
+
+            //Checks if any segment has color of red
             for (let i = 1; i < outputElements.length; i++) {
                 let color = outputElements[i].style.backgroundColor;
                 if (color == "rgb(237, 103, 95)") {
-
                     colortest = false;
-
                 }
-
             }
-            //console.log(colortest)
+            
+            //Checks if boolean is true or false. If a segment is red it wont go to next page.
             if (colortest == false) {
                 stopLoadingIcon();
-                msaWAP.innerHTML = "One or more segments are not accepted";
+                msaWarningSpan.innerHTML = "One or more segments are not accepted";
             }
+            //If all segments are true then display next page for user
             else if (colortest == true) {
                 stopLoadingIcon();
                 document.getElementById("containerArray").style.justifyContent = "center";
@@ -964,5 +897,4 @@
         }
     </script>
 </body>
-
 </html>
