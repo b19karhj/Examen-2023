@@ -854,7 +854,7 @@
             //Sends segments to database for search
             returnValue = await ajaxFunction(purePassword, readyForSend); //Sends in typed in password with no segments, and segmented password
             returnValue = JSON.parse(returnValue);
-            
+            console.log(returnValue);
             //Displays segment to user
             if (returnValue == true) {
                 console.log("pass found");

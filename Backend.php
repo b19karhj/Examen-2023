@@ -6,42 +6,45 @@
 
       //Connection
       $client = new MongoDB\Client('mongodb+srv://'.$_ENV['MDB_USER'].':'.$_ENV['MDB_PASS'].'@'.$_ENV['ATLAS_CLUSTER_SRV'].'/test');
-     
       $collection = $client->Examen2023->Examen;
       
-      if(isset($_POST['notSegmentedPassword']) && isset($_POST['segmentedPassword'])){
+      if(isset($_POST['notSegmentedPassword']) && isset($_POST['segmentedPassword'])){ //Isset and hold vale of is set
          $password = JSON_decode($_POST['notSegmentedPassword']);
          $segmentedPassword = JSON_decode($_POST['segmentedPassword'], true);
-         $cursor = $collection->findOne(['Password' => $password]); // Returns single object if found
+      }
+      
+      $noSegments = ['Password' => $password]; //Prepared segments to protect against injections
+      $cursor= $collection->findOne($noSegments); 
+    
+      $responseArray = [];
+      if($cursor == null){
          
-         if($cursor == null){
-            $responseArray = [];
-            for ($i = 0; $i < count($segmentedPassword); $i++){
-               error_log(memory_get_usage()); 
+         for ($i = 0; $i < count($segmentedPassword); $i++){
+            error_log(memory_get_usage()); 
+            $totalHits = 0;
+            $iValue = preg_quote($segmentedPassword[$i]);
+            if($iValue == " "){
                $totalHits = 0;
-               if($segmentedPassword[$i] == " "){
-                  $totalHits = 0;
-               }
-               else{
-                  $filter = ['Password' => ['$regex' => $segmentedPassword[$i]]]; // Find documents with regex include
-              
-                  $cursor =  $collection->find($filter);
-                  $dataArray = $cursor->toArray();
-                  
-                  foreach ($dataArray as $document){ 
-                     $hits = $document->Hits;  //Saves the number from Hits
-                     $totalHits += $hits;  //Adds and saves the total value of hits
-                  }
-               }
+            }
+            else{
+               //Prepare statements for segments
+               $filter = ['Password' => ['$regex' => $iValue]];// Find documents with regex include
+               $query = $collection->find($filter); // Find documents with regex include 
                
-               $responseArray[] = $totalHits; // Saves the total hits in array
-            };
-            
-            echo JSON_encode($responseArray);
-            
-         }else if ($cursor != null){
-            echo JSON_encode(true); //returnera ett stop tillbaka till javascript ajax.
-         }
+               $dataArray = $query->toArray();
+               
+               foreach ($dataArray as $document){ 
+                  $hits = $document->Hits;  //Saves the number from Hits
+                  $totalHits += $hits;  //Adds and saves the total value of hits
+               }
+              
+            } 
+            $responseArray[] = $totalHits; // Saves the total hits in array     
+         }; 
+      echo JSON_encode($responseArray);  
    }
-   
+   else if ($cursor != null){
+      echo JSON_encode(true); //returnera ett stop tillbaka till javascript ajax.
+   }
+
 ?>
