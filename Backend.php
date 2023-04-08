@@ -8,19 +8,22 @@
       $client = new MongoDB\Client('mongodb+srv://'.$_ENV['MDB_USER'].':'.$_ENV['MDB_PASS'].'@'.$_ENV['ATLAS_CLUSTER_SRV'].'/test');
       $collection = $client->Examen2023->Examen;
       
-      if(isset($_POST['notSegmentedPassword']) && isset($_POST['segmentedPassword'])){ //Isset and hold vale of is set
-         $password = JSON_decode($_POST['notSegmentedPassword']);
-         $segmentedPassword = JSON_decode($_POST['segmentedPassword'], true);
-      }
-      
+      if(isset($_POST['notSegmentedPassword'])){
+      $password = filter_var(JSON_decode($_POST['notSegmentedPassword']), FILTER_SANITIZE_STRING); //santaize from injection
+     
+  
       $noSegments = ['Password' => $password]; //Prepared segments to protect against injections
       $cursor= $collection->findOne($noSegments); 
     
       $responseArray = [];
       if($cursor == null){
-         
+         $segmentedPassword = JSON_decode($_POST['segmentedPassword'], true);
+         for($i = 0; $i < count($segmentedPassword); $i++){ //For loop to santitize from injections
+            $segmentedPassword[$i] = filter_var($segmentedPassword[$i], FILTER_SANITIZE_STRING); //santaize from injection
+         }
+
          for ($i = 0; $i < count($segmentedPassword); $i++){
-            error_log(memory_get_usage()); 
+           // error_log(memory_get_usage()); 
             $totalHits = 0;
             $iValue = preg_quote($segmentedPassword[$i]);
             if($iValue == " "){
@@ -46,5 +49,5 @@
    else if ($cursor != null){
       echo JSON_encode(true); //returnera ett stop tillbaka till javascript ajax.
    }
-
+}
 ?>
