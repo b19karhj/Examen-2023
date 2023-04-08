@@ -18,7 +18,7 @@
       $responseArray = [];
       if($cursor == null){
          $segmentedPassword = JSON_decode($_POST['segmentedPassword'], true);
-         for($i = 0; $i < count($segmentedPassword); $i++){ //For loop to santitize from injections
+         for($i = 0; $i < count($segmentedPassword); $i++){ //For loop to santitize from
             $segmentedPassword[$i] = filter_var($segmentedPassword[$i], FILTER_SANITIZE_STRING); //santaize from injection
          }
 

