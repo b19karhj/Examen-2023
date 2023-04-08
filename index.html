@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <link rel="shortcut icon" href="#">
     <meta charset="UTF-8">
@@ -305,7 +304,7 @@
                     <div id="innerGdiv">
                         <input type="text" id="googlePassword" name="google">
                         <div>
-                            <p>Between 8-20 characters. Mix of letters, numbers and symbols is recommended</p>
+                            <p>Use 8 characters or more with a mix of letters, numbers & symbols.</p>
                         </div>
                     </div>
                     <div id="warningGooglePassword"><span id="googleWarningTextSpan"></span></div>
@@ -344,7 +343,7 @@
                     <br>
                 </fieldset>
                 <fieldset>
-                    <label class="formL" for="q2">If segmentation was not correct, please type the wrong segment/segments</label>
+                    <label class="formL" for="q2">If segmentation was not correct, please type the wrong segment/segments (optional).</label>
                     <br>
                     <label>Wrong segment/segments</label>
                     <input type="textarea" id="q2a" name="q2" placeholder="example1 , example3"><br>
@@ -459,7 +458,7 @@
             const onlyLetters = /^[a-zA-Z]+$/;
             const onlyAllowedCharacters =/^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>\/?]*$/;
             msaInputValueArray = msaInputValue.split(""); //Splits string to array 
-            if(msaInputValue.match(onlyAllowedCharacters)){
+            if(msaInputValue.match(onlyAllowedCharacters) && msaInputValue.length <= 20){
                 msaInputValueArray = msaInputValue.split(""); //Splits string to array 
                 for (let i = 0; i < msaInputValueArray.length; i++) {
                     if(i < (msaInputValueArray.length-1)){ //Check to see if i is less then msaInputValueArray. If i is same value, i+1 will be out of bound
@@ -511,7 +510,7 @@
                 msaCheck = false;
                 msaInput.style.background = "#ED675F";
                 msaWarningDiv.style.display = "block";
-                msaWarningSpan.innerHTML = 'Password contains space or non english letters. (When using letters only use english letters)';
+                msaWarningSpan.innerHTML = 'Password contains space, non english letters or over 20 characters. (When using letters only use english letters)';
             }
          
             if(googleCheck == true && msaCheck == true) {
@@ -699,7 +698,7 @@
             const onlyLetters = /^[a-zA-Z]+$/; //Only letters
 
             ///////Leet words vocabulary
-            const replaceSpecialCharsWithNumbers = { //Wirth Numbers
+            const replaceSpecialCharsWithNumbers = {
                 "@": "a", "λ": "a",
                 "8": "b", "ß": "b", "l³": "b", "I3": "b", "J3": "b",
                 "©": "c", "¢": "c",
@@ -744,7 +743,7 @@
                     i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
                 }
                 if(segmentationPasswordMapped.match(letters)){ //Needs to be in as the api will throw error midway if symbols are sent in as it cant parse it.
-                    checkIfwordExist = await wordChecker(sendWord); // calls on wordChecker and waits for it to complete
+                    checkIfwordExist = await wordChecker(sendWord); //Calls on wordChecker and waits for it to complete
                  
                     if(checkIfwordExist){
 
@@ -875,7 +874,7 @@
             //Sends segments to database for search
             returnValue = await ajaxFunction(purePassword, readyForSend); //Sends in typed in password with no segments, and segmented password
             returnValue = JSON.parse(returnValue);
-            console.log(returnValue);
+            //console.log(returnValue);
             //Displays segment to user
             if (returnValue == true) {
                 console.log("pass found");
@@ -887,7 +886,7 @@
             }
             else{    
                 for (let i = 0; i < returnValue.length; i++) {
-                    if (returnValue[i] < 2000) {
+                    if (returnValue[i] < 134) {
                         outputElements[i + 1].style.backgroundColor = "lightgreen"; //i+1 beacuse 0 is always empety and first word is at postion 1
                     } else {
                         outputElements[i + 1].style.backgroundColor = "#ED675F";
@@ -905,7 +904,7 @@
                 if (colortest == false) {
                     stopLoadingIcon();
                     msaWarningDiv.style.display = "block";
-                    msaWarningSpan.innerHTML = "One or more segments are not accepted";
+                    msaWarningSpan.innerHTML = "One or more segments are not accepted (red dotted segments are segments not accepted)";
                 }
                 //If all segments are true then display next page for user
                 else if (colortest == true) {
