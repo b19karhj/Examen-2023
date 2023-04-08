@@ -281,6 +281,7 @@
                     <legend>How segmented password works</legend>
                     <p>A segment in a password is simply a bundle of the same set of characters in a password.<br>
                     <p>A segment can consist of numbers, letters or symbols.</p>
+                    <p>When using letters only english letters are allowed!</p>
                     <fieldset>
                         <legend>Example 1</legend>
                         <p>“Hello123” consists of two segments “Hello” and “123”.</p>
@@ -288,7 +289,7 @@
                     <p>Segments can be combined into words.</p>
                     <fieldset>
                         <legend>Example 2</legend>
-                        <p>“P@ss0rd” Consists of 5 segments “P”, “@”, “ss”, 0”, “rd”.</p>
+                        <p>“P@ssw0rd” Consists of 5 segments “P”, “@”, “ssw”, 0”, “rd”.</p>
                     </fieldset>
                     <p>The algorithm in this validation service will try to figure out masked words in password so it
                         can be compared to earlier leaked passwords from databases.</p>
@@ -457,55 +458,63 @@
             const onlyContainSymbols = /^[\W_]+$/; //Only contain symbols
             const onlyContainNumbersAndSymbols = /^[\d\W]+$/; //Only contain numbers and symbols
             const onlyLetters = /^[a-zA-Z]+$/;
-
+            const onlyAllowedCharacters =/^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>\/?]*$/;
             msaInputValueArray = msaInputValue.split(""); //Splits string to array 
-            for (let i = 0; i < msaInputValueArray.length; i++) {
-                if(i < (msaInputValueArray.length-1)){ //Check to see if i is less then msaInputValueArray. If i is same value, i+1 will be out of bound
-                    if(msaInputValueArray[i].match(onlyContainNumbers) && msaInputValueArray[i+1].match(onlyContainNumbers)){ //Check if value of i and i+1 both consist of numbers
-                        msaSegmentCheckArray.push(msaInputValueArray[i]);
+            if(msaInputValue.match(onlyAllowedCharacters)){
+                msaInputValueArray = msaInputValue.split(""); //Splits string to array 
+                for (let i = 0; i < msaInputValueArray.length; i++) {
+                    if(i < (msaInputValueArray.length-1)){ //Check to see if i is less then msaInputValueArray. If i is same value, i+1 will be out of bound
+                        if(msaInputValueArray[i].match(onlyContainNumbers) && msaInputValueArray[i+1].match(onlyContainNumbers)){ //Check if value of i and i+1 both consist of numbers
+                            msaSegmentCheckArray.push(msaInputValueArray[i]);
 
+                        }
+                        else if(msaInputValueArray[i].match(onlyContainSymbols) && msaInputValueArray[i+1].match(onlyContainSymbols)){//Check if value of i and i+1 both consist of symbols
+                            msaSegmentCheckArray.push(msaInputValueArray[i]);
+
+
+                        }
+                        else if(msaInputValueArray[i].match(onlyLetters) && msaInputValueArray[i+1].match(onlyLetters)){//Check if value of i and i+1 are both consist of symbols
+                            msaSegmentCheckArray.push(msaInputValueArray[i]);
+                        } 
+                        else { //if i and i+1 do not match. its an indication of a new segment.
+                            msaSegmentCheckArray.push(msaInputValueArray[i]," ");//Push in value and " " as a new segment will be pushed in next
+                        }
                     }
-                    else if(msaInputValueArray[i].match(onlyContainSymbols) && msaInputValueArray[i+1].match(onlyContainSymbols)){//Check if value of i and i+1 both consist of symbols
-                        msaSegmentCheckArray.push(msaInputValueArray[i]);
-
-
-                    }
-                    else if(msaInputValueArray[i].match(onlyLetters) && msaInputValueArray[i+1].match(onlyLetters)){//Check if value of i and i+1 are both consist of symbols
-                        msaSegmentCheckArray.push(msaInputValueArray[i]);
-                    } 
-                    else { //if i and i+1 do not match. its an indication of a new segment.
-                        msaSegmentCheckArray.push(msaInputValueArray[i]," ");//Push in value and " " as a new segment will be pushed in next
+                    if(i == (msaInputValueArray.length-1)){ //Check to see if i value is equal to the last element in msaInputValueArray. Then compare is done to the value before i. As i+1 is out of bound. Same things are happening but with i-1 checks
+                        if(msaInputValueArray[i].match(onlyContainNumbers) && msaInputValueArray[i-1].match(onlyContainNumbers)){
+                            msaSegmentCheckArray.push(msaInputValueArray[i]);
+                        }
+                        else if(msaInputValueArray[i].match(onlyContainSymbols) && msaInputValueArray[i-1].match(onlyContainSymbols)){
+                            msaSegmentCheckArray.push(msaInputValueArray[i]);
+                        }
+                        else if(msaInputValueArray[i].match(onlyLetters) && msaInputValueArray[i-1].match(onlyLetters)){
+                            msaSegmentCheckArray.push(msaInputValueArray[i]);
+                        }
+                        else{ 
+                            msaSegmentCheckArray.push(msaInputValueArray[i]); //No " " is pushed as its the last value
+                        }
                     }
                 }
-                if(i == (msaInputValueArray.length-1)){ //Check to see if i value is equal to the last element in msaInputValueArray. Then compare is done to the value before i. As i+1 is out of bound. Same things are happening but with i-1 checks
-                    if(msaInputValueArray[i].match(onlyContainNumbers) && msaInputValueArray[i-1].match(onlyContainNumbers)){
-                        msaSegmentCheckArray.push(msaInputValueArray[i]);
-                    }
-                    else if(msaInputValueArray[i].match(onlyContainSymbols) && msaInputValueArray[i-1].match(onlyContainSymbols)){
-                        msaSegmentCheckArray.push(msaInputValueArray[i]);
-                    }
-                    else if(msaInputValueArray[i].match(onlyLetters) && msaInputValueArray[i-1].match(onlyLetters)){
-                        msaSegmentCheckArray.push(msaInputValueArray[i]);
-                    }
-                    else{ 
-                        msaSegmentCheckArray.push(msaInputValueArray[i]); //No " " is pushed as its the last value
-                    }
+                msaSegmentCheckArray = msaSegmentCheckArray.join("").split(/ /g); //joins and split at " " to get all segments
+                if(msaSegmentCheckArray.length >= 4) {
+                    msaCheck = true;
+                    msaInput.style.background = "lightgreen";
+                    msaWarningDiv.style.display = "none";
                 }
-            }
-         
-            msaSegmentCheckArray = msaSegmentCheckArray.join("").split(/ /g); //joins and split at " " to get all segments
-            if(msaSegmentCheckArray.length >= 4) {
-                msaCheck = true;
-                msaInput.style.background = "lightgreen";
-                msaWarningDiv.style.display = "none";
-            }
-            else if(msaSegmentCheckArray.length < 4){
+                else if(msaSegmentCheckArray.length < 4){
+                    msaCheck = false;
+                    msaInput.style.background = "#ED675F";
+                    msaWarningDiv.style.display = "block";
+                    msaWarningSpan.innerHTML = 'Less than 4 segments';
+                    
+                }
+            }else{
                 msaCheck = false;
                 msaInput.style.background = "#ED675F";
                 msaWarningDiv.style.display = "block";
-                msaWarningSpan.innerHTML = 'Less than 4 segments or contains space !" "';
-                
+                msaWarningSpan.innerHTML = 'Password contains space or non english letters. (When using letters only use english letters)';
             }
+         
             if(googleCheck == true && msaCheck == true) {
                 loadingFunction();
                 MSA();
