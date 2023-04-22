@@ -49,4 +49,19 @@
       echo JSON_encode(true); //returnera ett stop tillbaka till javascript ajax.
    }
 }
+if(isset($_POST['googlePasswordDatabaseCheck'])){
+   $password = filter_var(JSON_decode($_POST['googlePasswordDatabaseCheck']), FILTER_SANITIZE_STRING);
+
+   $googlePassword = ['Password' => $password]; //Prepared segments to protect against injections
+   $response = $collection->findOne($googlePassword);
+
+   if($response != null)
+   {
+      echo JSON_encode(false);
+   }
+   else
+   {
+      echo JSON_encode(true);
+   }
+}
 ?>
