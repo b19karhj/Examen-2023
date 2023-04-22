@@ -423,16 +423,18 @@
        
         //Checks if passwords have all requirments
 
-        function passwordCheck() {
+       async function passwordCheck() {
 
             //Checking Google Password
             let googleCheck = false;
+            let googleDbCheck = false;
             var googleInput = document.getElementById("googlePassword");
             var googleInputValue = document.getElementById("googlePassword").value;
             let googleWarningDiv = document.getElementById("warningGooglePassword");
             let googleWarningText = document.getElementById("googleWarningTextSpan");
-
-            if(googleInputValue.length >= 8) {
+            var googleResult;
+            if(googleInputValue.length >= 8)
+            {
                 googleCheck = true;
                 googleInput.style.backgroundColor = "lightgreen";
                 googleWarningDiv.style.display = "none";
@@ -440,6 +442,20 @@
             else{
                 googleInput.style.backgroundColor = "#ED675F";
                 googleWarningText.innerHTML = "Less than 8 characters long";
+                googleWarningDiv.style.display = "block";
+            }
+
+            googleResult = await googlePasswordCheck(googleInputValue);
+            googleResult = JSON.parse(googleResult);
+
+            if(googleResult == true)
+            {
+                googleDbCheck = true;
+            }
+            else
+            {
+                googleInput.style.backgroundColor = "#ED675F";
+                googleWarningText.innerHTML = "The password " + googleInputValue + " has been leaked before and is not safe! Try a different password";
                 googleWarningDiv.style.display = "block";
             }
 
@@ -517,7 +533,7 @@
                 msaWarningSpan.innerHTML = 'Password contains space, non english letters or over 20 characters. (When using letters only use english letters)';
             }
          
-            if(googleCheck == true && msaCheck == true) {
+            if(googleCheck == true && msaCheck == true && googleDbCheck == true) {
                 loadingFunction();
                 MSA();
             }
@@ -545,6 +561,27 @@
         }
 
         //Sending passwords to database for searching if matches are found
+
+        function googlePasswordCheck(googleInputValue) {
+            return new Promise((resolve, reject) => {
+                let googlePasswordDatabaseCheck = JSON.stringify(googleInputValue);
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "Backend.php", false);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        resolve(this.responseText);
+                    }
+                };
+                var data = {
+                    googlePasswordDatabaseCheck: googlePasswordDatabaseCheck
+                };
+                var encodedData = Object.keys(data).map(function (key) {
+                    return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
+                }).join("&");
+                xhr.send(encodedData);
+            });
+        }
 
         function ajaxFunction(purePassword, readyForSend) {
             return new Promise((resolve, reject) => {
@@ -880,7 +917,7 @@
                 for(let i = 0; i < returnValue.length; i++){
                     if(returnValue[i] < 135)
                     {
-                        outputElements[i + 1].style.backgroundColor = "lightgreen"; //i+1 beacuse 0 is always empety and first word is at postion 1
+                        outputElements[i + 1].style.backgroundColor = "lightgreen";                                                 //i+1 beacuse 0 is always empety and first word is at postion 1
                     }
                     else
                     {
