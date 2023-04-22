@@ -10,7 +10,6 @@
       
       if(isset($_POST['notSegmentedPassword'])){
       $password = filter_var(JSON_decode($_POST['notSegmentedPassword']), FILTER_SANITIZE_STRING); //santaize from injection
-     
   
       $noSegments = ['Password' => $password]; //Prepared segments to protect against injections
       $cursor= $collection->findOne($noSegments); 
