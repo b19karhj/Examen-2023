@@ -227,6 +227,13 @@
             text-align: center;
         }
 
+        #iconText2 {
+            position: absolute;
+            bottom: 70px;
+            text-align: center;
+        }
+  
+
         .loading::after {
             content: "";
             width: 200px;
@@ -255,6 +262,7 @@
             <div id="containerloading">
                 <div class="loading">
                     <p id="iconText">Working:<br>Process can take up to ~3 min</p>
+                    <p id="iconText2">Checking Google password</p>
                 </div>
             </div>
             <div id="info">
@@ -324,7 +332,7 @@
                         <div id="container" class="arraySegments"></div>
                     </fieldset>
                 </div>
-                <input id="button" type="submit" value="submit2" onclick="passwordCheck();">
+                <input id="button" type="submit" value="submit2" onclick="load();">
             </div>
         </div>
     </div>
@@ -405,8 +413,15 @@
     <script>
         
         //Functions for loading animation
-
-        function loadingFunction() {
+       
+        function msaLoadingFunction() {
+            document.getElementById("iconText2").style.display = "none";
+            document.getElementById("iconText").style.display = "block";
+            document.getElementById("containerloading").style.display = "block";
+        }
+        function googleLoadingFunction() {
+            document.getElementById("iconText").style.display = "none";
+            document.getElementById("iconText2").style.display = "block";
             document.getElementById("containerloading").style.display = "block";
         }
 
@@ -422,9 +437,17 @@
         }
        
         //Checks if passwords have all requirments
-
+        function load(){
+            var googleValueCheck = document.getElementById("googlePassword").value;
+            if(googleValueCheck.length != 0){
+                googleLoadingFunction();
+                setTimeout(function() { //timeout is needed otherwise the async function will make loading function not load.
+                    passwordCheck();
+                }, 100);
+            }
+        }
+        
        async function passwordCheck() {
-
             //Checking Google Password
             let googleCheck = false;
             let googleDbCheck = false;
@@ -434,26 +457,32 @@
             let googleWarningText = document.getElementById("googleWarningTextSpan");
             var googleResult;
             if(googleInputValue.length >= 8)
-            {
-                googleCheck = true;
+            {          
                 googleInput.style.backgroundColor = "lightgreen";
                 googleWarningDiv.style.display = "none";
+                googleResult = await googlePasswordCheck(googleInputValue);
+                googleResult = JSON.parse(googleResult);
+                googleCheck = true;
+               
             }
-            else{
+            else if(googleInputValue.length < 8){
+                stopLoadingIcon();
                 googleInput.style.backgroundColor = "#ED675F";
                 googleWarningText.innerHTML = "Less than 8 characters long";
                 googleWarningDiv.style.display = "block";
+                
             }
-
-            googleResult = await googlePasswordCheck(googleInputValue);
-            googleResult = JSON.parse(googleResult);
+          
+          
 
             if(googleResult == true)
             {
+                stopLoadingIcon();
                 googleDbCheck = true;
             }
-            else
+            else if(googleResult == false)
             {
+                stopLoadingIcon();
                 googleInput.style.backgroundColor = "#ED675F";
                 googleWarningText.innerHTML = "The password " + googleInputValue + " has been leaked before and is not safe! Try a different password";
                 googleWarningDiv.style.display = "block";
@@ -513,7 +542,7 @@
                         }
                     }
                 }
-                msaSegmentCheckArray = msaSegmentCheckArray.join("").split(/ /g);   //joins and split at " " to get all segments
+                msaSegmentCheckArray = msaSegmentCheckArray.join("").split(/ /g);                                                                                       //joins and split at " " to get all segments
                 if(msaSegmentCheckArray.length >= 4) {
                     msaCheck = true;
                     msaInput.style.background = "lightgreen";
@@ -534,29 +563,54 @@
             }
          
             if(googleCheck == true && msaCheck == true && googleDbCheck == true) {
-                loadingFunction();
+                msaLoadingFunction();
                 MSA();
             }
         }
 
        //Function for checking if words exists with word api
 
-        function wordChecker(word) {
-            return new Promise((resolve, reject) => {
-                fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + word + '')
+      async function wordChecker(word, checkIfwordExist) {
+            console.log(word)
+            const url = 'https://wordsapiv1.p.rapidapi.com/words/'+word+'/definitions';
+            const options = {
+                method: 'GET',
+                headers: {
+                    'content-type': 'application/octet-stream',
+                    'X-RapidAPI-Key': 'd0893958f8mshab5136ec40d6715p1b853ejsn10dd8c67dc00',
+                    'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com'
+                }
+            };
+            try {
+                const response = await fetch(url, options);
+                const result = await response.json();
+                console.log(result)
+                console.log(result.hasOwnProperty("word"))
+                if(result.hasOwnProperty("word")){
+                    console.log(result)
+                    checkIfwordExist(true);
+                }
+                else{
+                    checkIfwordExist(false);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+           /* return new Promise((resolve, reject) => {
+                fetch('https://wordsapiv1.p.mashape.com/words/'+word+'/definitions')
                     .then(response => response.json())
                     .then(response =>{
-                        if(response.hasOwnProperty("title")){  //Checks if response object has property word.
+                        if(response.hasOwnProperty("word")){  //Checks if response object has property word.
                             console.log(response)
-                            resolve(false);
+                            resolve(true);
 
                         }else{
-                            resolve(true)
+                            resolve(false)
                         }
 
                     })
 
-            })
+            })*/
         }
 
         //Sending passwords to database for searching if matches are found
@@ -773,10 +827,10 @@
                     i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
                 }
                 if(segmentationPasswordMapped.match(letters)){ //Needs to be in as the api will throw error midway if symbols are sent in as it cant parse it.
-                    checkIfwordExist = await wordChecker(sendWord); //Calls on wordChecker and waits for it to complete
-                 
+                        await wordChecker(sendWord, function (checkIfwordExist)  {
+                        console.log(checkIfwordExist, "is");
                     if(checkIfwordExist){
-
+                      
                         segmentationPasswordMappedArray.push(sendWord); //Adds the word to segmentation tracker
                         segmentationPasswordMapped = segmentationPasswordMapped.replace(`${sendWord}`, ""); //Replaces the word in password string with nothing. Example ilove after is love
                         sendWord = segmentationPasswordMapped;
@@ -794,6 +848,8 @@
                         sendWord = segmentationPasswordMapped.substring(0, segmentationPasswordMapped.length - i); //Removes the last element
 
                     }     
+                    }); //Calls on wordChecker and waits for it to complete
+                    
                 }
             }
 
