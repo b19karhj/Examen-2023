@@ -266,7 +266,7 @@
                 </div>
             </div>
             <div id="info">
-                <p class="intro">Hello and welcome to a pilot study for a thesis which tries to evaluate the impact on
+                <p class="intro">Hello and welcome to a study for a thesis which tries to evaluate the impact on
                     password creation through a validation service which is using a segmentation algorithm.</p><br>
                 <p class="intro">Your participation will take 2 - 5 minutes.</p><br>
                 <p class="intro">The goal of this thesis is to evaluate if segmented password created with a segmention algorithm is stronger than password created Googles password guidelines.<br>
@@ -345,29 +345,19 @@
                     <label class="formL" for="q1">Was the segmentation of your password corrrect?</label>
                     <br>
                     <label>Yes</label>
-                    <input type="radio" class="q1a" name="q1" value="yes"><br>
+                    <input type="radio" class="q1" name="q1" value="yes"><br>
                     <label>No</label>
-                    <input type="radio" class="q1a" name="q1" value="no">
+                    <input type="radio" class="q1" name="q1" value="no">
                     <br>
                 </fieldset>
                 <fieldset>
-                    <label class="formL" for="q2">If segmentation was not correct, please type the wrong segment/segments (optional).</label>
-                    <br>
-                    <label>Wrong segment/segments</label>
-                    <input type="textarea" id="q2a" name="q2" placeholder="example1 , example3"><br>
-                    <br>
-                </fieldset>
-                <fieldset>
-                    <label class="formL" for="q3">Do you feel that the validation service for segmented password help you create a
+                    <label class="formL" for="q2">Do you feel that the validation service for segmented password helped you create a
                         strong password?</label>
                     <br>
                     <label>Yes</label>
                     <input type="radio" id="q3yes" name="q2" value="yes"><br>
                     <label>No</label>
                     <input type="radio" id="q3no" name="q2" value="no"><br>
-                    <label>Indifferent</label>
-                    <input type="radio" id="q3same" name="q2" values="Indifferent"><br>
-                    <br>
                 </fieldset>
                 <fieldset>
                     <label class="formL" for="q4">Do you think the segmented password you created would be easy to
@@ -380,27 +370,25 @@
                     <br>
                 </fieldset>
                 <fieldset>
-                    <label class="formL" for="q5">Was the feedback given helpful, if one or more segments were not
+                    <label class="formL" for="q4">Was the feedback given helpful, if one or more segments were not
                         deemed safe?</label>
                     <br>
                     <label>Yes</label>
-                    <input type="radio" id="q5yes" name="q4" value="yes"><br>
+                    <input type="radio" id="q4yes" name="q4" value="yes"><br>
                     <label>No</label>
-                    <input type="radio" id="q5no" name="q4" value="no"><br>
+                    <input type="radio" id="q4no" name="q4" value="no"><br>
                     <label>My password got accepted on the first attempt</label>
-                    <input type="radio" id="q5first" name="q4" value="accepted">
+                    <input type="radio" id="q4first" name="q4" value="accepted">
                     <br>
                 </fieldset>
                 <fieldset>
                     <label class="formL" for="q6">How many attempts did it take you to get your password
                         accepted?</label>
                     <br>
-                    <label>1 attempt</label>
-                    <input type="radio" id="q61" name="q5" value="1"><br>
                     <label>Less than 3 attepmts</label>
-                    <input type="radio" id="q6less" name="q5" value="lessthan3"><br>
+                    <input type="radio" id="q5less" name="q5" value="lessthan3"><br>
                     <label>More than 3 attempts</label>
-                    <input type="radio" id="q6more" name="q5" value="morethan3">
+                    <input type="radio" id="q5more" name="q5" value="morethan3">
                     <br>
                 </fieldset>
                 <button type="submit">Submit</button>
@@ -413,7 +401,7 @@
     <script>
         
         //Functions for loading animation
-       
+
         function msaLoadingFunction() {
             document.getElementById("iconText2").style.display = "none";
             document.getElementById("iconText").style.display = "block";
@@ -676,7 +664,7 @@
             });
             if (count == 5) {
                 let q1 = document.querySelector("input[name='q1']:checked").value;
-                let q2 = document.getElementById("q2a").value;
+                let q2 = document.querySelector("input[name='q2']:checked").value;
                 let q3 = document.querySelector("input[name='q3']:checked").value;
                 let q4 = document.querySelector("input[name='q4']:checked").value;
                 let q5 = document.querySelector("input[name='q5']:checked").value;
@@ -875,11 +863,16 @@
 
             /*Convert back words if they are just made out of numbers or symbols as its likely that the user did not have that in mind. As the api
             classify words such as wr which can be made out of two numbers which is most likley wrong*/
-         
+            var letterAndNumber = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{2}$/;
+            var letterAndSymbol = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{2}$/;
             arrayForlength = segmentationPasswordMappedArray;
             for(let i = 0; i < arrayForlength.length; i++){
                 if(mirrorCleanArray[i].match(onlyContainNumbers) || mirrorCleanArray[i].match(onlyContainSymbols) || mirrorCleanArray[i].match(onlyContainNumbersAndSymbols)){ 
                     segmentationPasswordMappedArray.splice(i,1,mirrorCleanArray[i].split(""));  //Splice, first index, second how many elements to remove, third add  and split to sub array
+                }
+                if(mirrorCleanArray[i].length == 2 && mirrorCleanArray[i].match(letterAndNumber) || mirrorCleanArray[i].length == 2 && mirrorCleanArray[i].match(letterAndSymbol) ){
+                    console.log(mirrorCleanArray[i]);
+                    segmentationPasswordMappedArray.splice(i,1,mirrorCleanArray[i].split(""));
                 }
             }
             segmentationPasswordMappedArray = [].concat(...segmentationPasswordMappedArray); //Concat with ...parent array to "unpack" the sub arrays
