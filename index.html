@@ -360,13 +360,13 @@
                     <input type="radio" id="q3no" name="q2" value="no"><br>
                 </fieldset>
                 <fieldset>
-                    <label class="formL" for="q4">Do you think the segmented password you created would be easy to
+                    <label class="formL" for="q3">Do you think the segmented password you created would be easy to
                         remember?</label>
                     <br>
                     <label>Yes</label>
-                    <input type="radio" id="q4yes" name="q3" value="yes"><br>
+                    <input type="radio" id="q3yes" name="q3" value="yes"><br>
                     <label>No</label>
-                    <input type="radio" id="q4no" name="q3" value="no">
+                    <input type="radio" id="q3no" name="q3" value="no">
                     <br>
                 </fieldset>
                 <fieldset>
@@ -382,7 +382,7 @@
                     <br>
                 </fieldset>
                 <fieldset>
-                    <label class="formL" for="q6">How many attempts did it take you to get your password
+                    <label class="formL" for="q5">How many attempts did it take you to get your password
                         accepted?</label>
                     <br>
                     <label>Less than 3 attepmts</label>
@@ -867,10 +867,12 @@
             var letterAndSymbol = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{2}$/;
             arrayForlength = segmentationPasswordMappedArray;
             for(let i = 0; i < arrayForlength.length; i++){
-                if(mirrorCleanArray[i].match(onlyContainNumbers) || mirrorCleanArray[i].match(onlyContainSymbols) || mirrorCleanArray[i].match(onlyContainNumbersAndSymbols)){ 
-                    segmentationPasswordMappedArray.splice(i,1,mirrorCleanArray[i].split(""));  //Splice, first index, second how many elements to remove, third add  and split to sub array
+                if(mirrorCleanArray[i].match(onlyContainNumbers) || mirrorCleanArray[i].match(onlyContainSymbols) 
+                    || mirrorCleanArray[i].match(onlyContainNumbersAndSymbols)){ 
+                    segmentationPasswordMappedArray.splice(i,1,mirrorCleanArray[i].split(""));                                                                                          //Splice, first index, second how many elements to remove, third add  and split to sub array
                 }
-                if(mirrorCleanArray[i].length == 2 && mirrorCleanArray[i].match(letterAndNumber) || mirrorCleanArray[i].length == 2 && mirrorCleanArray[i].match(letterAndSymbol) ){
+                if(mirrorCleanArray[i].length == 2 && mirrorCleanArray[i].match(letterAndNumber) 
+                    || mirrorCleanArray[i].length == 2 && mirrorCleanArray[i].match(letterAndSymbol) ){
                     console.log(mirrorCleanArray[i]);
                     segmentationPasswordMappedArray.splice(i,1,mirrorCleanArray[i].split(""));
                 }
@@ -898,24 +900,24 @@
    
             //If loop too push in words,numbers,symobls,letters so when joning the value in the array each word, segment of letters/symobls/numbers are seperated by " "
             for (let i = 0; i < arrayForlength.length; i++) {
-                if(i < (arrayForlength.length-1)){ //Check to see if i is less then arrayForLength. If i is same value, i+1 will be out of bound
-                    if(arrayForlength[i].match(onlyContainNumbers) && arrayForlength[i+1].match(onlyContainNumbers)) //Check if value of i and i+1 both consist of numbers
+                if(i < (arrayForlength.length-1)){                                                                                   //Check to see if i is less then arrayForLength. If i is same value, i+1 will be out of bound
+                    if(arrayForlength[i].match(onlyContainNumbers) && arrayForlength[i+1].match(onlyContainNumbers))                            //Check if value of i and i+1 both consist of numbers
                     {
                         segmentationPasswordArray.push(arrayForlength[i]);
                     }
-                    else if(arrayForlength[i].match(onlyContainSymbols) && arrayForlength[i+1].match(onlyContainSymbols))//Check if value of i and i+1 both consist of symbols
+                    else if(arrayForlength[i].match(onlyContainSymbols) && arrayForlength[i+1].match(onlyContainSymbols))                                           //Check if value of i and i+1 both consist of symbols
                     {
                         segmentationPasswordArray.push(arrayForlength[i]);
                     }
-                    else if(arrayForlength[i].match(onlyLetters) && arrayForlength[i+1].match(onlyLetters))//Check if value of i and i+1 are both consist of symbols
+                    else if(arrayForlength[i].match(onlyLetters) && arrayForlength[i+1].match(onlyLetters))                                                     //Check if value of i and i+1 are both consist of symbols
                     {
                         segmentationPasswordArray.push(arrayForlength[i]);
-                    }else //if i and i+1 do not match. its an indication of a word or a new segment.
+                    }else                                                                                                                                //if i and i+1 do not match. its an indication of a word or a new segment.
                     {
-                        segmentationPasswordArray.push(arrayForlength[i]," ");//Push in value and " " as a new segment will be pushed in next
+                        segmentationPasswordArray.push(arrayForlength[i]," ");                                                                                              //Push in value and " " as a new segment will be pushed in next
                     }
                 }
-                if(i == (arrayForlength.length-1)){ //Check to see if i value is equal to the last element in arraForlengt. Then compare is done to the value before i. As i+1 is out of bound. Same things are happening but with i-1 checks
+                if(i == (arrayForlength.length-1)){                                                                                                                         //Check to see if i value is equal to the last element in arraForlengt. Then compare is done to the value before i. As i+1 is out of bound. Same things are happening but with i-1 checks
                         if(arrayForlength[i].match(onlyContainNumbers) && arrayForlength[i-1].match(onlyContainNumbers)){
                         segmentationPasswordArray.push(arrayForlength[i]);
                     }
@@ -928,7 +930,7 @@
                         segmentationPasswordArray.push(arrayForlength[i]);
                     }
                     else{ 
-                        segmentationPasswordArray.push(arrayForlength[i]); //No " " is pushed as its the last value
+                        segmentationPasswordArray.push(arrayForlength[i]);                                                                                                   //No " " is pushed as its the last value
                     }
                 }
             }

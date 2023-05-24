@@ -1,7 +1,7 @@
 <?php
       require __DIR__ . '/vendor/autoload.php';
       
-      $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+      $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);-
       $dotenv->load();
 
       //Connection
@@ -9,16 +9,16 @@
       $collection = $client->Examen2023->Examen;
       
       if(isset($_POST['notSegmentedPassword'])){
-      $password = filter_var(JSON_decode($_POST['notSegmentedPassword']), FILTER_SANITIZE_STRING); //santaize from injection
+      $password = filter_var(JSON_decode($_POST['notSegmentedPassword']), FILTER_SANITIZE_STRING);                                                  //santaize from injection
   
-      $noSegments = ['Password' => $password]; //Prepared segments to protect against injections
+      $noSegments = ['Password' => $password];                                                                                                              //Prepared segments to protect against injections
       $cursor= $collection->findOne($noSegments); 
     
       $responseArray = [];
       if($cursor == null){
          $segmentedPassword = JSON_decode($_POST['segmentedPassword'], true);
-         for($i = 0; $i < count($segmentedPassword); $i++){ //For loop to santitize from
-            $segmentedPassword[$i] = filter_var($segmentedPassword[$i], FILTER_SANITIZE_STRING); //santaize from injection
+         for($i = 0; $i < count($segmentedPassword); $i++){                                                                                                                       //For loop to santitize from
+            $segmentedPassword[$i] = filter_var($segmentedPassword[$i], FILTER_SANITIZE_STRING);                                                        //santaize from injection
          }
 
          for ($i = 0; $i < count($segmentedPassword); $i++){
@@ -52,7 +52,7 @@
 if(isset($_POST['googlePasswordDatabaseCheck'])){
    $password = filter_var(JSON_decode($_POST['googlePasswordDatabaseCheck']), FILTER_SANITIZE_STRING);
 
-   $googlePassword = ['Password' => $password]; //Prepared segments to protect against injections
+   $googlePassword = ['Password' => $password];  //Prepared segments to protect against injections
    $response = $collection->findOne($googlePassword);
 
    if($response != null)

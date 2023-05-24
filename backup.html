@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="shortcut icon" href="#">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <style>
+        body {
+            height: 100vh;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: row;
+            padding: 10px;
+        }
+
+        #containerArray {
+            display: flex;
+            flex-direction: row;
+            padding: 10px;
+        }
+
+        .arraySegments {
+            margin-right: 10px;
+            font-size: 1.3em;
+        }
+
+        #page1 {
+            display: block;
+            width: 100%;
+            min-height: 100%;
+            position: absolute;
+        }
+
+        #page2 {
+            display: none;
+            width: 100%;
+            min-height: 100%;
+            position: absolute;
+        }
+
+        #formContainer {
+            width: 50%;
+            height: 80%;
+            margin: auto;
+
+        }
+
+        form {
+            border: 2px solid black;
+        }
+
+        .formL {
+            padding-top: 10px;
+            display: inline-block;
+            font-size: 1.05em;
+
+        }
+
+        fieldset {
+            border: 2px solid black;
+            margin: 10px;
+            padding-right: 5px;
+            padding-bottom: 5px;
+
+        }
+
+        input {
+            margin: 5px;
+
+        }
+
+        #formH {
+            text-align: center;
+        }
+
+        .p1 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #button {
+            display: block;
+            margin: 10px;
+        }
+
+        .l1 {
+            display: inline-block;
+            width: 200px;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        button {
+            height: 50px;
+            width: 50px;
+        }
+
+        #googlepanel {
+            border: 2px solid black;
+            margin: 10px;
+            padding-right: 5px;
+            padding-bottom: 5px;
+        }
+
+        #innerGdiv {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #msapanel {
+            border: 2px solid black;
+            margin: 10px;
+            padding-right: 5px;
+            padding-bottom: 5px;
+        }
+
+        .legendp1 {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        #innerMSAdiv {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #info {
+            position: absolute;
+            height: 40%;
+            width: 40%;
+            border: 2px solid black;
+            background-color: gray;
+            display: block;
+            padding: 20px;
+            max-width: 885px;
+            z-index: 2;
+        }
+
+        li {
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+
+        h3 {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            margin-left: 30px;
+        }
+
+        .intro {
+            margin-left: 30px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+
+        #infoBtn {
+            margin-top: 30px;
+            height: 30px;
+            width: 30vw;
+            max-width: 500px;
+            font-size: 1.2em;
+        }
+
+        #infoBtn:hover {
+            background-color: green;
+        }
+
+        #segmentinfo {
+            top: 1%;
+            position: relative;
+        }
+
+        #warningGoogle {
+            border: 2px solid black;
+            height: 30px;
+            width: 400px;
+            background-color: #ED675F;
+            display: none;
+        }
+
+        #warningMSA {
+            border: 2px solid black;
+            height: 30px;
+            width: 800px;
+            background-color: #ED675F;
+            display: none;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            margin-top: 50vh;
+            position: relative;
+        }
+
+        #containerloading {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            display: none;
+            z-index: 5;
+            backdrop-filter: blur(5px);
+
+        }
+
+        #iconText {
+            position: absolute;
+            bottom: 70px;
+            text-align: center;
+        }
+
+        .loading::after {
+            content: "";
+            width: 200px;
+            height: 200px;
+            border: 30px solid #ddd;
+            border-right-color: rgb(24, 128, 93);
+            border-left-color: rgb(24, 128, 93);
+            border-top: none;
+            border-bottom: none;
+            border-radius: 50%;
+            animation: loading 1s ease infinite;
+        }
+
+        @keyframes loading {
+            to {
+                transform: rotate(1turn);
+            }
+        }
+    </style>
+</head>
+
+<body onload="">
+    <!-- Password box for google guidline passwords-->
+    <div id="page1">
+        <div class="p1">
+            <div id="containerloading">
+                <div class="loading">
+                    <p id="iconText">Working:<br>Process can take up to ~5 min</p>
+                </div>
+            </div>
+            <div id="info">
+                <p class="intro">Hello and welcome to a pilot study for a thesis which tries to evaluate the impact on
+                    password creation through a validation service which is using a segmentation algorithm.</p><br>
+                <p class="intro">Your participation will take 3 - 10 minutes.</p><br>
+
+                <h3>Important!</h3><br>
+
+                <ul>
+                    <li>Your participation will be anonymous.</li>
+                    <li>If you wish to not take part in this study you can just close the website down at anytime during
+                        your participation.</li>
+                    <li>All data submitted is safely stored in an encrypted database.</li>
+                    <li>The data you submit will only be shown as statistics.</li>
+                    <li>The data you submit will be deleted after statistics gathering has been done.</li>
+                </ul>
+                <button id="infoBtn">I understand</button>
+            </div>
+            <div id="segmentinfo">
+                <fieldset>
+                    <legend>How segmented password works</legend>
+                    <p>A segment in a password is simply a bundle of the same set of characters in a password.<br>
+                    <p>A segment can consist of numbers, letters or symbols.</p>
+                    <fieldset>
+                        <legend>Example 1</legend>
+                        <p>“Hello123” consists of two segments “Hello” and “123”.</p>
+                    </fieldset>
+                    <p>Segments can be combined into words.</p>
+                    <fieldset>
+                        <legend>Example 2</legend>
+                        <p>“P@ss0rd” Consists of 5 segments “P”, “@”, “ss”, 0”, “rd”.</p>
+                    </fieldset>
+                    <p>The algorithm in this validation service will try to figure out masked words in password so it
+                        can be compared to earlier leaked passwords from databases.</p>
+                    <fieldset>
+                        <legend>Example 3</legend>
+                        <p>“P@ssw0rd123” consists of 6 segments, but the algorithm will treat it as two segments when
+                            evaluating the password “P@ssw0rd”, “123”.</p>
+                    </fieldset>
+                </fieldset>
+            </div>
+            <div id="p1container">
+                <fieldset id="googlepanel">
+                    <legend class="legendp1">Google guideline password</legend>
+                    <div id="innerGdiv">
+                        <input type="text" id="noMSA" name="google">
+                        <div>
+                            <p>Between 8-20 characters. Mix of letters, numbers and symbols is recommended</p>
+                        </div>
+                    </div>
+                    <div id="warningGoogle"><span id="gWP"></span></div>
+                </fieldset>
+
+                <!-- Password box for MSA passwords-->
+                <div>
+                    <fieldset id="msapanel">
+                        <legend class="legendp1">Segmented password</legend>
+                        <div id="innerMSAdiv">
+                            <input type="text" id="MSA" name="MSA">
+                            <div>
+                                <p>Between 8-20 characters. Mix of letters, numbers and symbols. The password most
+                                    contain at least 4 segments</p>
+                            </div>
+
+                        </div>
+                        <div id="warningMSA"><span id="msaWP"></span></div>
+                        <div id="container" class="arraySegments"></div>
+                    </fieldset>
+                </div>
+                <input id="button" type="submit" value="submit2" onclick="passwordCheck();">
+            </div>
+        </div>
+    </div>
+    <div id="page2">
+        <div id="formContainer">
+            <form id="form">
+                <h1 id="formH">Your password have been accepted!</h1>
+                <div id="containerArray" class="arraySegments"></div>
+                <fieldset>
+                    <label class="formL" for="q1">Was the segmentation of your password corrrect?</label>
+                    <br>
+                    <label>Yes</label>
+                    <input type="radio" class="q1a" name="q1" value="yes"><br>
+                    <label>No</label>
+                    <input type="radio" class="q1a" name="q1" value="no">
+                    <br>
+                </fieldset>
+                <fieldset>
+                    <label class="formL" for="q2">Did the validation service for segmented password help you create a
+                        stronger password then you did with the Googles guidelines?</label>
+                    <br>
+                    <label>Yes</label>
+                    <input type="radio" id="q2yes" name="q2" value="yes"><br>
+                    <label>No</label>
+                    <input type="radio" id="q2no" name="q2" value="no"><br>
+                    <label>Indifferent</label>
+                    <input type="radio" id="q2same" name="q2" values="Indifferent"><br>
+                    <label>Worse</label>
+                    <input type="radio" id="q2worse" name="q2" values="worse">
+                    <br>
+                </fieldset>
+                <fieldset>
+                    <label class="formL" for="q3">Do you think the segmented password you created would be easy to
+                        remember?</label>
+                    <br>
+                    <label>Yes</label>
+                    <input type="radio" id="q3yes" name="q3" value="yes"><br>
+                    <label>No</label>
+                    <input type="radio" id="q3no" name="q3" value="no">
+                    <br>
+                </fieldset>
+                <fieldset>
+                    <label class="formL" for="q4">Was the feedback given helpful, if one or more segments were not
+                        deemed safe?</label>
+                    <br>
+                    <label>Yes</label>
+                    <input type="radio" id="q4yes" name="q4" value="yes"><br>
+                    <label>No</label>
+                    <input type="radio" id="q4no" name="q4" value="no"><br>
+                    <label>My password got accepted on the first attempt</label>
+                    <input type="radio" id="q4first" name="q4" value="accepted">
+                    <br>
+                </fieldset>
+                <fieldset>
+                    <label class="formL" for="q5">How many attempts did it take you to get your password
+                        accepted?</label>
+                    <br>
+                    <label>1 attempt</label>
+                    <input type="radio" id="q51" name="q5" value="1"><br>
+                    <label>Less than 3 attepmts</label>
+                    <input type="radio" id="q5less" name="q5" value="lessthan3"><br>
+                    <label>More than 3 attempts</label>
+                    <input type="radio" id="q5more" name="q5" value="morethan3">
+                    <br>
+                </fieldset>
+                <fieldset>
+                    <label class="formL" for="q6">If this validation service was optimized would you prefer it over
+                        Goggles validation service they use for their current services?</label>
+                    <br>
+                    <label>Yes</label>
+                    <input type="radio" id="q6yes" name="q6" value="1"><br>
+                    <label>No</label>
+                    <input type="radio" id="q6no" name="q6" value="lessthan3"><br>
+                    <label>Indifferent</label>
+                    <input type="radio" id="q6Indifferent" name="q6" value="Indifferent">
+                    <br>
+                </fieldset>
+                <button type="submit"></button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById("button").addEventListener("click", loadingFunction);
+        function loadingFunction() {
+            document.getElementById("containerloading").style.display = "block";
+
+        }
+        function stopLoadingIcon() {
+            document.getElementById("containerloading").style.display = "none";
+        }
+
+        document.getElementById("infoBtn").addEventListener("click", displayInfo);
+        function displayInfo() {
+            document.getElementById("info").style.display = "none";
+        }
+        function passwordCheck() {
+            var gcheck = document.getElementById("noMSA");
+            var g = document.getElementById("noMSA").value;
+            let google = false;
+            let googleWa = document.getElementById("warningGoogle");
+            let googleWP = document.getElementById("gWP");
+            if (g.length >= 8) {
+                google = true;
+                gcheck.style.backgroundColor = "lightgreen";
+                googleWa.style.display = "none";
+            } else {
+                gcheck.style.backgroundColor = "#ED675F";
+                googleWP.innerHTML = "Less than 8 characters long";
+                googleWa.style.display = "block";
+            }
+            const numberCheck = /^[0-9]/;
+            const specialCharacterCheck = /^\W/;
+            const alphabetCheck = (/[a-zA-z]/);
+            let msaP = document.getElementById("MSA");
+            let msaPasscheck = document.getElementById("MSA").value;
+            let segmentcheck = [];
+            let msaB = false;
+            let msaWa = document.getElementById("warningMSA");
+            let msaWAP = document.getElementById("msaWP");
+            while (msaPasscheck.length != 0) {
+                if (msaPasscheck.match(numberCheck)) {
+                    segmentcheck.push(msaPasscheck.match(numberCheck));
+                    msaPasscheck = msaPasscheck.substring(1);
+                } else if (msaPasscheck.match(specialCharacterCheck)) {
+                    segmentcheck.push(msaPasscheck.match(specialCharacterCheck));
+                    msaPasscheck = msaPasscheck.substring(1);
+                } else if (msaPasscheck.match(alphabetCheck)) {
+                    segmentcheck.push(msaPasscheck.match(alphabetCheck));
+                    msaPasscheck = msaPasscheck.substring(1);
+                }
+
+            }
+            const numbersCheck = (/[0-9]/);
+            const notNumber = /^\D/;
+            const specialCharactersCheck = /^\W/;
+            const alphabetsCheck = /^[a-zA-Z]/
+            var concatSegments = segmentcheck.toString().split(/,/g);
+            segmentcheck = [];
+            if (segmentcheck.length == 0) {
+                segmentcheck = segmentcheck.concat(concatSegments[0]);
+                concatSegments = concatSegments.slice(1);
+            }
+            for (let i = 0; concatSegments.length > 0; i++) {
+                if (segmentcheck[i] == ",") { //If , == i, then add 1 to i
+                    i++;
+                }
+                if (segmentcheck[i].match(numbersCheck) && concatSegments[0].match(numbersCheck) ||
+                    segmentcheck[i].match(specialCharactersCheck) && concatSegments[0].match(specialCharactersCheck) ||
+                    segmentcheck[i].match(alphabetsCheck) && concatSegments[0].match(alphabetsCheck)
+                ) {//If i and segment0 is the same char 
+                    segmentcheck = segmentcheck.concat(concatSegments[0]);
+                    concatSegments = concatSegments.slice(1);
+                } else { //if element [i] does not match the char in segments[0]
+
+                    segmentcheck = segmentcheck.concat(",", concatSegments[0]); //Cocats , and element to string.
+                    concatSegments = concatSegments.slice(1); //Revmoves first element
+
+                }
+            }
+            segmentcheck = segmentcheck.join("").split(/,/g);
+            if (segmentcheck.length >= 4) {
+                msaB = true;
+                msaP.style.background = "lightgreen";
+                msaWa.style.display = "none";
+            }
+            else {
+                msaB = true;
+                msaP.style.background = "#ED675F";
+                msaWa.style.display = "block";
+                msaWAP.innerHTML = 'Less than 4 segments or contains space !" "';
+            }
+            if (google == true && msaB == true) {
+                MSA();
+            }
+            google = false;
+            msaB = false;
+        }
+        //var words; //Global veriabel som håller innehåller alla ord från ordlistan.
+
+        //Function for local files.
+        /*function compareText(){  //Skriv kommentarer imorgon.
+           fetch("wordList.txt") //Hämtar textfilen.
+               .then(function(textFile){ //En promise some tar emot datan och en response.
+                   return (textFile.text()); //Splitar innehållet på "\n".
+           })
+           .then(function(data){  //Tar emot datan från returnen.
+               words = data.split("\r\n"); //Splittar textfilen och sparar i strängen.
+           })
+       }*/
+        function wordChecker(word) {
+            return new Promise((resolve, reject) => {
+                try {
+                    fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + word + '')
+                        .then(response => response.json())
+                        .then(response => {
+                            if (response.hasOwnProperty("title")) { //Checks if response object has property word.
+                                resolve(false);
+
+                            } else {
+                                resolve(true)
+                            }
+
+                        })
+                }
+                catch {
+                    fetch('https://api.dictionaryapi.dev/api/v1/entries/en/' + word + '')
+                        .then(response => response.json())
+                        .then(response => {
+                            if (response.hasOwnProperty("title")) { //Checks if response object has property word.
+                                resolve(false);
+
+                            } else {
+                                resolve(true)
+                            }
+
+                        })
+                }
+
+
+            })
+        }//If timed out again. Create catch error and refere to v1 of the api
+
+        function ajaxFunction(nonchangedPassword, readyForSend) {
+            return new Promise((resolve, reject) => {
+                var noSegP = JSON.stringify(nonchangedPassword);
+                var segP = JSON.stringify(readyForSend);
+                let result;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "Backend.php", false);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // do something with the response
+                        resolve(this.responseText);
+                    }
+                };
+                var data = {
+                    noSegPassword: noSegP,
+                    segPassword: segP
+                };
+                var encodedData = Object.keys(data).map(function (key) {
+                    return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
+                }).join("&");
+                xhr.send(encodedData);
+            });
+        }
+
+        const form = document.getElementById("form");
+        form.addEventListener("submit", questionnaire);
+        function questionnaire(event) {
+            count = 0;
+
+            const radioButtons = document.querySelectorAll('input[type="radio"]'); //Gets all input with raidobuttons
+            radioButtons.forEach((radio) => {
+                if (radio.checked) {
+                    count += 1;
+                }
+            });
+            if (test == 6) {
+                var q1 = document.querySelector("input[name='q1']:checked").value;
+                var q2 = document.querySelector("input[name='q2']:checked").value;
+                var q3 = document.querySelector("input[name='q3']:checked").value;
+                var q4 = document.querySelector("input[name='q4']:checked").value;
+                var q5 = document.querySelector("input[name='q5']:checked").value;
+                var q6 = document.querySelector("input[name='q6']:checked").value;
+                var googlePass = googlePassword;
+                var msaPass = nonchangedPassword;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "completion.php", true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        //response
+                        //console.log(this.responseText);
+                    }
+                };
+                var data = {
+                    q1: q1,
+                    q2: q2,
+                    q3: q3,
+                    q4: q4,
+                    q5: q5,
+                    q6: q6,
+                    gp: googlePass,
+                    mp: msaPass,
+                };
+                var encodedData = Object.keys(data).map(function (key) {
+                    return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
+                }).join("&");
+                xhr.send(encodedData);
+                event.preventDefault();
+
+            } else {
+                alert("All questions have not been answered");
+            }
+        };
+        function clearElements(prepareForSend) {
+            //console.log(prepareForSend);
+            if (prepareForSend != null) {
+                const list = document.getElementById("container");
+                while (list.hasChildNodes()) {
+                    list.removeChild(list.firstChild);
+                }
+
+            }
+        }
+        function displaySegments(prepareForSend, containerID) {
+            let array = prepareForSend;
+            let idContainer = containerID;
+            var containerPage = document.getElementById(idContainer); //Fetch id
+            for (let i = 0; i < array.length; i++) {
+                var divBoxes = document.createElement("div"); //create span element
+                divBoxes.classList.add("arraySegments"); // Add .item
+                divBoxes.textContent = array[i]; //Add textcontent from current value of testa.
+                containerPage.appendChild(divBoxes); //Append to span to container
+            }
+        }
+
+
+        //Algorithm for MSA
+        async function MSA() {
+            //Varibales
+           
+            var noSpecialCharPassword;
+            var searchingWord;
+            var leetSearchingWord; //Stores the password created while last character is deleted.
+            var expectedPassword = [];
+            var readyForSend = [];
+            var prepareForSend = [];
+            var expectedPassword2 = [];
+            var segmentationTracker = []; //Keeps track of all segmentations
+            var leetSegmentationTracker = [];
+            var leetSegmentationTrackerWithNumbers = [];
+            var MSACheck = true;
+            var segmentedPassword = [];
+            var segmentbolean = true;
+            var segmentExpectbolean = true;
+            var passwordCharChange;
+            var expectedPassword = [];
+            var expectedPasswordArray = [];
+            var savedWords = [];
+            var storeSpecialWords = [];
+            var storeSpecialWordsWithNumbers = [];
+            const containSpeicalCharacter = (/\W/);
+            const specialLetters = (/\d/);
+            
+     
+            var segmentioningPassword = true;
+            var databasePassword = false;
+  
+            var returnData;
+            var returnWait = false;
+            var googlePassword;
+            var temp;
+  
+            var containerID;
+            var noSPecialCharPasswordwithNumbers;
+            //googlePassword = document.getElementById("google").value;
+            
+
+
+            /////Varibales
+            var password; //Stores the password as it was typed (No segmentation)
+            var segmentionPasswordNotMappingNumbers;    //Stores passwrod and do not convert numbers when mapping "leet words"
+            var segmentionPasswordMappingNumbers;   //Stores passwrod and do convert numbers when mapping "leet words"
+            
+
+            /////Split
+
+            var splitPasswordArray = []; //Stores all orignal characters from password.
+
+            ///Arrays///
+            var storeWordWithNoNumbersArray = [];   //Stores words and all characters found with segmentionPasswordNotMappingNumbers
+            var storeWordWithNumbersArray = [];     //Stores words and all characters found with segmentionPasswordMappingNumbers
+            var sendWord;
+            /////////Regex
+            const number = /^[0-9]/; //Regex if first char is lower and uppercase charecter
+            const numbers = (/[0-9]/); //Numbers character all elements
+            const alphabet = /^[a-zA-Z]/; //First element alphabet character
+            const alphabets = (/[a-zA-Z]/); //Alphabet character all elements
+            const symbol = /^\W/; //First element symbol´
+
+            ///////Leet words vocabulary
+            const replaceSpecialCharsNoNumbers = { //Without Numbers
+                "@": "a", "λ": "a",
+                "ß": "b", "l³": "b", "I3": "b", "J3": "b",
+                "©": "c", "¢": "c",
+                "đ": "d", "Ð": "d",
+                "ε": "e", "£": "e", "€": "e",
+                'l²': "f", 'ƒ': "f",
+                '#': "h",
+                '!': "i",
+                '.-': "r", 'я': "r", '®': "r", '1²': "r",
+                'ş': "s", 'ŝ': "s", '§': "s", '$': "s",
+                'µ': "u",
+                "%": "x", "><": "x"
+            }
+            const replaceSpecialCharsWithNumbers = { //Wirth Numbers
+                "@": "a", "λ": "a",
+                "8": "b", "ß": "b", "l³": "b", "I3": "b", "J3": "b",
+                "©": "c", "¢": "c",
+                "đ": "d", "Ð": "d",
+                "3": "e", "ε": "e", "£": "e", "€": "e",
+                'l²': "f", 'ƒ': "f",
+                '6': "G", '9': "g",
+                '#': "h", '4': "h",
+                '!': "i", '1': "i",
+                "0": "o",
+                '.-': "r", 'я': "r", '®': "r", '1²': "r",
+                '5': "s", 'ş': "s", 'ŝ': "s", '§': "s", '$': "s",
+                '7': "t",
+                'µ': "u",
+                "%": "x", "><": "x",
+                "2": "y"
+            }
+          
+            ///////////////
+            ///Sets password to the strings
+            password = document.getElementById("MSA").value;
+            segmentionPasswordNotMappingNumbers = document.getElementById("MSA").value;
+            segmentionPasswordMappingNumbers = document.getElementById("MSA").value;
+          
+
+            loadingFunction(); //Starts working animation
+
+            ////////Mapping characters with "leet words"
+            segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.replace(/@|λ|ß|l³|I3|J3|©|¢|đ|Ð|ε|£|€|l²|ƒ|#|}{|!|ỉ|0_|.-|я|®|1²|ş|ŝ|§|µ|%|></g, function (matched) { //Replaces all specialChars with mapped letters
+                return replaceSpecialCharsNoNumbers[matched];
+            });
+            segmentionPasswordMappingNumbers = segmentionPasswordMappingNumbers.replace(/@|λ|ß|l³|I3|J3|©|¢|đ|Ð|ε|£|€|l²|ƒ|#|}{|!|ỉ|0_|.-|я|®|1²|ş|ŝ|§|µ|%|><|0|1|2|3|4|5|6|7|8|9/g, function (matched) { //Replaces all specialChars with mapped letters
+                return replaceSpecialCharsWithNumbers[matched];
+            });
+            ////////
+
+            ///Loop to check if segmentionPasswordNotMappingNumbers contains words when its mapped
+            sendWord = segmentionPasswordNotMappingNumbers;
+            for (let i = 0; i <= segmentionPasswordNotMappingNumbers.length; i++){  
+                if(segmentionPasswordNotMappingNumbers.match(number)){
+                    storeWordWithNoNumbersArray.push(sendWord[0]);
+                    segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.substring(1);
+                    sendWord = segmentionPasswordNotMappingNumbers; //Sets the value after substracting
+                    i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
+                }
+                if(segmentionPasswordNotMappingNumbers.match(symbol)){
+                    storeWordWithNoNumbersArray.push(sendWord[0]);
+                    segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.substring(1);
+                    sendWord = segmentionPasswordNotMappingNumbers; //Sets the value after substracting
+                    i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
+                }
+                if(segmentionPasswordNotMappingNumbers.match(alphabet)){ //Needs to be in as the api will throw error midway if symbols are sent in as it cant parse it.
+                    checkIfwordExist = await wordChecker(sendWord); // calls on wordChecker and waits for it to complete
+                    if(checkIfwordExist){
+                        storeWordWithNoNumbersArray.push(sendWord); //Adds the word to segmentation tracker
+                        segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.replace(`${sendWord}`, ""); //Replaces the word in password string with nothing. Example ilove after is love
+                    
+                        sendWord = segmentionPasswordNotMappingNumbers;
+                        i = 0; //To start at the begining of the word again
+
+                    }
+                    else if(checkIfwordExist == false && sendWord.length == 1){ //If temp.length is less then 1 in length, enter here to remove characters.
+
+                        storeWordWithNoNumbersArray.push(sendWord);
+                        segmentionPasswordNotMappingNumbers = segmentionPasswordNotMappingNumbers.substring(1); //Substact first element
+                        sendWord = segmentionPasswordNotMappingNumbers; //Sets sendWord to string value again
+                        i = 0;  //To start at the begining of the word again
+                    }
+                    else{
+                        sendWord = segmentionPasswordNotMappingNumbers.substring(0, segmentionPasswordNotMappingNumbers.length - i); //Removes the last element
+                    }         
+                }    
+            }
+            
+            ///Loop to check if segmentionPasswordMappingNumbers contains words when its mapped
+            //NEED TO READ CONCAT PUSH SPACE ARRAY! DO NOT FORGET!
+            sendWord = segmentionPasswordMappingNumbers;
+            for (let i = 0; i <= segmentionPasswordMappingNumbers.length; i++){  
+            
+                if(segmentionPasswordMappingNumbers.match(symbol)){
+                    storeWordWithNumbersArray.push(sendWord[0]);
+                    segmentionPasswordMappingNumbers = segmentionPasswordMappingNumbers.substring(1);
+                    sendWord = segmentionPasswordMappingNumbers; //Sets the value after substracting
+                    i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
+                }
+                if(segmentionPasswordMappingNumbers.match(alphabet)){ //Needs to be in as the api will throw error midway if symbols are sent in as it cant parse it.
+                    checkIfwordExist = await wordChecker(sendWord); // calls on wordChecker and waits for it to complete
+                 
+                    if(checkIfwordExist){
+
+                        storeWordWithNumbersArray.push(sendWord); //Adds the word to segmentation tracker
+                        segmentionPasswordMappingNumbers = segmentionPasswordMappingNumbers.replace(`${sendWord}`, ""); //Replaces the word in password string with nothing. Example ilove after is love
+                        i = 0; //Resets i otherwise values in the end of the string wont get pushed into array
+                        sendWord = segmentionPasswordMappingNumbers;
+
+                    }else if(checkIfwordExist == false && sendWord.length == 1){ //If temp.length is less then 1 in length, enter here to remove characters.
+                    
+                        storeWordWithNumbersArray.push(sendWord);
+                        segmentionPasswordMappingNumbers = segmentionPasswordMappingNumbers.substring(1); //Substact first element
+                        sendWord = segmentionPasswordMappingNumbers; //Sets sendWord to string value again
+                        i = 0;  
+                    }else{
+                        sendWord = segmentionPasswordMappingNumbers.substring(0, segmentionPasswordMappingNumbers.length - i); //Removes the last element
+
+                    }     
+                }
+            }
+            ///////
+
+            //console.log(storeWordWithNoNumbersArray); //Both now works as they should. DONT FORGET TO DELETE LATER
+            console.log(storeWordWithNumbersArray);
+     
+
+            
+            /*Mirror storeWordWithNumbersArray but with no changed characters. So it can later be checked if a word only consist of
+            numbers or symbols and that word can be converted back as its not likley to be what the user meant. As the word api
+            atm has odd words like "wr"*/
+
+            var storeIValue; //Store value of position i of storeWordWithNumbersArray
+            var tempStorePushedISplitValues = []; //Temp store values in array
+            var arrayForlength = []; //Just a copy of storeWordWithNumbersArray so the count in for loop can work
+            var mirrorCleanArray = []; //Stores the mirrored elements
+            var tempJoin; //Used for join so it can later be pushed into array as a segment;
+    
+
+            arrayForlength = storeWordWithNumbersArray;
+            splitPasswordArray = password.split(""); //Splits all elements from the typed in password and puts then in an array 
+            for (i = 0; i < arrayForlength.length; i++) {//Loop throught length of storeWordWithNumbersArray
+                storeIValue = arrayForlength[i];
+                for (j = 0; j < storeIValue.length; j++){
+                    tempStorePushedISplitValues.push(splitPasswordArray[j]);
+                }
+                tempJoin = tempStorePushedISplitValues.join(''); //joined values
+                mirrorCleanArray.push(tempJoin);   //Push joined value into array
+                splitPasswordArray = splitPasswordArray.slice(storeIValue.length); //Remove the joined elements from the array cointaning "clean" characters
+                arrayForlength = arrayForlength.slice(i); //Removes first element from array
+                tempStorePushedISplitValues = []; //Reset temp array to 0 elements
+                i = 0; //Reset i as elements were substracted*/
+            }
+
+            /*Convert back words if they are just made out of numbers or symbols as its likely that the user did not have that in mind. As the api
+            classify words such as wr which can be made out of two numbers which is most likley wrong*/
+
+            const onlyContainNumbers =  /^[0-9]+$/; //Only contain numbers
+            const onlyContainSymbols = /^[\W_]+$/; //Only contain symbols
+         
+            arrayForlength = storeWordWithNumbersArray;
+            for(let i = 0; i < arrayForlength.length; i++){
+                if(mirrorCleanArray[i].match(onlyContainNumbers) || mirrorCleanArray[i].match(onlyContainSymbols) ){ 
+                    
+                    storeWordWithNumbersArray.splice(i,1,mirrorCleanArray[i].split("")); //Splice, first index, second how many elements to remove, third add  and split to sub array
+                }
+                
+            }
+            storeWordWithNumbersArray = [].concat(...storeWordWithNumbersArray); //Concat with ... to "unpack" the sub arrays
+            
+            console.log(storeWordWithNoNumbersArray, "Without");
+            console.log(storeWordWithNumbersArray, "With");
+            alert("är det korrekt?");
+         
+            
+
+
+            if (wordProcess == true) {
+                var segments;
+                var segmentsExpected;
+                segments = lessSegments.toString().split(/,/g);//Converts to string and split and save it to varibal segments
+                segmentsExpected = storeSpecialWords.toString().split(/,/g);
+
+                if (segmentedPassword.length == 0) {
+                    segmentedPassword = segmentedPassword.concat(segments[0]);
+                    expectedPassword = expectedPassword.concat(segmentsExpected[0]);
+
+                    segments = segments.slice(1);
+                    segmentsExpected = segmentsExpected.slice(1);
+                }
+                for (let i = 0; segments.length > 0; i++) {
+                    if (segmentedPassword[i] == ",") { //If , == i, then add 1 to i
+                        i++;
+                    }
+                    if (segmentedPassword[i].match(numbers) && segments[0].match(numbers) ||
+                        segmentedPassword[i].match(specialCharacter) && segments[0].match(specialCharacter) ||
+                        segmentedPassword[i].match(alphabet) && segments[0].match(alphabet)
+                    ) {//If i and segment0 is the same char 
+                        segmentedPassword = segmentedPassword.concat(segments[0]);
+                        segments = segments.slice(1);
+                    } else { //if element [i] does not match the char in segments[0]
+
+                        segmentedPassword = segmentedPassword.concat(",", segments[0]); //Cocats , and element to string.
+                        segments = segments.slice(1); //Revmoves first element
+
+                    }
+
+                    if (segments.length == 0) { // Exit loop.
+
+                        for (let j = 0; segmentsExpected.length > 0; j++) {
+
+                            if (expectedPassword[j] == ",") { //If , == j, then add 1 to j
+                                j++;
+                            }
+                            if (expectedPassword[j].match(numbers) && segmentsExpected[0].match(numbers) ||
+                                expectedPassword[j].match(specialCharacter) && segmentsExpected[0].match(specialCharacter) ||
+                                expectedPassword[j].match(alphabet) && segmentsExpected[0].match(alphabet)
+                            ) {//If j and segment0 is the same char 
+                                expectedPassword = expectedPassword.concat(segmentsExpected[0]);
+                                segmentsExpected = segmentsExpected.slice(1);
+
+                            } else { //if element [j] does not match the char in segments[0]
+                                expectedPassword = expectedPassword.concat(",", segmentsExpected[0]);//Cocats , and element to string.
+                                segmentsExpected = segmentsExpected.slice(1); //Revmoves first element
+
+                            }
+                            if (segmentsExpected.length < 1) { // Exit loop.
+
+                                for (let i = 0; i < expectedPassword.length; i++) {
+
+                                    if (expectedPassword[i] == " ") {
+                                        if (expectedPassword[i + 1] == " ") {
+                                            expectedPassword[i] = savedWords[0] + ",";
+                                            savedWords = savedWords.slice(1);
+                                        } else {
+                                            expectedPassword[i] = savedWords[0];
+                                            savedWords = savedWords.slice(1);
+                                        }
+
+                                    } else if (expectedPassword[i].length == 1 && expectedPassword[i] == savedWords[0]) { // its a single letter and its counted in savewords this will just replace the single letter to avoid out of bound error
+                                        expectedPassword[i] = savedWords[0];
+                                        savedWords = savedWords.slice(1);
+                                    }
+
+                                }
+                                clearElements(prepareForSend);
+                                segmentedPassword = segmentedPassword.join(""); //Joins the array to a string and splits at ","
+                                expectedPassword = expectedPassword.join("");
+                                //console.log("The segmentedPassword is: ", segmentedPassword, "The expected password is: ", expectedPassword);
+                                prepareForSend = expectedPassword.split(/,/g);
+                                console.log(prepareForSend);
+                                alert("kolla");
+                                containerID = "container";
+                                displaySegments(prepareForSend, containerID);
+
+                                for (let i = 0; i < prepareForSend.length; i++) {
+                                    if (prepareForSend[i].length <= 1) {
+                                        readyForSend.push(' ');
+                                    } else {
+                                        readyForSend.push(prepareForSend[i]);
+
+                                    }
+                                };
+
+
+                                databasePassword = true;
+                                segmentioningPassword = false;
+                            }
+                        }
+
+                    }
+
+                };
+
+            }
+
+            //console.log(expectedPassword)
+
+
+            //console.log(readyForSend);
+            var returnValue = await ajaxFunction(nonchangedPassword, readyForSend);
+            returnValue = JSON.parse(returnValue);
+            //console.log(returnValue);
+            let msaWa = document.getElementById("warningMSA");
+            let msaWAP = document.getElementById("msaWP");
+
+            if (returnValue == true) {
+                msaWa.style.backgroundColor = "#ED675F";
+                msaWAP.innerHTML = "The password " + segmentedPassword + " has been leaked before and is not safe! Try a different password";
+                stopLoadingIcon();
+            }
+            else {
+                var outputElements = document.getElementsByClassName("arraySegments");
+                for (let i = 0; i < returnValue.length; i++) {
+                    if (returnValue[i] < 2000) {
+
+                        outputElements[i + 1].style.backgroundColor = "lightgreen"; //i+1 beacuse 0 is always empety and first word is at postion 1
+                    } else {
+                        outputElements[i + 1].style.backgroundColor = "#ED675F";
+                        outputElements[i + 1].style.border = "5px dotted black";
+                    }
+                }
+            }
+            var colortest = true;
+            var outputElements = document.getElementsByClassName("arraySegments");
+            for (let i = 1; i < outputElements.length; i++) {
+                let color = outputElements[i].style.backgroundColor;
+                if (color == "rgb(237, 103, 95)") {
+
+                    colortest = false;
+
+                }
+
+            }
+            //console.log(colortest)
+            if (colortest == false) {
+                stopLoadingIcon();
+                msaWAP.innerHTML = "One or more segments are not accepted";
+            }
+            else if (colortest == true) {
+                stopLoadingIcon();
+                document.getElementById("containerArray").style.justifyContent = "center";
+                containerID = "containerArray";
+                displaySegments(prepareForSend, containerID);
+                document.getElementById("page1").style.display = "none";
+                document.getElementById("page2").style.display = "block";
+            }
+        }
+    </script>
+</body>
+
+</html>
